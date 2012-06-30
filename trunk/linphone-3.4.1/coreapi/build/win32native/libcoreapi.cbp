@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="libcoreapi" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug Win32">
+				<Option output="lib" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="Debug Win32" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-D_DEBUG" />
+					<Add option="-DWIN32" />
+					<Add option="-D_WINDOWS" />
+					<Add option="-DVIDEO_ENABLED" />
+					<Add option="-DWINDOW_NATIVE" />
+					<Add option="-D_CRT_SECURE_NO_DEPRECATE" />
+					<Add option="-DHAVE_SPEEXDSP" />
+					<Add option="-DHAVE_SPEEX_NOISE" />
+					<Add option="-DORTP_INET6" />
+					<Add option="-DIN_LINPHONE" />
+					<Add option="-DENABLE_TRACE" />
+					<Add option="-DOSIP_MT" />
+					<Add option="-DHAVE_LIBAVCODEC_AVCODEC_H" />
+					<Add option="-DAMD_HACK" />
+					<Add option="-DCONF_GRAN_MAX=4" />
+					<Add option="-DMEDIASTREAMER2_EXPORTS" />
+					<Add option="-DHAVE_CONFIG_H" />
+					<Add option="-W" />
+					<Add option="-g" />
+					<Add option="-O0" />
+					<Add directory="..\..\..\" />
+					<Add directory="..\..\..\mediastreamer2\include" />
+					<Add directory="c:\GTK\include\" />
+					<Add directory="..\..\..\..\videos\libtheora-1.0\include" />
+					<Add directory="..\..\..\..\videos\libogg-1.1.3\include" />
+					<Add directory="..\..\..\..\codecs\ffmpeg-bin-win32\include" />
+					<Add directory="." />
+					<Add directory="..\..\..\oRTP\src" />
+					<Add directory="..\..\..\oRTP\include" />
+					<Add directory="..\..\..\..\codecs\gsm\inc" />
+					<Add directory="..\..\..\..\speex-1.2rc1\include" />
+					<Add directory="..\..\..\..\codecs\libresample-0.1.3\include" />
+					<Add directory="..\..\..\..\libeXosip2-3.3.0\include" />
+					<Add directory="..\..\..\..\libosip2-3.3.0\include" />
+					<Add directory="..\..\" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="..\..\..\" />
+					<Add directory="..\..\..\mediastreamer2\include" />
+					<Add directory="c:\GTK\include\" />
+					<Add directory="..\..\..\..\videos\libtheora-1.0\include" />
+					<Add directory="..\..\..\..\videos\libogg-1.1.3\include" />
+					<Add directory="..\..\..\..\codecs\ffmpeg-bin-win32\include" />
+					<Add directory="." />
+					<Add directory="..\..\..\oRTP\src" />
+					<Add directory="..\..\..\oRTP\include" />
+					<Add directory="..\..\..\..\codecs\gsm\inc" />
+					<Add directory="..\..\..\..\speex-1.2rc1\include" />
+					<Add directory="..\..\..\..\codecs\libresample-0.1.3\include" />
+					<Add directory="..\..\..\..\libeXosip2-3.3.0\include" />
+					<Add directory="..\..\..\..\libosip2-3.3.0\include" />
+					<Add directory="..\..\" />
+				</ResourceCompiler>
+			</Target>
+			<Target title="Release Win32">
+				<Option output="Release\libcoreapi" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="Release Win32" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-DNDEBUG" />
+					<Add option="-DWIN32" />
+					<Add option="-D_WINDOWS" />
+					<Add option="-D_CRT_SECURE_NO_DEPRECATE" />
+					<Add option="-D_LIB" />
+					<Add option="-W" />
+					<Add option="-O2" />
+					<Add directory="..\..\..\mediastreamer2\include" />
+					<Add directory="..\..\..\oRTP\include" />
+					<Add directory="..\..\..\libosip2-2.2.1\include" />
+					<Add directory="..\..\..\exosip" />
+					<Add directory="..\..\" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="..\..\..\mediastreamer2\include" />
+					<Add directory="..\..\..\oRTP\include" />
+					<Add directory="..\..\..\libosip2-2.2.1\include" />
+					<Add directory="..\..\..\exosip" />
+					<Add directory="..\..\" />
+				</ResourceCompiler>
+				<ExtraCommands>
+					<Add after="&#x0D;&#x0A;" />
+				</ExtraCommands>
+			</Target>
+		</Build>
+		<Unit filename="..\..\address.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\authentication.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\callbacks.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\chat.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\ec-calibrator.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\enum.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\friend.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\linphonecall.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\linphonecore.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\lpconfig.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\lsd.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\misc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\offeranswer.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\presence.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\proxy.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\sal_eXosip2.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\sal_eXosip2_presence.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\sal_eXosip2_sdp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\sal_linphone.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\siplogin.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\sipsetup.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\enum.h" />
+		<Unit filename="..\..\exevents.h" />
+		<Unit filename="..\..\linphonecore.h" />
+		<Unit filename="..\..\lpconfig.h" />
+		<Unit filename="..\..\offeranswer.h" />
+		<Unit filename="..\..\private.h" />
+		<Unit filename="..\..\sal_eXosip2.h" />
+		<Unit filename="..\..\sal_linphone.h" />
+		<Unit filename="..\..\sipsetup.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
