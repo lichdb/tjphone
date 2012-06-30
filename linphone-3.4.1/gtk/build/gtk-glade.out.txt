@@ -1,0 +1,181 @@
+** Message: NLS disabled.
+
+
+(linphone-3.exe:4904): GLib-GObject-WARNING **: g_object_set_valist: object class `GtkSettings' has no property named `gtk-menu-images'
+
+(linphone-3.exe:4904): GLib-GObject-WARNING **: g_object_set_valist: object class `GtkSettings' has no property named `gtk-button-images'
+
+(linphone-3.exe:4904): libglade-WARNING **: Error loading image: 打开文件“.//linphone\linphone2.png”失败：No such file or directory
+
+(linphone-3.exe:4904): libglade-WARNING **: could not convert string to type `GdkPixbuf' for property `icon'
+
+(linphone-3.exe:4904): libglade-WARNING **: unknown property `orientation' for class `GtkVBox'
+
+(linphone-3.exe:4904): libglade-WARNING **: Radio button group video_item couldnot be found
+
+(linphone-3.exe:4904): libglade-WARNING **: unknown property `orientation' for class `GtkVBox'
+
+(linphone-3.exe:4904): libglade-WARNING **: unknown property `orientation' for class `GtkVBox'
+
+(linphone-3.exe:4904): libglade-WARNING **: unknown property `orientation' for class `GtkVBox'
+
+(linphone-3.exe:4904): libglade-WARNING **: unknown property `orientation' for class `GtkVBox'
+
+(linphone-3.exe:4904): Gtk-CRITICAL **: gtk_tree_row_reference_new: assertion `GTK_IS_TREE_MODEL (model)' failed
+
+(linphone-3.exe:4904): Gtk-CRITICAL **: gtk_cell_view_set_displayed_row: assertion `GTK_IS_TREE_MODEL (cell_view->priv->model)' failed
+
+(linphone-3.exe:4904): Gtk-CRITICAL **: gtk_tree_row_reference_new: assertion `GTK_IS_TREE_MODEL (model)' failed
+
+(linphone-3.exe:4904): Gtk-CRITICAL **: gtk_cell_view_set_displayed_row: assertion `GTK_IS_TREE_MODEL (cell_view->priv->model)' failed
+
+(linphone-3.exe:4904): Gtk-CRITICAL **: gtk_tree_row_reference_new: assertion `GTK_IS_TREE_MODEL (model)' failed
+
+(linphone-3.exe:4904): Gtk-CRITICAL **: gtk_cell_view_set_displayed_row: assertion `GTK_IS_TREE_MODEL (cell_view->priv->model)' failed
+
+(linphone-3.exe:4904): libglade-WARNING **: unknown property `orientation' for class `GtkVBox'
+
+(linphone-3.exe:4904): libglade-WARNING **: unknown property `orientation' for class `GtkVBox'
+
+(linphone-3.exe:4904): libglade-WARNING **: unknown property `orientation' for class `GtkVBox'
+
+(linphone-3.exe:4904): libglade-WARNING **: unknown property `orientation' for class `GtkVBox'
+
+(linphone-3.exe:4904): Gtk-CRITICAL **: gtk_tree_row_reference_new: assertion `GTK_IS_TREE_MODEL (model)' failed
+
+(linphone-3.exe:4904): Gtk-CRITICAL **: gtk_cell_view_set_displayed_row: assertion `GTK_IS_TREE_MODEL (cell_view->priv->model)' failed
+
+(linphone-3.exe:4904): libglade-WARNING **: could not find signal handler 'linphone_gtk_show_parameters'.
+
+(linphone-3.exe:4904): libglade-WARNING **: could not find signal handler 'linphone_gtk_show_about'.
+
+(linphone-3.exe:4904): libglade-WARNING **: could not find signal handler 'linphone_gtk_create_assistant'.
+
+(linphone-3.exe:4904): libglade-WARNING **: could not find signal handler 'linphone_gtk_directory_search_focus_in'.
+
+(linphone-3.exe:4904): libglade-WARNING **: could not find signal handler 'linphone_gtk_login_frame_connect_clicked'.
+
+(linphone-3.exe:4904): libglade-WARNING **: could not find signal handler 'linphone_gtk_directory_search_focus_out'.
+
+(linphone-3.exe:4904): libglade-WARNING **: could not find signal handler 'linphone_gtk_logout_clicked'.
+
+(linphone-3.exe:4904): libglade-WARNING **: could not find signal handler 'linphone_gtk_set_audio_video'.
+
+(linphone-3.exe:4904): libglade-WARNING **: could not find signal handler 'linphone_gtk_start_call'.
+
+(linphone-3.exe:4904): libglade-WARNING **: could not find signal handler 'linphone_gtk_uri_bar_activate'.
+
+(linphone-3.exe:4904): libglade-WARNING **: could not find signal handler 'linphone_gtk_popup_contact_menu'.
+
+(linphone-3.exe:4904): libglade-WARNING **: could not find signal handler 'linphone_gtk_my_presence_clicked'.
+
+(linphone-3.exe:4904): libglade-WARNING **: could not find signal handler 'linphone_gtk_set_audio_only'.
+
+(linphone-3.exe:4904): libglade-WARNING **: could not find signal handler 'linphone_gtk_log_show'.
+
+(linphone-3.exe:4904): libglade-WARNING **: could not find signal handler 'linphone_gtk_show_friends'.
+
+(linphone-3.exe:4904): libglade-WARNING **: could not find signal handler 'linphone_gtk_contact_clicked'.
+
+(linphone-3.exe:4904): libglade-WARNING **: could not find signal handler 'linphone_gtk_link_to_website'.
+
+(linphone-3.exe:4904): libglade-WARNING **: could not find signal handler 'linphone_gtk_enable_self_view'.
+
+(linphone-3.exe:4904): libglade-WARNING **: could not find signal handler 'linphone_gtk_contact_activated'.
+
+(linphone-3.exe:4904): libglade-WARNING **: could not find signal handler 'linphone_gtk_directory_search_activate'.
+
+(linphone-3.exe:4904): libglade-WARNING **: could not find signal handler 'linphone_gtk_mute_toggled'.
+
+(linphone-3.exe:4904): libglade-WARNING **: could not find signal handler 'linphone_gtk_check_for_updates'.
+
+(linphone-3.exe:4904): libglade-WARNING **: could not find signal handler 'linphone_gtk_close'.
+
+(linphone-3.exe:4904): libglade-WARNING **: could not find signal handler 'linphone_gtk_terminate_call'.
+
+(linphone-3.exe:4904): libglade-WARNING **: could not find signal handler 'linphone_gtk_contact_list_button_pressed'.
+
+(linphone-3.exe:4904): libglade-WARNING **: could not find signal handler 'linphone_gtk_directory_search_button_clicked'.
+
+(linphone-3.exe:4904): libglade-WARNING **: could not find signal handler 'linphone_gtk_internet_kind_changed'.
+
+(linphone-3.exe:4904): libglade-WARNING **: could not find signal handler 'linphone_gtk_used_identity_changed'.
+
+(linphone-3.exe:4904): libglade-WARNING **: could not find signal handler 'linphone_gtk_show_call_logs'.
+
+(linphone-3.exe:4904): libglade-WARNING **: Error loading image: 打开文件“.//linphone\linphone2.png”失败：No such file or directory
+
+(linphone-3.exe:4904): libglade-WARNING **: could not convert string to type `GdkPixbuf' for property `icon'
+
+(linphone-3.exe:4904): libglade-WARNING **: could not find signal handler 'linphone_gtk_log_hide'.
+
+** (linphone-3.exe:4904): WARNING **: Couldn't find pixmap file: linphone.png
+
+(linphone-3.exe:4904): GLib-GObject-CRITICAL **: g_object_unref: assertion `G_IS_OBJECT (object)' failed
+
+** (linphone-3.exe:4904): WARNING **: Couldn't find pixmap file: startcall-green.png
+
+(linphone-3.exe:4904): GLib-GObject-CRITICAL **: g_object_unref: assertion `G_IS_OBJECT (object)' failed
+
+** (linphone-3.exe:4904): WARNING **: Couldn't find pixmap file: stopcall-red.png
+
+(linphone-3.exe:4904): GLib-GObject-CRITICAL **: g_object_unref: assertion `G_IS_OBJECT (object)' failed
+
+** (linphone-3.exe:4904): WARNING **: Couldn't find pixmap file: contact-orange.png
+
+** (linphone-3.exe:4904): WARNING **: Couldn't find pixmap file: dialer-orange.png
+
+** (linphone-3.exe:4904): WARNING **: Couldn't find pixmap file: status-green.png
+
+(linphone-3.exe:4904): GLib-GObject-CRITICAL **: g_object_unref: assertion `G_IS_OBJECT (object)' failed
+
+** (linphone-3.exe:4904): WARNING **: Couldn't find pixmap file: status-green.png
+
+(linphone-3.exe:4904): GLib-GObject-CRITICAL **: g_object_unref: assertion `G_IS_OBJECT (object)' failed
+
+** (linphone-3.exe:4904): WARNING **: Couldn't find pixmap file: status-orange.png
+
+(linphone-3.exe:4904): GLib-GObject-CRITICAL **: g_object_unref: assertion `G_IS_OBJECT (object)' failed
+
+** (linphone-3.exe:4904): WARNING **: Couldn't find pixmap file: status-orange.png
+
+(linphone-3.exe:4904): GLib-GObject-CRITICAL **: g_object_unref: assertion `G_IS_OBJECT (object)' failed
+
+** (linphone-3.exe:4904): WARNING **: Couldn't find pixmap file: status-orange.png
+
+(linphone-3.exe:4904): GLib-GObject-CRITICAL **: g_object_unref: assertion `G_IS_OBJECT (object)' failed
+
+** (linphone-3.exe:4904): WARNING **: Couldn't find pixmap file: status-orange.png
+
+(linphone-3.exe:4904): GLib-GObject-CRITICAL **: g_object_unref: assertion `G_IS_OBJECT (object)' failed
+
+** (linphone-3.exe:4904): WARNING **: Couldn't find pixmap file: status-orange.png
+
+(linphone-3.exe:4904): GLib-GObject-CRITICAL **: g_object_unref: assertion `G_IS_OBJECT (object)' failed
+
+** (linphone-3.exe:4904): WARNING **: Couldn't find pixmap file: status-red.png
+
+(linphone-3.exe:4904): GLib-GObject-CRITICAL **: g_object_unref: assertion `G_IS_OBJECT (object)' failed
+
+** (linphone-3.exe:4904): WARNING **: Couldn't find pixmap file: status-orange.png
+
+(linphone-3.exe:4904): GLib-GObject-CRITICAL **: g_object_unref: assertion `G_IS_OBJECT (object)' failed
+
+** (linphone-3.exe:4904): WARNING **: Couldn't find pixmap file: status-orange.png
+
+(linphone-3.exe:4904): GLib-GObject-CRITICAL **: g_object_unref: assertion `G_IS_OBJECT (object)' failed
+
+** (linphone-3.exe:4904): WARNING **: Couldn't find pixmap file: status-offline.png
+
+(linphone-3.exe:4904): GLib-GObject-CRITICAL **: g_object_unref: assertion `G_IS_OBJECT (object)' failed
+
+** (linphone-3.exe:4904): WARNING **: Couldn't find pixmap file: mic_active.png
+
+** (linphone-3.exe:4904): WARNING **: Couldn't find pixmap file: mic_active.png
+
+** (linphone-3.exe:4904): WARNING **: Couldn't find pixmap file: linphone.png
+
+(linphone-3.exe:4904): GLib-GObject-CRITICAL **: g_object_unref: assertion `G_IS_OBJECT (object)' failed
+
+** (linphone-3.exe:4904): WARNING **: Couldn't find pixmap file: linphone.png
+
