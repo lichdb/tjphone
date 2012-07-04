@@ -45,10 +45,12 @@ typedef enum MSFilterId{
 	MS_SPEEX_DEC_ID,
 	MS_GSM_ENC_ID,
 	MS_GSM_DEC_ID,
+#ifdef __HAVE_IPP
 	MS_G729_ENC_ID,
 	MS_G729_DEC_ID,
 	MS_G723_ENC_ID,
 	MS_G723_DEC_ID,
+#endif /*__HAVE_IPP*/
 	MS_V4L_ID,
 	MS_SDL_OUT_ID,
 	MS_H263_ENC_ID,

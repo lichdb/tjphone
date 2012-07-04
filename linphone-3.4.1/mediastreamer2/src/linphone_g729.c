@@ -19,7 +19,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-
+#ifdef __HAVE_IPP
 #define IPPCORE_NO_SSE
 #include <fcntl.h>
 #include <stdlib.h>
@@ -383,3 +383,4 @@ MSFilterDesc ms_g729_dec_desc={
 MS_FILTER_DESC_EXPORT(ms_g729_dec_desc)
 MS_FILTER_DESC_EXPORT(ms_g729_enc_desc)
 
+#endif /*__HAVE_IPP*/

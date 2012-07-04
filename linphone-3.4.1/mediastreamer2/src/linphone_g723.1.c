@@ -18,6 +18,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */ 
+#ifdef __HAVE_IPP
 #define NO_SCRATCH_MEMORY_USED
 
 #include <stdlib.h>
@@ -305,3 +306,5 @@ MSFilterDesc ms_g723_dec_desc={
 
 MS_FILTER_DESC_EXPORT(ms_g723_dec_desc)
 MS_FILTER_DESC_EXPORT(ms_g723_enc_desc)
+
+#endif /*__HAVE_IPP*/
