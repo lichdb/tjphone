@@ -16,11 +16,12 @@ extern MSFilterDesc ms_speex_ec_desc;
 #endif
 extern MSFilterDesc ms_gsm_dec_desc;
 extern MSFilterDesc ms_gsm_enc_desc;
+#ifdef __HAVE_IPP
 extern MSFilterDesc ms_g729_dec_desc;
 extern MSFilterDesc ms_g729_enc_desc;
 extern MSFilterDesc ms_g723_dec_desc;
 extern MSFilterDesc ms_g723_enc_desc;
-
+#endif /*__HAVE_IPP*/
 extern MSFilterDesc ms_tee_desc;
 extern MSFilterDesc ms_void_sink_desc;
 extern MSFilterDesc ms_conf_desc;
@@ -72,10 +73,12 @@ MSFilterDesc * ms_filter_descs[]={
 #endif 
 &ms_gsm_dec_desc,
 &ms_gsm_enc_desc,
+#ifdef __HAVE_IPP
 &ms_g729_dec_desc,
 &ms_g729_enc_desc,
 &ms_g723_dec_desc,
 &ms_g723_enc_desc,
+#endif /*__HAVE_IPP*/
 &ms_tee_desc,
 &ms_void_sink_desc,
 &ms_conf_desc,

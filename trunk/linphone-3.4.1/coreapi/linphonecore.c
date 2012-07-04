@@ -654,8 +654,10 @@ static bool_t get_codec(LpConfig *config, const char* type, int index, PayloadTy
 }
 
 static const char *codec_pref_order[]={
+#ifdef __HAVE_IPP
 	"g729",
 	"g723.1",
+#endif /*__HAVE_IPP*/
 	"speex",
 	"gsm",
 	"pcmu",
@@ -929,7 +931,9 @@ static void linphone_core_init (LinphoneCore * lc, const LinphoneCoreVTable *vta
 	linphone_core_assign_payload_type(&payload_type_pcmu8000,0,NULL);
 	linphone_core_assign_payload_type(&payload_type_gsm,3,NULL);
 	linphone_core_assign_payload_type(&payload_type_pcma8000,8,NULL);
+#ifdef __HAVE_IPP
 	linphone_core_assign_payload_type(&payload_type_g729,18,NULL);
+#endif /*__HAVE_IPP*/
 	linphone_core_assign_payload_type(&payload_type_lpc1015,115,NULL);
 	linphone_core_assign_payload_type(&payload_type_speex_nb,110,"vbr=on");
 	linphone_core_assign_payload_type(&payload_type_speex_wb,111,"vbr=on");
