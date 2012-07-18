@@ -1,6 +1,6 @@
 VS2010项目
 TJphone.sln 
-开发环境 ：vs2008(VC++)、windows SDK v6.1
+开发环境 ：vs2010(VC++)、windows SDK v6.1
 
 更新日志：
 
