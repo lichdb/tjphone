@@ -58,7 +58,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libcoreapi", "linphone-3.5.2\coreapi\build\win32native\libcoreapi.vcxproj", "{7515F82E-C895-4BEC-8EAD-A39425B4F328}"
 	ProjectSection(ProjectDependencies) = postProject
 		{4EA67539-9EE9-4065-BD39-87E517FD8262} = {4EA67539-9EE9-4065-BD39-87E517FD8262}
-		{4EDA8989-EF9E-44FE-A218-6D1A60D26EE3} = {4EDA8989-EF9E-44FE-A218-6D1A60D26EE3}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "linphone-gtk", "linphone-3.5.2\gtk\build\win32native\linphonec-gtk.vcxproj", "{DA69DF40-4A89-4DEC-A953-6182375AA13B}"
