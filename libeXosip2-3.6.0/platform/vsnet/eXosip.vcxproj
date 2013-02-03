@@ -65,14 +65,14 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(Configuration)\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(Configuration)\</IntDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">Release\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">Release\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</IntDir>
     <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
@@ -106,14 +106,17 @@
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <AssemblerListingLocation>Debug/</AssemblerListingLocation>
-      <ObjectFileName>Debug/</ObjectFileName>
-      <ProgramDataBaseFileName>$(IntDir)eXosip.pdb</ProgramDataBaseFileName>
+      <AssemblerListingLocation>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</AssemblerListingLocation>
+      <ObjectFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</ObjectFileName>
+      <ProgramDataBaseFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\eXosip.pdb</ProgramDataBaseFileName>
       <BrowseInformation>true</BrowseInformation>
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAs>CompileAsC</CompileAs>
+      <PrecompiledHeaderOutputFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <XMLDocumentationFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</XMLDocumentationFileName>
+      <BrowseInformationFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</BrowseInformationFile>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -122,6 +125,9 @@
     <Lib>
       <OutputFile>$(SolutionDir)\SDK\Libs\$(Configuration)\$(TargetName)$(TargetExt)</OutputFile>
     </Lib>
+    <BuildLog>
+      <Path>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(MSBuildProjectName).log</Path>
+    </BuildLog>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">
     <Midl>
@@ -143,14 +149,17 @@
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <AssemblerListingLocation>Debug/</AssemblerListingLocation>
-      <ObjectFileName>Debug/</ObjectFileName>
-      <ProgramDataBaseFileName>$(IntDir)eXosip.pdb</ProgramDataBaseFileName>
+      <AssemblerListingLocation>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</AssemblerListingLocation>
+      <ObjectFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</ObjectFileName>
+      <ProgramDataBaseFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\eXosip.pdb</ProgramDataBaseFileName>
       <BrowseInformation>true</BrowseInformation>
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAs>CompileAsC</CompileAs>
+      <PrecompiledHeaderOutputFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <XMLDocumentationFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</XMLDocumentationFileName>
+      <BrowseInformationFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</BrowseInformationFile>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -166,6 +175,9 @@
       <AdditionalLibraryDirectories>..\..\..\libosip2-3.3.0\platform\vsnet\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>osip2.lib;osipparser2.lib;Ws2_32.lib;Iphlpapi.lib;dnsapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <BuildLog>
+      <Path>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(MSBuildProjectName).log</Path>
+    </BuildLog>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Midl>
@@ -190,13 +202,15 @@
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <PrecompiledHeaderOutputFile>$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
-      <AssemblerListingLocation>Release/</AssemblerListingLocation>
-      <ObjectFileName>Release/</ObjectFileName>
-      <ProgramDataBaseFileName>$(IntDir)eXosip.pdb</ProgramDataBaseFileName>
+      <PrecompiledHeaderOutputFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</AssemblerListingLocation>
+      <ObjectFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</ObjectFileName>
+      <ProgramDataBaseFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\eXosip.pdb</ProgramDataBaseFileName>
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <CompileAs>Default</CompileAs>
+      <XMLDocumentationFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</XMLDocumentationFileName>
+      <BrowseInformationFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</BrowseInformationFile>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -205,6 +219,9 @@
     <Lib>
       <OutputFile>$(SolutionDir)\SDK\Libs\$(Configuration)\$(TargetName)$(TargetExt)</OutputFile>
     </Lib>
+    <BuildLog>
+      <Path>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(MSBuildProjectName).log</Path>
+    </BuildLog>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">
     <Midl>
@@ -229,18 +246,26 @@
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <PrecompiledHeaderOutputFile>$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
-      <AssemblerListingLocation>Release/</AssemblerListingLocation>
-      <ObjectFileName>Release/</ObjectFileName>
-      <ProgramDataBaseFileName>$(IntDir)eXosip.pdb</ProgramDataBaseFileName>
+      <PrecompiledHeaderOutputFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</AssemblerListingLocation>
+      <ObjectFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</ObjectFileName>
+      <ProgramDataBaseFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\eXosip.pdb</ProgramDataBaseFileName>
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <CompileAs>Default</CompileAs>
+      <XMLDocumentationFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</XMLDocumentationFileName>
+      <BrowseInformationFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</BrowseInformationFile>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <Culture>0x040c</Culture>
     </ResourceCompile>
+    <Lib>
+      <OutputFile>$(SolutionDir)\SDK\Libs\$(Configuration)\$(TargetName)$(TargetExt)</OutputFile>
+    </Lib>
+    <BuildLog>
+      <Path>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(MSBuildProjectName).log</Path>
+    </BuildLog>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\eXcall_api.c" />

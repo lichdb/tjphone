@@ -62,14 +62,14 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Release\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Release\</IntDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(Configuration)\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(Configuration)\</IntDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">$(Configuration)\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</IntDir>
     <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'" />
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'" />
@@ -93,14 +93,22 @@
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <ProgramDataBaseFileName>$(OutDir)$(ProjectName).pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(ProjectName).pdb</ProgramDataBaseFileName>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAs>CompileAsC</CompileAs>
+      <PrecompiledHeaderOutputFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</AssemblerListingLocation>
+      <ObjectFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</ObjectFileName>
+      <XMLDocumentationFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</XMLDocumentationFileName>
+      <BrowseInformationFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</BrowseInformationFile>
     </ClCompile>
     <Lib>
-      <OutputFile>$(SolutionDir)\SDK\Libs\$(Configuration)\osipparser2.lib</OutputFile>
+      <OutputFile>$(SolutionDir)\SDK\Libs\$(Configuration)\$(TargetName)$(TargetExt)</OutputFile>
     </Lib>
+    <BuildLog>
+      <Path>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(MSBuildProjectName).log</Path>
+    </BuildLog>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -109,13 +117,21 @@
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <ProgramDataBaseFileName>$(OutDir)$(ProjectName).pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</ProgramDataBaseFileName>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <PrecompiledHeaderOutputFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</AssemblerListingLocation>
+      <ObjectFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</ObjectFileName>
+      <XMLDocumentationFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</XMLDocumentationFileName>
+      <BrowseInformationFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</BrowseInformationFile>
     </ClCompile>
     <Lib>
-      <OutputFile>$(SolutionDir)\SDK\Libs\$(Configuration)\osipparser2.lib</OutputFile>
+      <OutputFile>$(SolutionDir)\SDK\Libs\$(Configuration)\$(TargetName)$(TargetExt)</OutputFile>
     </Lib>
+    <BuildLog>
+      <Path>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(MSBuildProjectName).log</Path>
+    </BuildLog>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">
     <ClCompile>
@@ -127,9 +143,14 @@
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <ProgramDataBaseFileName>$(OutDir)$(ProjectName).pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(ProjectName).pdb</ProgramDataBaseFileName>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <PrecompiledHeaderOutputFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</AssemblerListingLocation>
+      <ObjectFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</ObjectFileName>
+      <XMLDocumentationFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</XMLDocumentationFileName>
+      <BrowseInformationFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</BrowseInformationFile>
     </ClCompile>
     <Link>
       <ModuleDefinitionFile>osipparser2.def</ModuleDefinitionFile>
@@ -139,6 +160,9 @@
       </DataExecutionPrevention>
       <OutputFile>$(SolutionDir)\SDK\Libs\$(Configuration)\$(TargetName)$(TargetExt)</OutputFile>
     </Link>
+    <BuildLog>
+      <Path>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(MSBuildProjectName).log</Path>
+    </BuildLog>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">
     <ClCompile>
@@ -147,16 +171,25 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <ProgramDataBaseFileName>$(OutDir)$(ProjectName).pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(ProjectName).pdb</ProgramDataBaseFileName>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <PrecompiledHeaderOutputFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</AssemblerListingLocation>
+      <ObjectFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</ObjectFileName>
+      <XMLDocumentationFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</XMLDocumentationFileName>
+      <BrowseInformationFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</BrowseInformationFile>
     </ClCompile>
     <Link>
       <ModuleDefinitionFile>osipparser2.def</ModuleDefinitionFile>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <DataExecutionPrevention>
       </DataExecutionPrevention>
+      <OutputFile>$(SolutionDir)\SDK\Libs\$(Configuration)\$(TargetName)$(TargetExt)</OutputFile>
     </Link>
+    <BuildLog>
+      <Path>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(MSBuildProjectName).log</Path>
+    </BuildLog>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\osipparser2\osip_accept.c" />

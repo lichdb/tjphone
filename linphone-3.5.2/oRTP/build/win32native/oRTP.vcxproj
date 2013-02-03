@@ -62,14 +62,14 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(Configuration)\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(Configuration)\</IntDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">Release\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">Release\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">false</LinkIncremental>
     <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
@@ -98,10 +98,18 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <CompileAs>CompileAsC</CompileAs>
+      <AssemblerListingLocation>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</AssemblerListingLocation>
+      <ObjectFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</ObjectFileName>
+      <ProgramDataBaseFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+      <XMLDocumentationFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</XMLDocumentationFileName>
+      <BrowseInformationFile>$(IntDir)$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</BrowseInformationFile>
     </ClCompile>
     <Lib>
       <OutputFile>$(SolutionDir)\SDK\Libs\$(Configuration)\$(TargetName)$(TargetExt)</OutputFile>
     </Lib>
+    <BuildLog>
+      <Path>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(MSBuildProjectName).log</Path>
+    </BuildLog>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">
     <ClCompile>
@@ -116,6 +124,11 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <CompileAs>CompileAsC</CompileAs>
+      <AssemblerListingLocation>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</AssemblerListingLocation>
+      <ObjectFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</ObjectFileName>
+      <ProgramDataBaseFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+      <XMLDocumentationFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</XMLDocumentationFileName>
+      <BrowseInformationFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</BrowseInformationFile>
     </ClCompile>
     <Lib>
       <OutputFile>$(SolutionDir)\SDK\Libs\$(Configuration)\$(TargetName)$(TargetExt)</OutputFile>
@@ -125,7 +138,11 @@
       <AdditionalLibraryDirectories>$(SolutionDir)\SDK\Libs\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>srtp.lib;Ws2_32.lib;Winmm.lib;Qwave.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <DelayLoadDLLs>qwave.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <ManifestFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(TargetName)$(TargetExt).intermediate.manifest</ManifestFile>
     </Link>
+    <BuildLog>
+      <Path>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(MSBuildProjectName).log</Path>
+    </BuildLog>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -138,6 +155,10 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CallingConvention>Cdecl</CallingConvention>
       <CompileAs>CompileAsC</CompileAs>
+      <AssemblerListingLocation>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</AssemblerListingLocation>
+      <ProgramDataBaseFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+      <XMLDocumentationFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</XMLDocumentationFileName>
+      <BrowseInformationFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</BrowseInformationFile>
     </ClCompile>
     <Link>
       <AdditionalDependencies>libeay32.lib;Ws2_32.lib;libsrtp.lib;Winmm.lib;libcmt.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -156,6 +177,9 @@
     <Lib>
       <OutputFile>$(SolutionDir)\SDK\Libs\$(Configuration)\$(TargetName)$(TargetExt)</OutputFile>
     </Lib>
+    <BuildLog>
+      <Path>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(MSBuildProjectName).log</Path>
+    </BuildLog>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">
     <ClCompile>
@@ -168,10 +192,15 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CallingConvention>Cdecl</CallingConvention>
       <CompileAs>CompileAsC</CompileAs>
+      <AssemblerListingLocation>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</AssemblerListingLocation>
+      <ObjectFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</ObjectFileName>
+      <ProgramDataBaseFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+      <XMLDocumentationFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</XMLDocumentationFileName>
+      <BrowseInformationFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</BrowseInformationFile>
     </ClCompile>
     <Link>
       <AdditionalDependencies>libeay32.lib;Ws2_32.lib;libsrtp.lib;Winmm.lib;libcmt.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\..\win32-bin\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)\SDK\Libs\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
       <ModuleDefinitionFile>oRTP.def</ModuleDefinitionFile>
       <GenerateDebugInformation>false</GenerateDebugInformation>
@@ -182,7 +211,12 @@
       <DataExecutionPrevention>
       </DataExecutionPrevention>
       <TargetMachine>MachineX86</TargetMachine>
+      <OutputFile>$(SolutionDir)\SDK\Libs\$(Configuration)\$(TargetName)$(TargetExt)</OutputFile>
+      <ManifestFile>$(SolutionDir)\SDK\Libs\$(Configuration)\;$(TargetName)$(TargetExt).intermediate.manifest</ManifestFile>
     </Link>
+    <BuildLog>
+      <Path>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(MSBuildProjectName).log</Path>
+    </BuildLog>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\avprofile.c" />

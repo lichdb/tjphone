@@ -56,29 +56,56 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">tjphone</TargetName>
     <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</IgnoreImportLibrary>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">tjphone</TargetName>
     <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</IgnoreImportLibrary>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">
+    <OutDir>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">
+    <IntDir>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">
+    <TargetName>tjphone</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">
+    <OutDir>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">
+    <IntDir>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">
+    <TargetName>tjphone</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">
+    <OutDir>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">
+    <IntDir>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">
+    <TargetName>tjphone</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <AdditionalIncludeDirectories>C:\gtk\lib\glib-2.0\include;c:\Gtk\include\glib-2.0;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include;$(QTDIR)\include\ActiveQt;.;..\..\;..\..\..\;..\..\..\coreapi\;..\..\..\mediastreamer2\include;..\..\..\oRTP\include;..\..\..\..\libeXosip2-3.6.0\include;$(QTDIR)\include\QtMultimedia;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zm200 -w34100 -w34189 %(AdditionalOptions)</AdditionalOptions>
-      <AssemblerListingLocation>$(Configuration)\</AssemblerListingLocation>
+      <AssemblerListingLocation>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</AssemblerListingLocation>
       <BrowseInformation>false</BrowseInformation>
       <BufferSecurityCheck>true</BufferSecurityCheck>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <ExceptionHandling>Sync</ExceptionHandling>
-      <ObjectFileName>$(Configuration)\</ObjectFileName>
+      <ObjectFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</ObjectFileName>
       <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;QT_LARGEFILE_SUPPORT;QT_DLL;QT_GUI_LIB;QT_CORE_LIB;QT_HAVE_MMX;QT_HAVE_3DNOW;QT_HAVE_SSE;QT_HAVE_MMXEXT;QT_HAVE_SSE2;QT_THREAD_SUPPORT;_DEBUG;_CRT_SECURE_NO_DEPRECATE;_LIB;HAVE_SPEEXDSP;HAVE_SPEEX_NOISE;ORTP_INET6;ORTP_STATIC;IN_LINPHONE;WINDOW_NATIVE;ENABLE_TRACE;OSIP_MT;HAVE_CONFIG_H;QT_MULTIMEDIA_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
-      <ProgramDataBaseFileName>.\</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</ProgramDataBaseFileName>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -87,6 +114,9 @@
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>true</MinimalRebuild>
       <StructMemberAlignment>8Bytes</StructMemberAlignment>
+      <PrecompiledHeaderOutputFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <XMLDocumentationFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</XMLDocumentationFileName>
+      <BrowseInformationFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</BrowseInformationFile>
     </ClCompile>
     <Link>
       <AdditionalDependencies>libglib-2.0.dll.a;qtmaind.lib;QtGuid4.lib;QtCored4.lib;eXosip.lib;osipparser2.lib;osip2.lib;Ws2_32.lib;mediastreamer2.lib;ortp.lib;srtp.lib;gsm.lib;Winmm.lib;libcoreapi.lib;libspeex.lib;libspeexdsp.lib;libresample.lib;libtheora.lib;vfw32.lib;avcodec.lib;avdevice.lib;avformat.lib;avfilter.lib;avutil.lib;swscale.lib;libvorbis.lib;libvorbisfile.lib;ogg_static_d.lib;Wininet.lib;Iphlpapi.lib;dnsapi.lib;Qwave.lib;SDL.lib;libcmtd.lib;ippcorel.lib;ippsemerged.lib;ippsmerged.lib;ippscmerged.lib;ippscemerged.lib;ippsrmerged.lib;ippsremerged.lib;usc.lib;QtMultimediad4.lib;vpxmtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -101,6 +131,7 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <IgnoreSpecificDefaultLibraries>MSVCRTD.lib;msvcrt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <DelayLoadDLLs>qwave.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <ManifestFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(TargetName)$(TargetExt).intermediate.manifest</ManifestFile>
     </Link>
     <Midl>
       <DefaultCharType>Unsigned</DefaultCharType>
@@ -110,25 +141,30 @@
     <ResourceCompile>
       <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;QT_LARGEFILE_SUPPORT;QT_DLL;QT_GUI_LIB;QT_CORE_LIB;QT_HAVE_MMX;QT_HAVE_3DNOW;QT_HAVE_SSE;QT_HAVE_MMXEXT;QT_HAVE_SSE2;QT_THREAD_SUPPORT;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
+    <BuildLog>
+      <Path>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(MSBuildProjectName).log</Path>
+    </BuildLog>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <AdditionalIncludeDirectories>$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include;$(QTDIR)\include\ActiveQt;.;..\..\;..\..\..\;..\..\..\coreapi\;..\..\..\mediastreamer2\include;..\..\..\oRTP\include;..\..\..\..\libeXosip2-3.3.0\include;$(QTDIR)\include\QtMultimedia;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zm200 -w34100 -w34189 %(AdditionalOptions)</AdditionalOptions>
-      <AssemblerListingLocation>release\</AssemblerListingLocation>
+      <AssemblerListingLocation>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</AssemblerListingLocation>
       <BrowseInformation>false</BrowseInformation>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <ExceptionHandling>Sync</ExceptionHandling>
-      <ObjectFileName>release\</ObjectFileName>
+      <ObjectFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</ObjectFileName>
       <Optimization>MaxSpeed</Optimization>
       <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;QT_LARGEFILE_SUPPORT;QT_DLL;QT_GUI_LIB;QT_CORE_LIB;QT_HAVE_MMX;QT_HAVE_3DNOW;QT_HAVE_SSE;QT_HAVE_MMXEXT;QT_HAVE_SSE2;QT_THREAD_SUPPORT;NDEBUG;_CRT_SECURE_NO_DEPRECATE;_LIB;HAVE_SPEEXDSP;HAVE_SPEEX_NOISE;ORTP_INET6;IN_LINPHONE;WINDOW_NATIVE;ENABLE_TRACE;OSIP_MT;HAVE_CONFIG_H;QT_MULTIMEDIA_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
-      <ProgramDataBaseFileName>.\</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</ProgramDataBaseFileName>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
       <WarningLevel>Level3</WarningLevel>
+      <XMLDocumentationFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</XMLDocumentationFileName>
+      <BrowseInformationFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</BrowseInformationFile>
     </ClCompile>
     <Link>
       <AdditionalDependencies>qtmain.lib;QtGui4.lib;QtCore4.lib;%(AdditionalDependencies);eXosip.lib;osipparser2.lib;osip2.lib;Ws2_32.lib;mediastreamer2.lib;ortp.lib;gsm.lib;Winmm.lib;libcoreapi.lib;libspeex.lib;libspeexdsp.lib;libresample.lib;libtheora.lib;vfw32.lib;avcodec.lib;avdevice.lib;avformat.lib;avfilter.lib;avutil.lib;swscale.lib;libvorbis.lib;libvorbisfile.lib;ogg_static_d.lib;Wininet.lib;Iphlpapi.lib;dnsapi.lib;Qwave.lib;SDL.lib;libcmtd.lib;ippcorel.lib;ippsemerged.lib;ippsmerged.lib;ippscmerged.lib;ippscemerged.lib;ippsrmerged.lib;ippsremerged.lib;usc.lib;QtMultimediad4.lib</AdditionalDependencies>
@@ -144,6 +180,7 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <IgnoreSpecificDefaultLibraries>MSVCRTD.lib;msvcrt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <DelayLoadDLLs>qwave.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <ManifestFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(TargetName)$(TargetExt).intermediate.manifest</ManifestFile>
     </Link>
     <Midl>
       <DefaultCharType>Unsigned</DefaultCharType>
@@ -153,21 +190,63 @@
     <ResourceCompile>
       <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;QT_LARGEFILE_SUPPORT;QT_DLL;QT_NO_DEBUG;QT_GUI_LIB;QT_CORE_LIB;QT_HAVE_MMX;QT_HAVE_3DNOW;QT_HAVE_SSE;QT_HAVE_MMXEXT;QT_HAVE_SSE2;QT_THREAD_SUPPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
+    <BuildLog>
+      <Path>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(MSBuildProjectName).log</Path>
+    </BuildLog>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">
     <ClCompile>
       <AdditionalIncludeDirectories>.;..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeaderOutputFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</AssemblerListingLocation>
+      <ObjectFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</ObjectFileName>
+      <ProgramDataBaseFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+      <XMLDocumentationFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</XMLDocumentationFileName>
+      <BrowseInformationFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</BrowseInformationFile>
     </ClCompile>
+    <BuildLog>
+      <Path>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(MSBuildProjectName).log</Path>
+    </BuildLog>
+    <Link>
+      <OutputFile>$(SolutionDir)\SDK\bin\tjphone.exe</OutputFile>
+      <ManifestFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(TargetName)$(TargetExt).intermediate.manifest</ManifestFile>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">
     <ClCompile>
       <AdditionalIncludeDirectories>.;..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeaderOutputFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</AssemblerListingLocation>
+      <ObjectFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</ObjectFileName>
+      <ProgramDataBaseFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+      <XMLDocumentationFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</XMLDocumentationFileName>
+      <BrowseInformationFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</BrowseInformationFile>
     </ClCompile>
+    <BuildLog>
+      <Path>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</Path>
+    </BuildLog>
+    <Link>
+      <OutputFile>$(SolutionDir)\SDK\bin\tjphone.exe</OutputFile>
+      <ManifestFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(TargetName)$(TargetExt).intermediate.manifest</ManifestFile>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">
     <ClCompile>
       <AdditionalIncludeDirectories>.;..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeaderOutputFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</AssemblerListingLocation>
+      <ObjectFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</ObjectFileName>
+      <ProgramDataBaseFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+      <XMLDocumentationFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</XMLDocumentationFileName>
+      <BrowseInformationFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</BrowseInformationFile>
     </ClCompile>
+    <BuildLog>
+      <Path>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(MSBuildProjectName).log</Path>
+    </BuildLog>
+    <Link>
+      <ManifestFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(TargetName)$(TargetExt).intermediate.manifest</ManifestFile>
+      <OutputFile>$(SolutionDir)\SDK\bin\tjphone.exe</OutputFile>
+    </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="$(ConfigurationName)\qrc_treeview.cpp">

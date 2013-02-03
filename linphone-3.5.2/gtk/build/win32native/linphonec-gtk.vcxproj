@@ -72,20 +72,20 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(Configuration)\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">true</LinkIncremental>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">$(Configuration)\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">false</LinkIncremental>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug_ipp|Win32'">$(Configuration)\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug_ipp|Win32'">$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug_ipp|Win32'">$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug_ipp|Win32'">$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug_ipp|Win32'">true</LinkIncremental>
     <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug_ipp|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug_ipp|Win32'" />
@@ -103,6 +103,10 @@
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'" />
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">linphone</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">linphone</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug_ipp|Win32'">linphone</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">linphone</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">linphone</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -121,6 +125,12 @@
       <CompileAs>CompileAsC</CompileAs>
       <ShowIncludes>false</ShowIncludes>
       <EnablePREfast>false</EnablePREfast>
+      <PrecompiledHeaderOutputFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</AssemblerListingLocation>
+      <ObjectFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</ObjectFileName>
+      <ProgramDataBaseFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+      <XMLDocumentationFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</XMLDocumentationFileName>
+      <BrowseInformationFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</BrowseInformationFile>
     </ClCompile>
     <Link>
       <AdditionalDependencies>glib-2.0.lib;intl.lib;eXosip.lib;osipparser2.lib;osip2.lib;Ws2_32.lib;mediastreamer2.lib;ortp.lib;srtp.lib;gsm.lib;Winmm.lib;libcoreapi.lib;libspeex.lib;libspeexdsp.lib;libresample.lib;gobject-2.0.lib;gthread-2.0.lib;gdk-win32-2.0.lib;gdk_pixbuf-2.0.lib;gtk-win32-2.0.lib;gio-2.0.lib;atk-1.0.lib;pango-1.0.lib;libxml2_a.lib;libtheora.lib;vfw32.lib;SDL.lib;avcodec.lib;avdevice.lib;avformat.lib;avutil.lib;swscale.lib;libvorbis.lib;libvorbisfile.lib;ogg_static_d.lib;Wininet.lib;Iphlpapi.lib;dnsapi.lib;Qwave.lib;libcmtd.lib;ippcorel.lib;ippsemerged.lib;ippsmerged.lib;ippscmerged.lib;ippscemerged.lib;ippsrmerged.lib;ippsremerged.lib;usc.lib;vpxmtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -135,7 +145,11 @@
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <TargetMachine>MachineX86</TargetMachine>
       <TurnOffAssemblyGeneration>false</TurnOffAssemblyGeneration>
+      <ManifestFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(TargetName)$(TargetExt).intermediate.manifest</ManifestFile>
     </Link>
+    <BuildLog>
+      <Path>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(MSBuildProjectName).log</Path>
+    </BuildLog>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">
     <ClCompile>
@@ -154,6 +168,12 @@
       <CompileAs>CompileAsC</CompileAs>
       <ShowIncludes>false</ShowIncludes>
       <EnablePREfast>false</EnablePREfast>
+      <PrecompiledHeaderOutputFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</AssemblerListingLocation>
+      <ObjectFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</ObjectFileName>
+      <ProgramDataBaseFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+      <XMLDocumentationFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</XMLDocumentationFileName>
+      <BrowseInformationFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</BrowseInformationFile>
     </ClCompile>
     <Link>
       <AdditionalDependencies>intl.lib;eXosip.lib;osipparser2.lib;osip2.lib;Ws2_32.lib;mediastreamer2.lib;ortp.lib;gsm.lib;Winmm.lib;libcoreapi.lib;libspeex.lib;libspeexdsp.lib;libresample.lib;glib-2.0.lib;gobject-2.0.lib;gthread-2.0.lib;gdk-win32-2.0.lib;gdk_pixbuf-2.0.lib;gtk-win32-2.0.lib;gio-2.0.lib;atk-1.0.lib;pango-1.0.lib;libxml2.lib;libtheora.lib;vfw32.lib;avcodec-52.lib;avdevice-52.lib;avformat-52.lib;avutil-49.lib;swscale-0.lib;libvorbis.lib;libvorbisfile.lib;ogg_static_d.lib;Wininet.lib;Iphlpapi.lib;dnsapi.lib;Qwave.lib;SDL.lib;libcmtd.lib;ippcorel.lib;ippsemerged.lib;ippsmerged.lib;ippscmerged.lib;ippscemerged.lib;ippsrmerged.lib;ippsremerged.lib;usc.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -168,7 +188,11 @@
       <DataExecutionPrevention>
       </DataExecutionPrevention>
       <TargetMachine>MachineX86</TargetMachine>
+      <ManifestFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(TargetName)$(TargetExt).intermediate.manifest</ManifestFile>
     </Link>
+    <BuildLog>
+      <Path>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(MSBuildProjectName).log</Path>
+    </BuildLog>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -183,6 +207,12 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAs>CompileAsC</CompileAs>
       <EnablePREfast>true</EnablePREfast>
+      <PrecompiledHeaderOutputFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</AssemblerListingLocation>
+      <ObjectFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</ObjectFileName>
+      <ProgramDataBaseFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+      <XMLDocumentationFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</XMLDocumentationFileName>
+      <BrowseInformationFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</BrowseInformationFile>
     </ClCompile>
     <ProjectReference>
       <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
@@ -200,7 +230,11 @@
       </DataExecutionPrevention>
       <TargetMachine>MachineX86</TargetMachine>
       <DelayLoadDLLs>qwave.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <ManifestFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(TargetName)$(TargetExt).intermediate.manifest</ManifestFile>
     </Link>
+    <BuildLog>
+      <Path>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(MSBuildProjectName).log</Path>
+    </BuildLog>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">
     <ClCompile>
@@ -215,6 +249,12 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAs>CompileAsC</CompileAs>
       <EnablePREfast>true</EnablePREfast>
+      <PrecompiledHeaderOutputFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</AssemblerListingLocation>
+      <ObjectFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</ObjectFileName>
+      <ProgramDataBaseFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+      <XMLDocumentationFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</XMLDocumentationFileName>
+      <BrowseInformationFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</BrowseInformationFile>
     </ClCompile>
     <ProjectReference>
       <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
@@ -231,7 +271,11 @@
       <DataExecutionPrevention>
       </DataExecutionPrevention>
       <TargetMachine>MachineX86</TargetMachine>
+      <ManifestFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(TargetName)$(TargetExt).intermediate.manifest</ManifestFile>
     </Link>
+    <BuildLog>
+      <Path>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(MSBuildProjectName).log</Path>
+    </BuildLog>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_ipp|Win32'">
     <ClCompile>
@@ -249,6 +293,12 @@
       <CompileAs>CompileAsC</CompileAs>
       <ShowIncludes>false</ShowIncludes>
       <EnablePREfast>true</EnablePREfast>
+      <PrecompiledHeaderOutputFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</AssemblerListingLocation>
+      <ObjectFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</ObjectFileName>
+      <ProgramDataBaseFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+      <XMLDocumentationFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</XMLDocumentationFileName>
+      <BrowseInformationFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</BrowseInformationFile>
     </ClCompile>
     <Link>
       <AdditionalDependencies>intl.lib;eXosip.lib;osipparser2.lib;osip2.lib;Ws2_32.lib;mediastreamer2.lib;ortp.lib;gsm.lib;Winmm.lib;libcoreapi.lib;libspeex.lib;libspeexdsp.lib;libresample.lib;glib-2.0.lib;gobject-2.0.lib;gthread-2.0.lib;gdk-win32-2.0.lib;gdk_pixbuf-2.0.lib;gtk-win32-2.0.lib;gio-2.0.lib;atk-1.0.lib;pango-1.0.lib;libxml2.lib;libtheora.lib;vfw32.lib;avcodec-52.lib;avdevice-52.lib;avformat-52.lib;avutil-49.lib;swscale-0.lib;libvorbis.lib;libvorbisfile.lib;ogg_static_d.lib;Wininet.lib;Iphlpapi.lib;dnsapi.lib;Qwave.lib;SDL.lib;libcmtd.lib;ippcorel.lib;ippsemerged.lib;ippsmerged.lib;ippscmerged.lib;ippscemerged.lib;ippsrmerged.lib;ippsremerged.lib;g729.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -263,7 +313,11 @@
       <DataExecutionPrevention>
       </DataExecutionPrevention>
       <TargetMachine>MachineX86</TargetMachine>
+      <ManifestFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(TargetName)$(TargetExt).intermediate.manifest</ManifestFile>
     </Link>
+    <BuildLog>
+      <Path>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(MSBuildProjectName).log</Path>
+    </BuildLog>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\buddylookup.c" />
