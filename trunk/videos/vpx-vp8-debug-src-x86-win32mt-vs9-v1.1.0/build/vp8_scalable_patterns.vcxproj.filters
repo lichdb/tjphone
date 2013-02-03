@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>2270CE13-C242-A560-8A38-B6C3A98A5D07</UniqueIdentifier>
+      <Extensions>c;cc;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>AB3A8E9C-9944-D4DF-FABC-645CA0AE3E5D</UniqueIdentifier>
+      <Extensions>h;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>0E6354D0-7205-7215-D762-F8B85A1A3BA7</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="Build Files">
+      <UniqueIdentifier>4201B5AC-4E6A-9EED-8E43-A5D3CA739269</UniqueIdentifier>
+      <Extensions>mk</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\vp8_scalable_patterns.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\src\examples.mk">
+      <Filter>Build Files</Filter>
+    </None>
+  </ItemGroup>
+</Project>

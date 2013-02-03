@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>E739524B-DB50-ED88-4620-B4EF3AD07844</UniqueIdentifier>
+      <Extensions>c;cc;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>7B7F29C2-0CDD-A66A-7921-2F18420A95AD</UniqueIdentifier>
+      <Extensions>h;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>F993456A-D1C9-704F-06C6-C2F6E77473C0</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="Build Files">
+      <UniqueIdentifier>188AB894-BAC5-4AC4-9A39-70CE01F3DCD1</UniqueIdentifier>
+      <Extensions>mk</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\postproc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\src\examples.mk">
+      <Filter>Build Files</Filter>
+    </None>
+  </ItemGroup>
+</Project>

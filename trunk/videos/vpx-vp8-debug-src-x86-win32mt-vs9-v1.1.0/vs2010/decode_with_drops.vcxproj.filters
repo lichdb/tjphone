@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>89D828E0-2BA0-B638-924E-DA85559A6DA5</UniqueIdentifier>
+      <Extensions>c;cc;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>B2A08364-4EBB-DF33-DBB4-86A174EB363D</UniqueIdentifier>
+      <Extensions>h;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>BF6496C8-4CBA-BFBD-956F-6FAC5029EBE8</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="Build Files">
+      <UniqueIdentifier>D9845A39-4947-2BA0-521A-728C0FE429A9</UniqueIdentifier>
+      <Extensions>mk</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\decode_with_drops.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\src\examples.mk">
+      <Filter>Build Files</Filter>
+    </None>
+  </ItemGroup>
+</Project>

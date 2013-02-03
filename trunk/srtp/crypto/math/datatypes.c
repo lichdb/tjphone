@@ -82,7 +82,7 @@ octet_weight[256] = {
 };
 
 int
-octet_get_weight(octet_t octet) {
+octet_get_weight(uint8_t octet) {
   extern int octet_weight[256];
 
   return octet_weight[octet];
@@ -97,8 +97,8 @@ octet_get_weight(octet_t octet) {
 
 char bit_string[MAX_PRINT_STRING_LEN];
 
-octet_t
-nibble_to_hex_char(octet_t nibble) {
+uint8_t
+nibble_to_hex_char(uint8_t nibble) {
   char buf[16] = {'0', '1', '2', '3', '4', '5', '6', '7',
 		  '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
   return buf[nibble & 0xF];
@@ -106,7 +106,7 @@ nibble_to_hex_char(octet_t nibble) {
 
 char *
 octet_string_hex_string(const void *s, int length) {
-  const octet_t *str = s;
+  const uint8_t *str = s;
   int i;
   
   /* double length, since one octet takes two hex characters */
@@ -125,7 +125,7 @@ octet_string_hex_string(const void *s, int length) {
 }
 
 inline int
-hex_char_to_nibble(octet_t c) {
+hex_char_to_nibble(uint8_t c) {
   switch(c) {
   case ('0'): return 0x0;
   case ('1'): return 0x1;
@@ -170,7 +170,7 @@ is_hex_string(char *s) {
 
 int
 hex_string_to_octet_string(char *raw, char *hex, int len) {
-  octet_t x;
+  uint8_t x;
   int tmp;
   int hex_len;
 
@@ -197,8 +197,8 @@ v128_hex_string(v128_t *x) {
   int i, j;
 
   for (i=j=0; i < 16; i++) {
-    bit_string[j++]  = nibble_to_hex_char(x->octet[i] >> 4);
-    bit_string[j++]  = nibble_to_hex_char(x->octet[i] & 0xF);
+    bit_string[j++]  = nibble_to_hex_char(x->v8[i] >> 4);
+    bit_string[j++]  = nibble_to_hex_char(x->v8[i] & 0xF);
   }
   
   bit_string[j] = 0; /* null terminate string */
@@ -225,29 +225,29 @@ v128_bit_string(v128_t *x) {
 }
 
 void
-v128_copy_octet_string(v128_t *x, const octet_t s[16]) {
-#if ALIGNMENT_32BIT_REQUIRED
+v128_copy_octet_string(v128_t *x, const uint8_t s[16]) {
+#ifdef ALIGNMENT_32BIT_REQUIRED
   if ((((uint32_t) &s[0]) & 0x3) != 0)
 #endif
   {
-	  x->octet[0]  = s[0];
-	  x->octet[1]  = s[1];
-	  x->octet[2]  = s[2];
-	  x->octet[3]  = s[3];
-	  x->octet[4]  = s[4];
-	  x->octet[5]  = s[5];
-	  x->octet[6]  = s[6];
-	  x->octet[7]  = s[7];
-	  x->octet[8]  = s[8];
-	  x->octet[9]  = s[9];
-	  x->octet[10] = s[10];
-	  x->octet[11] = s[11];
-	  x->octet[12] = s[12];
-	  x->octet[13] = s[13];
-	  x->octet[14] = s[14];
-	  x->octet[15] = s[15];
+	  x->v8[0]  = s[0];
+	  x->v8[1]  = s[1];
+	  x->v8[2]  = s[2];
+	  x->v8[3]  = s[3];
+	  x->v8[4]  = s[4];
+	  x->v8[5]  = s[5];
+	  x->v8[6]  = s[6];
+	  x->v8[7]  = s[7];
+	  x->v8[8]  = s[8];
+	  x->v8[9]  = s[9];
+	  x->v8[10] = s[10];
+	  x->v8[11] = s[11];
+	  x->v8[12] = s[12];
+	  x->v8[13] = s[13];
+	  x->v8[14] = s[14];
+	  x->v8[15] = s[15];
   }
-#if ALIGNMENT_32BIT_REQUIRED
+#ifdef ALIGNMENT_32BIT_REQUIRED
   else 
   {
 	  v128_t *v = (v128_t *) &s[0];
@@ -389,8 +389,8 @@ v128_left_shift(v128_t *x, int index) {
 
 
 int
-octet_string_is_eq(octet_t *a, octet_t *b, int len) {
-  octet_t *end = b + len;
+octet_string_is_eq(uint8_t *a, uint8_t *b, int len) {
+  uint8_t *end = b + len;
   while (b < end)
     if (*a++ != *b++)
       return 1;
@@ -398,46 +398,14 @@ octet_string_is_eq(octet_t *a, octet_t *b, int len) {
 }
 
 void
-octet_string_set_to_zero(octet_t *s, int len) {
-  octet_t *end = s + len;
+octet_string_set_to_zero(uint8_t *s, int len) {
+  uint8_t *end = s + len;
 
   do {
     *s = 0;
   } while (++s < end);
   
 }
-
-#if 0
-/* 
- * bswap_32() is an optimized version of htonl/ntohl
- */
-
-inline uint32_t
-bswap_32(uint32_t v) {
-#if CPU_CISC                     
-#ifndef MIPSEL  /* MIPSEL stands for MIPS Endian Little, but it's not x86,
-		 * so ignore the assembly language */
-  /* assume that we're on an Intel x86 with x > 3 */
-  asm("bswap %0" : "=r" (v) : "0" (v));
-#endif
-#endif
-  /* assume that we're on a big-endian or non-intel machine */
-  return v;
-}
-#endif
-
-inline uint64_t
-bswap_64(uint64_t v) {
-#if CPU_CISC  /* assume that we're on an Intel x86 with x > 3 */
-#ifndef MIPSEL  /* MIPSEL stands for MIPS Endian Little, but it's not x86,
-		 * so ignore the assembly language */
-  v= (bswap_32(v >> 32)) | ((uint64_t)bswap_32((uint32_t)v)) << 32 ;
-#endif
-#endif        /* assume that we're on a big-endian or non-intel machine */
-  return v;
-}
-
-
 
 
 /*
@@ -464,7 +432,7 @@ bswap_64(uint64_t v) {
  */
 
 int
-base64_char_to_sextet(octet_t c) {
+base64_char_to_sextet(uint8_t c) {
   switch(c) {
   case 'A':
     return 0;
@@ -609,7 +577,7 @@ base64_char_to_sextet(octet_t c) {
 
 int
 base64_string_to_octet_string(char *raw, char *base64, int len) {
-  octet_t x;
+  uint8_t x;
   int tmp;
   int base64_len;
 

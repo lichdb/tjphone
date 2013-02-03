@@ -50,7 +50,7 @@
 #include "datatypes.h"
 
 err_status_t
-rand_source_init();
+rand_source_init(void);
 
 /*
  * rand_source_get_octet_string() writes a random octet string.
@@ -72,10 +72,10 @@ rand_source_init();
  */
 
 err_status_t
-rand_source_get_octet_string(void *dest, int length);
+rand_source_get_octet_string(void *dest, uint32_t length);
 
 err_status_t
-rand_source_deinit();
+rand_source_deinit(void);
 
 /* 
  * function prototype for a random source function
@@ -86,6 +86,6 @@ rand_source_deinit();
  */
 
 typedef err_status_t (*rand_source_func_t)
-     (void *dest, int num_octets);
+     (void *dest, uint32_t num_octets);
 
 #endif /* RAND_SOURCE */

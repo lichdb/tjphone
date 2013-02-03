@@ -1,0 +1,355 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug DLL|Win32">
+      <Configuration>Debug DLL</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug_va_g729|Win32">
+      <Configuration>Debug_va_g729</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release DLL|Win32">
+      <Configuration>Release DLL</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{4EDA8989-EF9E-44FE-A218-6D1A60D26EE3}</ProjectGuid>
+    <RootNamespace>mediastreamer2</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_va_g729|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_va_g729|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">Release\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug_va_g729|Win32'">$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug_va_g729|Win32'">$(Configuration)\</IntDir>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug_va_g729|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug_va_g729|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug_va_g729|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'" />
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\..\..\srtp\crypto\include;..\..\..\..\srtp\include;..\..\..\..\videos\libtheora-1.0\include;..\..\..\..\videos\libogg-1.1.3\include;.;..\..\..\mediastreamer2\include;..\..\..\oRTP\src;..\..\..\oRTP\include;..\..\..\..\codecs\gsm\inc;..\..\..\..\codecs\libresample-0.1.3\include;..\..\..\..\speex-1.2rc1\include;..\..\..\..\SDK\include\ffmpeg-bin-win32\;..\..\..\..\SDK\include\SDL\include;..\..\..\..\SDK\Include\ipp\include;..\..\..\..\SDK\Include\g729fp\include;..\..\..\..\SDK\Include\codec\include;..\..\..\..\SDK\Include\g723.1\include;..\..\..\..\SDK\Include\;..\..\..\..\SDK\Include\OGLES2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>UNICODE;HAVE_SPEEXDSP;HAVE_SPEEX_NOISE;HAVE_LIBAVCODEC_AVCODEC_H;VIDEO_ENABLED;EMULATE_INTTYPES;AMD_HACK;CONF_GRAN_MAX=4;ICE_TEST;ORTP_INET6;WIN32;NDEBUG;_WINDOWS;_USRDLL;MEDIASTREAMER2_EXPORTS;WINDOW_NATIVE;_CRT_SECURE_NO_DEPRECATE;_USC_G729FP;%(PreprocessorDefinitions);HAVE_DIRECTSHOW</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <ProgramDataBaseFileName>$(IntDir)libmediastreamer2.pdb</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CallingConvention>Cdecl</CallingConvention>
+      <CompileAs>CompileAsC</CompileAs>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <UseFullPaths>true</UseFullPaths>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>quartz.lib;dmoguids.lib;strmiids.lib;strmbase.lib;libtheora.lib;vfw32.lib;avcodec-51.lib;Ws2_32.lib;Winmm.lib;ortp.lib;libspeex.lib;libspeexdsp.lib;libcmt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(IntDir)mediastreamer2.dll</OutputFile>
+      <AdditionalLibraryDirectories>..\..\..\win32-bin\lib;..\..\..\oRTP\build\win32native\release;..\..\..\codecs\speex\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
+      <ModuleDefinitionFile>mediastreamer2.def</ModuleDefinitionFile>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>$(IntDir)mediastreamer2.lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <Lib>
+      <OutputFile>$(SolutionDir)\SDK\Libs\$(Configuration)\$(TargetName)$(TargetExt)</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\..\codecs\libresample\include;..\..\..\portaudio\include;..\..\..\win32-bin\include\baseclasses;..\..\..\win32-bin\include;.;..\..\..\mediastreamer2\include;..\..\..\oRTP\include;..\..\..\codecs\speex\include;..\..\..\codecs\gsm\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>HAVE_SPEEXDSP;HAVE_SPEEX_NOISE;HAVE_LIBAVCODEC_AVCODEC_H;VIDEO_ENABLED;EMULATE_INTTYPES;AMD_HACK;CONF_GRAN_MAX=4;ICE_TEST;ORTP_INET6;WIN32;_DEBUG;_WINDOWS;_USRDLL;MEDIASTREAMER2_EXPORTS;WINDOW_NATIVE;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <ProgramDataBaseFileName>$(IntDir)libmediastreamer2.pdb</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CallingConvention>Cdecl</CallingConvention>
+      <CompileAs>CompileAsCpp</CompileAs>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>quartz.lib;dmoguids.lib;strmiids.lib;strmbase.lib;libtheora.lib;vfw32.lib;avcodec-51.lib;Ws2_32.lib;Winmm.lib;ortp.lib;libspeex.lib;libspeexdsp.lib;libcmt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(IntDir)mediastreamer2.dll</OutputFile>
+      <AdditionalLibraryDirectories>..\..\..\win32-bin\lib;..\..\..\oRTP\build\win32native\release;..\..\..\codecs\speex\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
+      <ModuleDefinitionFile>mediastreamer2.def</ModuleDefinitionFile>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>$(IntDir)mediastreamer2.lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\..\..\srtp\crypto\include;..\..\..\..\srtp\include;..\..\..\..\videos\libtheora-1.0\include;..\..\..\..\videos\libogg-1.1.3\include;.;..\..\..\mediastreamer2\include;..\..\..\oRTP\src;..\..\..\oRTP\include;..\..\..\..\codecs\gsm\inc;..\..\..\..\codecs\libresample-0.1.3\include;..\..\..\..\speex-1.2rc1\include;..\..\..\..\SDK\include\ffmpeg-bin-win32\;..\..\..\..\SDK\include\SDL\include;..\..\..\..\SDK\Include\ipp\include;..\..\..\..\SDK\Include\g729fp\include;..\..\..\..\SDK\Include\codec\include;..\..\..\..\SDK\Include\g723.1\include;..\..\..\..\SDK\Include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>UNICODE;HAVE_SPEEXDSP;HAVE_SPEEX_NOISE;HAVE_LIBAVCODEC_AVCODEC_H;VIDEO_ENABLED;EMULATE_INTTYPES;AMD_HACK;CONF_GRAN_MAX=4;ICE_TEST;ORTP_INET6;ORTP_STATIC;WIN32;_DEBUG;_WINDOWS;_USRDLL;MEDIASTREAMER2_EXPORTS;WINDOW_NATIVE;_CRT_SECURE_NO_DEPRECATE;_USC_G729FP;%(PreprocessorDefinitions);HAVE_DIRECTSHOW</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <ProgramDataBaseFileName>$(IntDir)libmediastreamer2.pdb</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <CompileAs>CompileAsC</CompileAs>
+      <EnablePREfast>true</EnablePREfast>
+      <UseFullPaths>true</UseFullPaths>
+      <DisableSpecificWarnings>
+      </DisableSpecificWarnings>
+      <DisableLanguageExtensions>false</DisableLanguageExtensions>
+    </ClCompile>
+    <Lib>
+      <OutputFile>$(SolutionDir)\SDK\Libs\$(Configuration)\$(TargetName)$(TargetExt)</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\..\..\srtp\crypto\include;..\..\..\..\;..\..\..\..\srtp\include;..\..\..\..\videos\libtheora-1.0\include;..\..\..\..\videos\libogg-1.1.3\include;..\..\..\..\SDK\include\SDL\include;..\..\..\..\codecs\ffmpeg-bin-win32\include;.;..\..\..\mediastreamer2\include;..\..\..\oRTP\src;..\..\..\oRTP\include;..\..\..\..\codecs\gsm\inc;..\..\..\..\speex-1.2rc1\include;..\..\..\..\codecs\libresample-0.1.3\include;..\..\..\..\SDK\include\ipp\include;..\..\..\..\SDK\include\g729fp\include;..\..\..\..\SDK\include\g723.1\include;..\..\..\..\SDK\include\codec\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>HAVE_SPEEXDSP;HAVE_SPEEX_NOISE;HAVE_LIBAVCODEC_AVCODEC_H;VIDEO_ENABLED;EMULATE_INTTYPES;AMD_HACK;CONF_GRAN_MAX=4;ICE_TEST;ORTP_INET6;WIN32;_DEBUG;_WINDOWS;_USRDLL;MEDIASTREAMER2_EXPORTS;WINDOW_NATIVE;_CRT_SECURE_NO_DEPRECATE;_USC_G729FP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <ProgramDataBaseFileName>$(IntDir)libmediastreamer2.pdb</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <CompileAs>CompileAsC</CompileAs>
+      <EnablePREfast>true</EnablePREfast>
+      <UseFullPaths>true</UseFullPaths>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>eXosip.lib;osipparser2.lib;osip2.lib;Ws2_32.lib;ortp.lib;gsm.lib;Winmm.lib;Wininet.lib;Iphlpapi.lib;dnsapi.lib;Qwave.lib;libspeex.lib;libspeexdsp.lib;libresample.lib;libtheora.lib;vfw32.lib;avcodec-52.lib;avdevice-52.lib;avformat-52.lib;avutil-49.lib;swscale-0.lib;libvorbis.lib;libvorbisfile.lib;ogg_static_d.lib;SDL.lib;ippcorel.lib;ippsemerged.lib;ippsmerged.lib;ippscmerged.lib;ippscemerged.lib;ippsrmerged.lib;ippsremerged.lib;usc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(SolutionDir)\SDK\Libs\$(Configuration)\$(TargetName)$(TargetExt)</OutputFile>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_va_g729|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\..\..\srtp\crypto\include;..\..\..\..\;..\..\..\..\srtp\include;..\..\..\..\videos\libtheora-1.0\include;..\..\..\..\videos\libogg-1.1.3\include;..\..\..\..\codecs\SDL-1.2.14\include;..\..\..\..\codecs\ffmpeg-bin-win32\include;.;..\..\..\mediastreamer2\include;..\..\..\oRTP\src;..\..\..\oRTP\include;..\..\..\..\codecs\gsm\inc;..\..\..\..\speex-1.2rc1\include;..\..\..\..\codecs\libresample-0.1.3\include;..\..\..\..\codecs\g729;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>HAVE_SPEEXDSP;HAVE_SPEEX_NOISE;HAVE_LIBAVCODEC_AVCODEC_H;VIDEO_ENABLED;EMULATE_INTTYPES;AMD_HACK;CONF_GRAN_MAX=4;ICE_TEST;ORTP_INET6;WIN32;_DEBUG;_WINDOWS;_USRDLL;MEDIASTREAMER2_EXPORTS;WINDOW_NATIVE;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <ProgramDataBaseFileName>$(IntDir)libmediastreamer2.pdb</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <CompileAs>CompileAsC</CompileAs>
+      <EnablePREfast>true</EnablePREfast>
+      <UseFullPaths>true</UseFullPaths>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\alaw.c" />
+    <ClCompile Include="..\..\src\audioconference.c" />
+    <ClCompile Include="..\..\src\audiomixer.c" />
+    <ClCompile Include="..\..\src\audiostream.c" />
+    <ClCompile Include="..\..\src\bitratecontrol.c" />
+    <ClCompile Include="..\..\src\bitratedriver.c" />
+    <ClCompile Include="..\..\src\chanadapt.c" />
+    <ClCompile Include="..\..\src\drawdib-display.c" />
+    <ClCompile Include="..\..\src\dsptools.c" />
+    <ClCompile Include="..\..\src\dtmfgen.c" />
+    <ClCompile Include="..\..\src\equalizer.c" />
+    <ClCompile Include="..\..\src\eventqueue.c" />
+    <ClCompile Include="..\..\src\g722_decode.c" />
+    <ClCompile Include="..\..\src\g722_encode.c" />
+    <ClCompile Include="..\..\src\gsm.c" />
+    <ClCompile Include="..\..\src\h264dec.c" />
+    <ClCompile Include="..\..\src\ice.c" />
+    <ClCompile Include="..\..\src\itc.c" />
+    <ClCompile Include="..\..\src\jpegwriter.c" />
+    <ClCompile Include="..\..\src\kiss_fft.c" />
+    <ClCompile Include="..\..\src\kiss_fftr.c" />
+    <ClCompile Include="..\..\src\l16.c" />
+    <ClCompile Include="..\..\src\layouts.c" />
+    <ClCompile Include="..\..\src\linphone_g723.1.c" />
+    <ClCompile Include="..\..\src\linphone_g729.c" />
+    <ClCompile Include="..\..\src\mire.c" />
+    <ClCompile Include="..\..\src\mscommon.c" />
+    <ClCompile Include="..\..\src\msconf.c" />
+    <ClCompile Include="..\..\src\msdscap-mingw.cc">
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug_va_g729|Win32'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CompileAsCpp</CompileAs>
+    </ClCompile>
+    <ClCompile Include="..\..\src\msfileplayer_win.c" />
+    <ClCompile Include="..\..\src\msfilerec_win.c" />
+    <ClCompile Include="..\..\src\msfilter.c" />
+    <ClCompile Include="..\..\src\msg722.c" />
+    <ClCompile Include="..\..\src\msjoin.c" />
+    <ClCompile Include="..\..\src\msqueue.c" />
+    <ClCompile Include="..\..\src\msresample.c" />
+    <ClCompile Include="..\..\src\msrtp.c" />
+    <ClCompile Include="..\..\src\mssndcard.c" />
+    <ClCompile Include="..\..\src\msspeex.c" />
+    <ClCompile Include="..\..\src\msticker.c" />
+    <ClCompile Include="..\..\src\msvideo.c" />
+    <ClCompile Include="..\..\src\msvideo_neon.c" />
+    <ClCompile Include="..\..\src\msvolume.c" />
+    <ClCompile Include="..\..\src\mswebcam.c" />
+    <ClCompile Include="..\..\src\mtu.c" />
+    <ClCompile Include="..\..\src\nowebcam.c" />
+    <ClCompile Include="..\..\src\opengles_display.c" />
+    <ClCompile Include="..\..\src\pixconv.c" />
+    <ClCompile Include="..\..\src\qosanalyzer.c" />
+    <ClCompile Include="..\..\src\qualityindicator.c" />
+    <ClCompile Include="..\..\src\rfc3984.c" />
+    <ClCompile Include="..\..\src\scaler.c" />
+    <ClCompile Include="..\..\src\shaders.c" />
+    <ClCompile Include="..\..\src\sizeconv.c" />
+    <ClCompile Include="..\..\src\speexec.c" />
+    <ClCompile Include="..\..\src\tee.c" />
+    <ClCompile Include="..\..\src\theora.c" />
+    <ClCompile Include="..\..\src\tonedetector.c" />
+    <ClCompile Include="..\..\src\ulaw.c" />
+    <ClCompile Include="..\..\src\videodec.c" />
+    <ClCompile Include="..\..\src\videoenc.c" />
+    <ClCompile Include="..\..\src\videoout.c" />
+    <ClCompile Include="..\..\src\videostream.c" />
+    <ClCompile Include="..\..\src\void.c" />
+    <ClCompile Include="..\..\src\vp8.c" />
+    <ClCompile Include="..\..\src\winsnd3.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\g722.h" />
+    <ClInclude Include="..\..\src\gitversion.h" />
+    <ClInclude Include="..\..\src\opengles_display.h" />
+    <ClInclude Include="..\..\src\shaders.h" />
+    <ClInclude Include="..\..\src\yuv2rgb.fs.h" />
+    <ClInclude Include="..\..\src\yuv2rgb.vs.h" />
+    <ClInclude Include="..\..\src\_kiss_fft_guts.h" />
+    <ClInclude Include="alldescs.h" />
+    <ClInclude Include="..\..\include\mediastreamer2\allfilters.h" />
+    <ClInclude Include="..\..\include\mediastreamer2\dtmfgen.h" />
+    <ClInclude Include="..\..\src\dxfilter.h" />
+    <ClInclude Include="..\..\include\mediastreamer2\g711common.h" />
+    <ClInclude Include="..\..\include\mediastreamer2\ice.h" />
+    <ClInclude Include="..\..\src\kiss_fft.h" />
+    <ClInclude Include="..\..\src\kiss_fftr.h" />
+    <ClInclude Include="..\..\include\mediastreamer2\mediastream.h" />
+    <ClInclude Include="..\..\include\mediastreamer2\mscommon.h" />
+    <ClInclude Include="..\..\include\mediastreamer2\msfileplayer.h" />
+    <ClInclude Include="..\..\include\mediastreamer2\msfilerec.h" />
+    <ClInclude Include="..\..\include\mediastreamer2\msfilter.h" />
+    <ClInclude Include="..\..\include\mediastreamer2\msqueue.h" />
+    <ClInclude Include="..\..\include\mediastreamer2\msrtp.h" />
+    <ClInclude Include="..\..\include\mediastreamer2\mssndcard.h" />
+    <ClInclude Include="..\..\include\mediastreamer2\msticker.h" />
+    <ClInclude Include="..\..\include\mediastreamer2\msv4l.h" />
+    <ClInclude Include="..\..\include\mediastreamer2\msvideo.h" />
+    <ClInclude Include="..\..\include\mediastreamer2\msvideoout.h" />
+    <ClInclude Include="..\..\include\mediastreamer2\msvolume.h" />
+    <ClInclude Include="..\..\include\mediastreamer2\mswebcam.h" />
+    <ClInclude Include="..\..\src\nowebcam.h" />
+    <ClInclude Include="..\..\include\mediastreamer2\rfc2429.h" />
+    <ClInclude Include="..\..\src\vfw-missing.h" />
+    <ClInclude Include="..\..\include\mediastreamer2\waveheader.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="mediastreamer2.def" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

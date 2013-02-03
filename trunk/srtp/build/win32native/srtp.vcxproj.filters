@@ -2,25 +2,25 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source Files">
-      <UniqueIdentifier>{d27d0d36-f9a6-45eb-b530-dad8cf548322}</UniqueIdentifier>
+      <UniqueIdentifier>{5ac7e44a-f0f1-4059-b76f-81210bf276a5}</UniqueIdentifier>
       <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
     </Filter>
     <Filter Include="Source Files\crypto">
-      <UniqueIdentifier>{12532662-72a0-4351-8b7b-cb8e0c80662c}</UniqueIdentifier>
+      <UniqueIdentifier>{b4c4894d-ec65-4b1d-8e1f-1a230332cdda}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\srtp">
-      <UniqueIdentifier>{70bb9dab-5a9e-436a-9fa3-6d4f66e5ac61}</UniqueIdentifier>
+      <UniqueIdentifier>{4a240ba1-860a-4247-9dcd-80b08f0a7c40}</UniqueIdentifier>
     </Filter>
     <Filter Include="Resource Files">
-      <UniqueIdentifier>{ae9a9328-8f31-451b-8883-3c1a2b7a2dd5}</UniqueIdentifier>
+      <UniqueIdentifier>{fc508947-0bd7-42f8-a377-a8f2fa784ad9}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
     <Filter Include="Header Files">
-      <UniqueIdentifier>{946dfc83-8313-4949-9716-62421c538659}</UniqueIdentifier>
+      <UniqueIdentifier>{fd1f2c45-c9eb-4e50-aba8-bbdea62d4779}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl</Extensions>
     </Filter>
     <Filter Include="Header Files\crypto">
-      <UniqueIdentifier>{c7e32c07-0c3a-4192-ad35-ed6ee891151a}</UniqueIdentifier>
+      <UniqueIdentifier>{6732ae34-f0c3-476b-8cef-574c2299a7a8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

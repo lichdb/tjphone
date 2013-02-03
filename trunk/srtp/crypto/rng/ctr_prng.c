@@ -47,11 +47,11 @@
 
 /* single, global prng structure */
 
-ctr_prng_t ctr_prng;
+static ctr_prng_t ctr_prng;
 
 err_status_t
 ctr_prng_init(rand_source_func_t random_source) {
-  octet_t tmp_key[32];
+  uint8_t tmp_key[32];
   err_status_t status;
 
   /* initialize output count to zero */
@@ -74,15 +74,15 @@ ctr_prng_init(rand_source_func_t random_source) {
 }
 
 err_status_t
-ctr_prng_get_octet_string(void *dest, int len) {
+ctr_prng_get_octet_string(void *dest, uint32_t len) {
   err_status_t status;
 
   /* 
    * if we need to re-initialize the prng, do so now 
    *
-   * we cast to a 64-bit integer in order to avoid overflows
+   * avoid 32-bit overflows by subtracting instead of adding
    */
-  if ((uint64_t) ctr_prng.octet_count + len > MAX_PRNG_OUT_LEN) {
+  if (ctr_prng.octet_count > MAX_PRNG_OUT_LEN - len) {
     status = ctr_prng_init(ctr_prng.rand);    
     if (status)
       return status;
@@ -100,7 +100,7 @@ ctr_prng_get_octet_string(void *dest, int len) {
 }
 
 err_status_t
-ctr_prng_deinit() {
+ctr_prng_deinit(void) {
 
   /* nothing */
   

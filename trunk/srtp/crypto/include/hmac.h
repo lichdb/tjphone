@@ -50,8 +50,9 @@
 #include "sha1.h"
 
 typedef struct {
-  octet_t    ipad[64], opad[64];
+  uint8_t    opad[64];
   sha1_ctx_t ctx;
+  sha1_ctx_t init_ctx;
 } hmac_ctx_t;
 
 err_status_t
@@ -61,17 +62,17 @@ err_status_t
 hmac_dealloc(auth_t *a);
 
 err_status_t
-hmac_init(hmac_ctx_t *state, const octet_t *key, int key_len);
+hmac_init(hmac_ctx_t *state, const uint8_t *key, int key_len);
 
 err_status_t
 hmac_start(hmac_ctx_t *state);
 
 err_status_t
-hmac_update(hmac_ctx_t *state, const octet_t *message, int msg_octets);
+hmac_update(hmac_ctx_t *state, const uint8_t *message, int msg_octets);
 
 err_status_t
-hmac_compute(hmac_ctx_t *state, const octet_t *message,
-	     int msg_octets, int tag_len, octet_t *result);
+hmac_compute(hmac_ctx_t *state, const void *message,
+	     int msg_octets, int tag_len, uint8_t *result);
 
 
 #endif /* HMAC_H */

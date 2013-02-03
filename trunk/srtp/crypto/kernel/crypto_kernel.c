@@ -43,7 +43,6 @@
  */
 
 
-#include <stdio.h>      /* printf() is used in crypto_kernel_status() */
 #include "alloc.h"
 
 #include "crypto_kernel.h"
@@ -90,9 +89,21 @@ crypto_kernel = {
   NULL                             /* no debug modules yet        */
 };
 
+#define MAX_RNG_TRIALS 25
+
 err_status_t
 crypto_kernel_init() {
   err_status_t status;  
+
+  /* check the security state */
+  if (crypto_kernel.state == crypto_kernel_state_secure) {
+    
+    /*
+     * we're already in the secure state, but we've been asked to
+     * re-initialize, so we just re-run the self-tests and then return
+     */
+    return crypto_kernel_status(); 
+  }
 
   /* initialize error reporting system */
   status = err_reporting_init("crypto");
@@ -122,7 +133,7 @@ crypto_kernel_init() {
     return status;
 
   /* run FIPS-140 statistical tests on rand_source */  
-  status = stat_test_rand_source(rand_source_get_octet_string);
+  status = stat_test_rand_source_with_repetition(rand_source_get_octet_string, MAX_RNG_TRIALS);
   if (status)
     return status;
 
@@ -132,7 +143,7 @@ crypto_kernel_init() {
     return status;
 
   /* run FIPS-140 statistical tests on ctr_prng */  
-  status = stat_test_rand_source(ctr_prng_get_octet_string);
+  status = stat_test_rand_source_with_repetition(ctr_prng_get_octet_string, MAX_RNG_TRIALS);
   if (status)
     return status;
  
@@ -170,7 +181,7 @@ crypto_kernel_status() {
 
   /* run FIPS-140 statistical tests on rand_source */  
   printf("testing rand_source...");
-  status = stat_test_rand_source(rand_source_get_octet_string);
+  status = stat_test_rand_source_with_repetition(rand_source_get_octet_string, MAX_RNG_TRIALS);
   if (status) {
     printf("failed\n");
     crypto_kernel.state = crypto_kernel_state_insecure;
@@ -241,25 +252,42 @@ crypto_kernel_list_debug_modules() {
 err_status_t
 crypto_kernel_shutdown() {
   err_status_t status;
-  kernel_cipher_type_t *ctype, *next;
 
   /*
    * free dynamic memory used in crypto_kernel at present
    */
 
   /* walk down cipher type list, freeing memory */
-  ctype = crypto_kernel.cipher_type_list;
-  while (ctype != NULL) {
-    next = ctype->next;
+  while (crypto_kernel.cipher_type_list != NULL) {
+    kernel_cipher_type_t *ctype = crypto_kernel.cipher_type_list;
+    crypto_kernel.cipher_type_list = ctype->next;
     debug_print(mod_crypto_kernel, 
 		"freeing memory for cipher %s", 
 		ctype->cipher_type->description);
     crypto_free(ctype);
-    ctype = next;
   }
 
-  /* de-initialize random number generator */
-  status = rand_source_deinit();
+  /* walk down authetication module list, freeing memory */
+  while (crypto_kernel.auth_type_list != NULL) {
+     kernel_auth_type_t *atype = crypto_kernel.auth_type_list;
+     crypto_kernel.auth_type_list = atype->next;
+     debug_print(mod_crypto_kernel, 
+		"freeing memory for authentication %s",
+		atype->auth_type->description);
+     crypto_free(atype);
+  }
+
+  /* walk down debug module list, freeing memory */
+  while (crypto_kernel.debug_module_list != NULL) {
+    kernel_debug_module_t *kdm = crypto_kernel.debug_module_list;
+    crypto_kernel.debug_module_list = kdm->next;
+    debug_print(mod_crypto_kernel, 
+		"freeing memory for debug module %s", 
+		kdm->mod->name);
+    crypto_free(kdm);
+  }
+
+  /* de-initialize random number generator */  status = rand_source_deinit();
   if (status)
     return status;
 
@@ -436,8 +464,6 @@ crypto_kernel_alloc_auth(auth_type_id_t id,
   
   return ((at)->alloc(ap, key_len, tag_len));
 }
-
-#include <string.h>   /* for strncmp() */
 
 err_status_t
 crypto_kernel_load_debug_module(debug_module_t *new_dm) {
