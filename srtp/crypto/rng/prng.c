@@ -61,15 +61,15 @@ x917_prng_init(rand_source_func_t random_source) {
   x917_prng.rand = random_source;
   
   /* initialize secret key from random source */
-  status = random_source((octet_t *)&tmp_key, 16);
+  status = random_source((uint8_t *)&tmp_key, 16);
   if (status) 
     return status;
 
   /* expand aes key */
-  aes_expand_encryption_key(tmp_key, x917_prng.key);
+  aes_expand_encryption_key(&tmp_key, x917_prng.key);
 
   /* initialize prng state from random source */
-  status = x917_prng.rand((octet_t *)&x917_prng.state, 16);
+  status = x917_prng.rand((uint8_t *)&x917_prng.state, 16);
   if (status) 
     return status;
 
@@ -77,7 +77,7 @@ x917_prng_init(rand_source_func_t random_source) {
 }
 
 err_status_t
-x917_prng_get_octet_string(octet_t *dest, uint32_t len) {
+x917_prng_get_octet_string(uint8_t *dest, uint32_t len) {
   uint32_t t;
   v128_t buffer;
   int i, tail_len;
@@ -86,9 +86,9 @@ x917_prng_get_octet_string(octet_t *dest, uint32_t len) {
   /* 
    * if we need to re-initialize the prng, do so now 
    *
-   * we cast to a 64-bit integer in order to avoid overflows
+   * avoid overflows by subtracting instead of adding
    */
-  if ((uint64_t) x917_prng.octet_count + len > MAX_PRNG_OUT_LEN) {
+  if (x917_prng.octet_count > MAX_PRNG_OUT_LEN - len) {
     status = x917_prng_init(x917_prng.rand);    
     if (status)
       return status;
@@ -111,22 +111,22 @@ x917_prng_get_octet_string(octet_t *dest, uint32_t len) {
     aes_encrypt(&buffer, x917_prng.key);
     
     /* write data to output */
-    *dest++ = buffer.octet[0];
-    *dest++ = buffer.octet[1];
-    *dest++ = buffer.octet[2];
-    *dest++ = buffer.octet[3];
-    *dest++ = buffer.octet[4];
-    *dest++ = buffer.octet[5];
-    *dest++ = buffer.octet[6];
-    *dest++ = buffer.octet[7];
-    *dest++ = buffer.octet[8];
-    *dest++ = buffer.octet[9];
-    *dest++ = buffer.octet[10];
-    *dest++ = buffer.octet[11];
-    *dest++ = buffer.octet[12];
-    *dest++ = buffer.octet[13];
-    *dest++ = buffer.octet[14];
-    *dest++ = buffer.octet[15];
+    *dest++ = buffer.v8[0];
+    *dest++ = buffer.v8[1];
+    *dest++ = buffer.v8[2];
+    *dest++ = buffer.v8[3];
+    *dest++ = buffer.v8[4];
+    *dest++ = buffer.v8[5];
+    *dest++ = buffer.v8[6];
+    *dest++ = buffer.v8[7];
+    *dest++ = buffer.v8[8];
+    *dest++ = buffer.v8[9];
+    *dest++ = buffer.v8[10];
+    *dest++ = buffer.v8[11];
+    *dest++ = buffer.v8[12];
+    *dest++ = buffer.v8[13];
+    *dest++ = buffer.v8[14];
+    *dest++ = buffer.v8[15];
 
     /* exor time into buffer */
     buffer.v32[0] ^= t;
@@ -154,7 +154,7 @@ x917_prng_get_octet_string(octet_t *dest, uint32_t len) {
 
     /* write data to output */
     for (i=0; i < tail_len; i++) {
-      *dest++ = buffer.octet[i];
+      *dest++ = buffer.v8[i];
     }
 
     /* now update the state one more time */
@@ -174,7 +174,7 @@ x917_prng_get_octet_string(octet_t *dest, uint32_t len) {
 }
 
 err_status_t
-x917_prng_deinit() {
+x917_prng_deinit(void) {
   
   return err_status_ok;  
 }

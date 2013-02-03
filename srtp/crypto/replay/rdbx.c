@@ -266,7 +266,7 @@ rdbx_estimate_index(const rdbx_t *rdbx,
    * 0xffffffff)
    */
 
-#if NO_64BIT_MATH
+#ifdef NO_64BIT_MATH
   /* seq_num_median = 0x8000 */
   if (high32(rdbx->index) > 0 ||
 	  low32(rdbx->index) > seq_num_median)
@@ -274,14 +274,14 @@ rdbx_estimate_index(const rdbx_t *rdbx,
   if (rdbx->index > seq_num_median)
 #endif
     return index_guess(&rdbx->index, guess, s);
-
-#if NO_64BIT_MATH
+  
+#ifdef NO_64BIT_MATH
   *guess = make64(0,(uint32_t) s);
 #else  
   *guess = s;
 #endif
 
-#if NO_64BIT_MATH
+#ifdef NO_64BIT_MATH
   return s - (uint16_t) low32(rdbx->index);
 #else
   return s - (uint16_t) rdbx->index;

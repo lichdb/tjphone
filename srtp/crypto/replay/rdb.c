@@ -73,16 +73,16 @@ err_status_t
 rdb_check(const rdb_t *rdb, uint32_t index) {
   
   /* if the index appears after (or at very end of) the window, its good */
-  if (index > rdb->window_start + rdb_bits_in_bitmask)
+  if (index >= rdb->window_start + rdb_bits_in_bitmask)
     return err_status_ok;
   
   /* if the index appears before the window, its bad */
   if (index < rdb->window_start)
-    return err_status_fail;
+    return err_status_replay_old;
 
   /* otherwise, the index appears within the window, so check the bitmask */
   if (v128_get_bit(&rdb->bitmask, (index - rdb->window_start)) == 1)
-    return err_status_fail;    
+    return err_status_replay_fail;    
       
   /* otherwise, the index is okay */
   return err_status_ok;
@@ -111,7 +111,7 @@ rdb_add_index(rdb_t *rdb, uint32_t index) {
 
   } else { 
     
-    delta -= rdb_bits_in_bitmask;
+    delta -= rdb_bits_in_bitmask - 1;
 
     /* shift the window forward by delta bits*/
     v128_left_shift(&rdb->bitmask, delta);

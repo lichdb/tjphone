@@ -50,35 +50,47 @@
 #include "integers.h"           /* definitions of uint32_t, et cetera   */
 #include "alloc.h"
 
+#include <stdarg.h>
+
+#ifndef SRTP_KERNEL
+# include <stdio.h>
+# include <string.h>
+# include <time.h>
+# ifdef HAVE_NETINET_IN_H
+#  include <netinet/in.h>
+# elif defined HAVE_WINSOCK2_H
+#  include <winsock2.h>
+# endif
+#endif
+
 /* if DATATYPES_USE_MACROS is defined, then little functions are macros */
 #define DATATYPES_USE_MACROS  
 
-typedef unsigned char octet_t;
-
 typedef union {
-  unsigned char octet[2];
+  uint8_t  v8[2];
   uint16_t value;
 } v16_t;
 
 typedef union {
-  unsigned char octet[4];
+  uint8_t  v8[4];
   uint16_t v16[2];
   uint32_t value;
 } v32_t;
 
 typedef union {
-  unsigned char octet[8];
+  uint8_t  v8[8];
   uint16_t v16[4];
   uint32_t v32[2];
   uint64_t value;
 } v64_t;
 
 typedef union {
-  unsigned char octet[16];
+  uint8_t  v8[16];
   uint16_t v16[8];
   uint32_t v32[4];
   uint64_t v64[2];
 } v128_t;
+
 
 
 /* some useful and simple math functions */
@@ -89,15 +101,15 @@ typedef union {
 
 
 /*
- * octet_weight(x) returns the hamming weight (number of bits equal to
+ * octet_get_weight(x) returns the hamming weight (number of bits equal to
  * one) in the octet x
  */
 
 int
-octet_get_weight(octet_t octet);
+octet_get_weight(uint8_t octet);
 
 char *
-octet_bit_string(octet_t x);
+octet_bit_string(uint8_t x);
 
 #define MAX_PRINT_STRING_LEN 1024
 
@@ -110,13 +122,13 @@ v128_bit_string(v128_t *x);
 char *
 v128_hex_string(v128_t *x);
 
-octet_t
-nibble_to_hex_char(octet_t nibble);
+uint8_t
+nibble_to_hex_char(uint8_t nibble);
 
 char *
 char_to_hex_string(char *x, int num_char);
 
-octet_t
+uint8_t
 hex_string_to_octet(char *s);
 
 /*
@@ -139,7 +151,7 @@ v128_t
 hex_string_to_v128(char *s);
 
 void
-v128_copy_octet_string(v128_t *x, const octet_t s[16]);
+v128_copy_octet_string(v128_t *x, const uint8_t s[16]);
 
 void
 v128_left_shift(v128_t *x, int index);
@@ -258,7 +270,7 @@ v128_right_shift(v128_t *x, int index);
 
 #if 0
 /* nothing uses this */
-#if WORDS_BIGENDIAN
+#ifdef WORDS_BIGENDIAN
 
 #define _v128_add(z, x, y) {                    \
   uint64_t tmp;					\
@@ -358,23 +370,57 @@ v128_set_bit_to(v128_t *x, int i, int y);
  */
 
 int
-octet_string_is_eq(octet_t *a, octet_t *b, int len);
+octet_string_is_eq(uint8_t *a, uint8_t *b, int len);
 
 void
-octet_string_set_to_zero(octet_t *s, int len);
+octet_string_set_to_zero(uint8_t *s, int len);
 
+
+#ifndef SRTP_KERNEL_LINUX
 
 /* 
- * bswap_32() is an optimized version of htonl/ntohl
+ * Convert big endian integers to CPU byte order.
  */
+#ifdef WORDS_BIGENDIAN
+/* Nothing to do. */
+# define be32_to_cpu(x)	(x)
+# define be64_to_cpu(x)	(x)
+#elif defined(HAVE_BYTESWAP_H)
+/* We have (hopefully) optimized versions in byteswap.h */
+# include <byteswap.h>
+# define be32_to_cpu(x)	bswap_32((x))
+# define be64_to_cpu(x)	bswap_64((x))
+#else
 
-#if 0
-uint32_t
-bswap_32(uint32_t v);
-#endif
+# ifdef HAVE_X86
+/* Fall back. */
+static inline uint32_t be32_to_cpu(uint32_t v) {
+   /* optimized for x86. */
+   asm("bswap %0" : "=r" (v) : "0" (v));
+   return v;
+}
+# else /* HAVE_X86 */
+#  ifdef HAVE_NETINET_IN_H
+#   include <netinet/in.h>
+#  elif defined HAVE_WINSOCK2_H
+#   include <winsock2.h>
+#  endif
+#  define be32_to_cpu(x)	ntohl((x))
+# endif /* HAVE_X86 */
 
-uint64_t
-bswap_64(uint64_t v);
+static inline uint64_t be64_to_cpu(uint64_t v) {
+# ifdef NO_64BIT_MATH
+   /* use the make64 functions to do 64-bit math */
+   v = make64(htonl(low32(v)),htonl(high32(v)));
+# else
+   /* use the native 64-bit math */
+   v= (be32_to_cpu(v >> 32)) | (((uint64_t)be32_to_cpu((uint32_t)v)) << 32);
+# endif
+   return v;
+}
 
+#endif /* ! SRTP_KERNEL_LINUX */
+
+#endif /* WORDS_BIGENDIAN */
 
 #endif /* _DATATYPES_H */

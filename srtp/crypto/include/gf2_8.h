@@ -47,19 +47,25 @@
 #ifndef GF2_8_H
 #define GF2_8_H
 
-#include "datatypes.h"  /* for octet_t definition */
+#include "datatypes.h"  /* for uint8_t definition */
 
-typedef octet_t gf2_8;
+typedef uint8_t gf2_8;
 
 #define gf2_8_field_polynomial 0x1B
 
 /*
- * gf2_8_shift(x) returns the next gf2_8 value in the cyclic
- * representation of that field
+ * gf2_8_shift(x) returns 
  */
 
-gf2_8
-gf2_8_shift(octet_t input);
+/*
+ * gf2_8_shift(z) returns the result of the GF(2^8) 'multiply by x' 
+ * operation, using the field representation from AES; that is, the 
+ * next gf2_8 value in the cyclic representation of that field.  The 
+ * value z should be an uint8_t.
+ */
+
+#define gf2_8_shift(z) (((z) & 128) ? \
+       (((z) << 1) ^ gf2_8_field_polynomial) : ((z) << 1))
 
 gf2_8
 gf2_8_compute_inverse(gf2_8 x);

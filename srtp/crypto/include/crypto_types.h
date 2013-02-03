@@ -113,10 +113,12 @@
 #define SEAL               2            
 
 /** 
- * @brief AES-128 Integer Counter Mode (AES ICM)             
+ * @brief AES-128 Cipher Block Chaining Mode (AES CBC)             
  *
- * AES-128 ICM is the variant of counter mode that is used by Secure RTP.  
- * This cipher uses a 16-octet key and a 30-octet offset (or salt) value.
+ * AES-128 CBC is the cipher block chaining mode of operation.  Its
+ * use has not been defined for SRTP and this cipher @e should @e not
+ * be used with libSRTP. 
+ * 
  */
 #define AES_128_CBC        3            
 
@@ -165,10 +167,10 @@
 /**
  * @brief UST with TMMH Version 2
  *
- * UST_TMMHv2 implements the Truncated Multi-Modular Hash using
- * UST.  This function must be used in conjunction with a cipher other
+ * UST_TMMHv2 implements the Truncated Multi-Modular Hash using UST.
+ * This function @e must be used in conjunction with a cipher other
  * than the null cipher.
- * with a cipher.
+ * 
  */
 #define UST_TMMHv2         1           
 

@@ -47,7 +47,6 @@
 #include "cipher.h"
 #include "rand_source.h"        /* used in invertibiltiy tests        */
 #include "alloc.h"              /* for crypto_alloc(), crypto_free()  */
-#include <time.h>               /* for clock()                        */
 
 debug_module_t mod_cipher = {
   0,                 /* debugging is off by default */
@@ -55,7 +54,7 @@ debug_module_t mod_cipher = {
 };
 
 err_status_t
-cipher_output(cipher_t *c, octet_t *buffer, int num_octets_to_output) {
+cipher_output(cipher_t *c, uint8_t *buffer, int num_octets_to_output) {
   
   /* zeroize the buffer */
   octet_string_set_to_zero(buffer, num_octets_to_output);
@@ -86,14 +85,14 @@ cipher_type_self_test(const cipher_type_t *ct) {
   const cipher_test_case_t *test_case = ct->test_data;
   cipher_t *c;
   err_status_t status;
-  octet_t buffer[SELF_TEST_BUF_OCTETS];
-  octet_t buffer2[SELF_TEST_BUF_OCTETS];
+  uint8_t buffer[SELF_TEST_BUF_OCTETS];
+  uint8_t buffer2[SELF_TEST_BUF_OCTETS];
   unsigned int len;
   int i, j, case_num = 0;
 
   debug_print(mod_cipher, "running self-test for cipher %s", 
 	      ct->description);
-
+  
   /*
    * check to make sure that we have at least one test case, and
    * return an error if we don't - we need to be paranoid here
@@ -123,7 +122,7 @@ cipher_type_self_test(const cipher_type_t *ct) {
       cipher_dealloc(c);
       return status;
     }
-
+    
     /* copy plaintext into test buffer */
     if (test_case->ciphertext_length_octets > SELF_TEST_BUF_OCTETS) {
       cipher_dealloc(c);    
@@ -178,7 +177,7 @@ cipher_type_self_test(const cipher_type_t *ct) {
       cipher_dealloc(c);
       return err_status_algo_fail;
     }
-    
+
     /*
      * test the decrypt function
      */
@@ -257,7 +256,7 @@ cipher_type_self_test(const cipher_type_t *ct) {
     test_case = test_case->next_test_case;
     ++case_num;
   }
-
+  
   /* now run some random invertibility tests */
 
   /* allocate cipher, using paramaters from the first test case */
@@ -271,8 +270,8 @@ cipher_type_self_test(const cipher_type_t *ct) {
   for (j=0; j < NUM_RAND_TESTS; j++) {
     unsigned length;
     int plaintext_len;
-    octet_t key[MAX_KEY_LEN];
-    octet_t  iv[MAX_KEY_LEN];
+    uint8_t key[MAX_KEY_LEN];
+    uint8_t  iv[MAX_KEY_LEN];
 
     /* choose a length at random (leaving room for IV and padding) */
     length = rand() % (SELF_TEST_BUF_OCTETS - 64);
@@ -373,10 +372,10 @@ cipher_type_self_test(const cipher_type_t *ct) {
  * is the length in octets of the test data to be encrypted, and t is
  * the number of trials
  *
- * if an error is encountered, the value 0.0 is returned
+ * if an error is encountered, the value 0 is returned
  */
 
-double
+uint64_t
 cipher_bits_per_second(cipher_t *c, int octets_in_buffer, int num_trials) {
   int i;
   v128_t nonce;
@@ -386,7 +385,7 @@ cipher_bits_per_second(cipher_t *c, int octets_in_buffer, int num_trials) {
 
   enc_buf = crypto_alloc(octets_in_buffer);
   if (enc_buf == NULL)
-    return 0.0;  /* indicate bad parameters by returning null */
+    return 0;  /* indicate bad parameters by returning null */
   
   /* time repeated trials */
   v128_set_to_zero(&nonce);
@@ -398,7 +397,11 @@ cipher_bits_per_second(cipher_t *c, int octets_in_buffer, int num_trials) {
   timer = clock() - timer;
 
   crypto_free(enc_buf);
+
+  if (timer == 0) {
+    /* Too fast! */
+    return 0;
+  }
   
-  return (double) CLOCKS_PER_SEC * num_trials
-    * 8 * octets_in_buffer / timer;
+  return (uint64_t)CLOCKS_PER_SEC * num_trials * 8 * octets_in_buffer / timer;
 }

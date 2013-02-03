@@ -22,8 +22,8 @@ debug_module_t mod_stat = {
 #define STAT_TEST_DATA_LEN 2500
 
 err_status_t
-stat_test_monobit(octet_t *data) {
-  octet_t *data_end = data + STAT_TEST_DATA_LEN;
+stat_test_monobit(uint8_t *data) {
+  uint8_t *data_end = data + STAT_TEST_DATA_LEN;
   uint16_t ones_count;
 
   ones_count = 0;
@@ -41,9 +41,9 @@ stat_test_monobit(octet_t *data) {
 }
 
 err_status_t
-stat_test_poker(octet_t *data) {
+stat_test_poker(uint8_t *data) {
   int i;
-  octet_t *data_end = data + STAT_TEST_DATA_LEN;
+  uint8_t *data_end = data + STAT_TEST_DATA_LEN;
   double poker;
   uint16_t f[16] = {
     0, 0, 0, 0, 0, 0, 0, 0,
@@ -77,8 +77,8 @@ stat_test_poker(octet_t *data) {
  */
 
 err_status_t
-stat_test_runs(octet_t *data) {
-  octet_t *data_end = data + STAT_TEST_DATA_LEN;
+stat_test_runs(uint8_t *data) {
+  uint8_t *data_end = data + STAT_TEST_DATA_LEN;
   uint16_t runs[6] = { 0, 0, 0, 0, 0, 0 }; 
   uint16_t gaps[6] = { 0, 0, 0, 0, 0, 0 };
   uint16_t lo_value[6] = { 2315, 1114, 527, 240, 103, 103 };
@@ -194,17 +194,14 @@ stat_test_runs(octet_t *data) {
 
 err_status_t
 stat_test_rand_source(rand_source_func_t get_rand_bytes) {
-#ifndef FIPS140_2
-  return 0;
-#else
   int i;
   double poker;
-  octet_t *data, *data_end;
+  uint8_t *data, *data_end;
   uint16_t f[16] = {
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0
   };
-  octet_t buffer[RAND_SRC_BUF_OCTETS];
+  uint8_t buffer[RAND_SRC_BUF_OCTETS];
   err_status_t status;
   int ones_count = 0;
   uint16_t runs[6] = { 0, 0, 0, 0, 0, 0 }; 
@@ -337,7 +334,7 @@ stat_test_rand_source(rand_source_func_t get_rand_bytes) {
   debug_print(mod_stat, "stat: poker test: %f", poker);
     
   if ((poker < 2.16) || (poker > 46.17)) {
-      debug_print(mod_stat, "stat: failed poker test", NULL);
+    debug_print(mod_stat, "stat: failed poker test", NULL);
     return err_status_algo_fail;
   }
 
@@ -351,5 +348,20 @@ stat_test_rand_source(rand_source_func_t get_rand_bytes) {
 
   debug_print(mod_stat, "passed random stat test", NULL);
   return err_status_ok;
-#endif
+}
+
+err_status_t
+stat_test_rand_source_with_repetition(rand_source_func_t source, unsigned num_trials) {
+  int i;
+  err_status_t err = err_status_algo_fail;
+
+  for (i=0; i < num_trials; i++) {
+    err = stat_test_rand_source(source);
+    if (err == err_status_ok) {
+      return err_status_ok;  
+    }
+    debug_print(mod_stat, "failed stat test (try number %d)\n", i);
+  }
+  
+  return err;
 }

@@ -91,7 +91,7 @@ aes_cbc_dealloc(cipher_t *c) {
   extern cipher_type_t aes_cbc;
 
   /* zeroize entire state*/
-  octet_string_set_to_zero((octet_t *)c, 
+  octet_string_set_to_zero((uint8_t *)c, 
 			   sizeof(aes_cbc_ctx_t) + sizeof(cipher_t));
 
   /* free memory */
@@ -104,7 +104,7 @@ aes_cbc_dealloc(cipher_t *c) {
 }
 
 err_status_t
-aes_cbc_context_init(aes_cbc_ctx_t *c, const octet_t *key, 
+aes_cbc_context_init(aes_cbc_ctx_t *c, const uint8_t *key, 
 		     cipher_direction_t dir) {
   v128_t tmp_key;
 
@@ -117,10 +117,10 @@ aes_cbc_context_init(aes_cbc_ctx_t *c, const octet_t *key,
   /* expand key for the appropriate direction */
   switch (dir) {
   case (direction_encrypt):
-    aes_expand_encryption_key(tmp_key, c->expanded_key);
+    aes_expand_encryption_key(&tmp_key, c->expanded_key);
     break;
   case (direction_decrypt):
-    aes_expand_decryption_key(tmp_key, c->expanded_key);
+    aes_expand_decryption_key(&tmp_key, c->expanded_key);
     break;
   default:
     return err_status_bad_param;
@@ -135,11 +135,11 @@ err_status_t
 aes_cbc_set_iv(aes_cbc_ctx_t *c, void *iv) {
   int i;
 /*   v128_t *input = iv; */
-  octet_t *input = iv;
+  uint8_t *input = iv;
  
   /* set state and 'previous' block to iv */
   for (i=0; i < 16; i++) 
-    c->previous.octet[i] = c->state.octet[i] = input[i];
+    c->previous.v8[i] = c->state.v8[i] = input[i];
 
   debug_print(mod_aes_cbc, "setting iv: %s", v128_hex_string(&c->state)); 
 
@@ -176,7 +176,7 @@ aes_cbc_encrypt(aes_cbc_ctx_t *c,
     
     /* exor plaintext into state */
     for (i=0; i < 16; i++)
-      c->state.octet[i] ^= *input++;
+      c->state.v8[i] ^= *input++;
 
     debug_print(mod_aes_cbc, "inblock:  %s", 
 	      v128_hex_string(&c->state));
@@ -188,7 +188,7 @@ aes_cbc_encrypt(aes_cbc_ctx_t *c,
 
     /* copy ciphertext to output */
     for (i=0; i < 16; i++)
-      *output++ = c->state.octet[i];
+      *output++ = c->state.v8[i];
 
     bytes_to_encr -= 16;
   }
@@ -205,7 +205,7 @@ aes_cbc_decrypt(aes_cbc_ctx_t *c,
   unsigned char *input  = data;   /* pointer to data being read    */
   unsigned char *output = data;   /* pointer to data being written */
   int bytes_to_encr = *bytes_in_data;
-  octet_t tmp;
+  uint8_t tmp;
 
   /*
    * verify that we're 16-octet aligned
@@ -215,26 +215,26 @@ aes_cbc_decrypt(aes_cbc_ctx_t *c,
 
   /* set 'previous' block to iv*/
   for (i=0; i < 16; i++) {
-    previous.octet[i] = c->previous.octet[i];
+    previous.v8[i] = c->previous.v8[i];
   }
 
   debug_print(mod_aes_cbc, "iv: %s", 
 	      v128_hex_string(&previous));
-
+  
   /*
    * loop over ciphertext blocks, decrypting then exoring with state
    * then writing plaintext to output
    */
   while (bytes_to_encr > 0) {
-        
+    
     /* set state to ciphertext input block */
     for (i=0; i < 16; i++) {
-     state.octet[i] = *input++;
+     state.v8[i] = *input++;
     }
 
     debug_print(mod_aes_cbc, "inblock:  %s", 
 	      v128_hex_string(&state));
-
+    
     /* decrypt state */
     aes_decrypt(&state, c->expanded_key);
 
@@ -248,8 +248,8 @@ aes_cbc_decrypt(aes_cbc_ctx_t *c,
      */
     for (i=0; i < 16; i++) {
       tmp = *output;
-      *output++ = state.octet[i] ^ previous.octet[i];
-      previous.octet[i] = tmp;
+      *output++ = state.v8[i] ^ previous.v8[i];
+      previous.v8[i] = tmp;
     }
 
     bytes_to_encr -= 16;
@@ -268,7 +268,7 @@ aes_cbc_nist_encrypt(aes_cbc_ctx_t *c,
   int num_pad_bytes;
   err_status_t status;
 
-  /*
+  /* 
    * determine the number of padding bytes that we need to add - 
    * this value is always between 1 and 16, inclusive.
    */
@@ -320,7 +320,7 @@ aes_cbc_nist_decrypt(aes_cbc_ctx_t *c,
     pad_end--;
     num_pad_bytes++;
   }
-
+  
   /* decrement data size */
   *bytes_in_data -= num_pad_bytes;  
 
@@ -342,17 +342,17 @@ aes_cbc_description[] = "aes cipher block chaining (cbc) mode";
  */
 
 
-octet_t aes_cbc_test_case_0_key[16] = {
+uint8_t aes_cbc_test_case_0_key[16] = {
   0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 
   0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f
 };
 
-octet_t aes_cbc_test_case_0_plaintext[64] =  {
+uint8_t aes_cbc_test_case_0_plaintext[64] =  {
   0x00, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77,
   0x88, 0x99, 0xaa, 0xbb, 0xcc, 0xdd, 0xee, 0xff 
 };
 
-octet_t aes_cbc_test_case_0_ciphertext[80] = {
+uint8_t aes_cbc_test_case_0_ciphertext[80] = {
   0x69, 0xc4, 0xe0, 0xd8, 0x6a, 0x7b, 0x04, 0x30, 
   0xd8, 0xcd, 0xb7, 0x80, 0x70, 0xb4, 0xc5, 0x5a,
   0x03, 0x35, 0xed, 0x27, 0x67, 0xf2, 0x6d, 0xf1, 
@@ -360,7 +360,7 @@ octet_t aes_cbc_test_case_0_ciphertext[80] = {
 
 };
 
-octet_t aes_cbc_test_case_0_iv[16] = {
+uint8_t aes_cbc_test_case_0_iv[16] = {
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
@@ -383,12 +383,12 @@ cipher_test_case_t aes_cbc_test_case_0 = {
  * Publication SP 800-38A
  */
 
-octet_t aes_cbc_test_case_1_key[16] = {
+uint8_t aes_cbc_test_case_1_key[16] = {
   0x2b, 0x7e, 0x15, 0x16, 0x28, 0xae, 0xd2, 0xa6,
   0xab, 0xf7, 0x15, 0x88, 0x09, 0xcf, 0x4f, 0x3c,
 };
 
-octet_t aes_cbc_test_case_1_plaintext[64] =  {
+uint8_t aes_cbc_test_case_1_plaintext[64] =  {
   0x6b, 0xc1, 0xbe, 0xe2, 0x2e, 0x40, 0x9f, 0x96, 
   0xe9, 0x3d, 0x7e, 0x11, 0x73, 0x93, 0x17, 0x2a,
   0xae, 0x2d, 0x8a, 0x57, 0x1e, 0x03, 0xac, 0x9c, 
@@ -399,7 +399,7 @@ octet_t aes_cbc_test_case_1_plaintext[64] =  {
   0xad, 0x2b, 0x41, 0x7b, 0xe6, 0x6c, 0x37, 0x10
 };
 
-octet_t aes_cbc_test_case_1_ciphertext[80] = {
+uint8_t aes_cbc_test_case_1_ciphertext[80] = {
   0x76, 0x49, 0xab, 0xac, 0x81, 0x19, 0xb2, 0x46,
   0xce, 0xe9, 0x8e, 0x9b, 0x12, 0xe9, 0x19, 0x7d,
   0x50, 0x86, 0xcb, 0x9b, 0x50, 0x72, 0x19, 0xee,
@@ -412,7 +412,7 @@ octet_t aes_cbc_test_case_1_ciphertext[80] = {
   0xe0, 0xc4, 0x2f, 0xdd, 0xa8, 0xdf, 0x4c, 0xa3
 };
 
-octet_t aes_cbc_test_case_1_iv[16] = {
+uint8_t aes_cbc_test_case_1_iv[16] = {
   0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 
   0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f
 };

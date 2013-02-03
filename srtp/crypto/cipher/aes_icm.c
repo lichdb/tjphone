@@ -49,6 +49,7 @@
 #include "aes_icm.h"
 #include "alloc.h"
 
+
 debug_module_t mod_aes_icm = {
   0,                 /* debugging is off by default */
   "aes icm"          /* printable module name       */
@@ -89,25 +90,23 @@ debug_module_t mod_aes_icm = {
  */
 
 err_status_t
-aes_icm_alloc(cipher_t **c, int key_len) {
+aes_icm_alloc_ismacryp(cipher_t **c, int key_len, int forIsmacryp) {
   extern cipher_type_t aes_icm;
   uint8_t *pointer;
   int tmp;
 
   debug_print(mod_aes_icm, 
-	      "allocating cipher with key length %d", key_len);
+            "allocating cipher with key length %d", key_len);
 
-#if GENERIC_AESICM
   // Ismacryp, for example, uses 16 byte key + 8 byte 
   // salt  so this function is called with key_len = 24.
   // The check for key_len = 30 does not apply. Our usage
   // of aes functions with key_len = values other than 30
   // has not broken anything. Don't know what would be the
   // effect of skipping this check for srtp in general.
-#else
-  if (key_len != 30)
+  if (!forIsmacryp && key_len != 30)
     return err_status_bad_param;
-#endif
+
   /* allocate memory a cipher of type aes_icm */
   tmp = (sizeof(aes_icm_ctx_t) + sizeof(cipher_t));
   pointer = crypto_alloc(tmp);
@@ -128,12 +127,16 @@ aes_icm_alloc(cipher_t **c, int key_len) {
   return err_status_ok;  
 }
 
+err_status_t aes_icm_alloc(cipher_t **c, int key_len, int forIsmacryp) {
+  return aes_icm_alloc_ismacryp(c, key_len, 0);
+}
+
 err_status_t
 aes_icm_dealloc(cipher_t *c) {
   extern cipher_type_t aes_icm;
 
   /* zeroize entire state*/
-  octet_string_set_to_zero((octet_t *)c, 
+  octet_string_set_to_zero((uint8_t *)c, 
 			   sizeof(aes_icm_ctx_t) + sizeof(cipher_t));
 
   /* free memory */
@@ -157,7 +160,7 @@ aes_icm_dealloc(cipher_t *c) {
  */
 
 err_status_t
-aes_icm_context_init(aes_icm_ctx_t *c, const octet_t *key) {
+aes_icm_context_init(aes_icm_ctx_t *c, const uint8_t *key) {
   v128_t tmp_key;
 
   /* set counter and initial values to 'offset' value */
@@ -168,8 +171,8 @@ aes_icm_context_init(aes_icm_ctx_t *c, const octet_t *key) {
   v128_copy_octet_string(&c->offset, key + 16);
 
   /* force last two octets of the offset to zero (for srtp compatibility) */
-  c->offset.octet[14] = c->offset.octet[15] = 0;
-  c->counter.octet[14] = c->counter.octet[15] = 0;
+  c->offset.v8[14] = c->offset.v8[15] = 0;
+  c->counter.v8[14] = c->counter.v8[15] = 0;
   
   /* set tmp_key (for alignment) */
   v128_copy_octet_string(&tmp_key, key);
@@ -180,7 +183,7 @@ aes_icm_context_init(aes_icm_ctx_t *c, const octet_t *key) {
 	      "offset: %s", v128_hex_string(&c->offset)); 
 
   /* expand key */
-  aes_expand_encryption_key(tmp_key, c->expanded_key);
+  aes_expand_encryption_key(&tmp_key, c->expanded_key);
 
   /* indicate that the keystream_buffer is empty */
   c->bytes_in_buffer = 0;
@@ -198,13 +201,27 @@ err_status_t
 aes_icm_set_octet(aes_icm_ctx_t *c,
 		  uint64_t octet_num) {
 
+#ifdef NO_64BIT_MATH
+  int tail_num       = low32(octet_num) & 0x0f;
+  /* 64-bit right-shift 4 */
+  uint64_t block_num = make64(high32(octet_num) >> 4,
+							  ((high32(octet_num) & 0x0f)<<(32-4)) |
+							   (low32(octet_num) >> 4));
+#else
   int tail_num       = octet_num % 16;
   uint64_t block_num = octet_num / 16;
+#endif
   
 
   /* set counter value */
+  /* FIX - There's no way this is correct */
   c->counter.v64[0] = c->offset.v64[0];
+#ifdef NO_64BIT_MATH
+  c->counter.v64[0] = make64(high32(c->offset.v64[0]) ^ high32(block_num),
+							 low32(c->offset.v64[0])  ^ low32(block_num));
+#else
   c->counter.v64[0] = c->offset.v64[0] ^ block_num;
+#endif
 
   debug_print(mod_aes_icm, 
 	      "set_octet: %s", v128_hex_string(&c->counter)); 
@@ -213,7 +230,7 @@ aes_icm_set_octet(aes_icm_ctx_t *c,
   if (tail_num) {
     v128_copy(&c->keystream_buffer, &c->counter);
     aes_encrypt(&c->keystream_buffer, c->expanded_key);
-    c->bytes_in_buffer = 16;
+    c->bytes_in_buffer = sizeof(v128_t);
 
     debug_print(mod_aes_icm, "counter:    %s", 
 	      v128_hex_string(&c->counter));
@@ -221,7 +238,7 @@ aes_icm_set_octet(aes_icm_ctx_t *c,
 	      v128_hex_string(&c->keystream_buffer));    
     
     /*  indicate number of bytes in keystream_buffer  */
-    c->bytes_in_buffer = 16 - tail_num;
+    c->bytes_in_buffer = sizeof(v128_t) - tail_num;
   
   } else {
     
@@ -265,16 +282,11 @@ aes_icm_set_iv(aes_icm_ctx_t *c, void *iv) {
  */
   
 inline void
-aes_icm_advance(aes_icm_ctx_t *c) {
-
-#if GENERIC_AESICM  
-  uint32_t temp;
-#endif
- 
+aes_icm_advance_ismacryp(aes_icm_ctx_t *c, uint8_t forIsmacryp) {
   /* fill buffer with new keystream */
   v128_copy(&c->keystream_buffer, &c->counter);
   aes_encrypt(&c->keystream_buffer, c->expanded_key);
-  c->bytes_in_buffer = 16;
+  c->bytes_in_buffer = sizeof(v128_t);
 
   debug_print(mod_aes_icm, "counter:    %s", 
 	      v128_hex_string(&c->counter));
@@ -282,18 +294,24 @@ aes_icm_advance(aes_icm_ctx_t *c) {
 	      v128_hex_string(&c->keystream_buffer));    
   
   /* clock counter forward */
-  
-#if GENERIC_AESICM  
-  //alex's clock counter forward
-  temp = ntohl(c->counter.v32[3]);
-  c->counter.v32[3] = htonl(++temp);
-#else
-  if (!++(c->counter.octet[15])) 
-    ++(c->counter.octet[14]);
-#endif
+
+  if (forIsmacryp) {
+    uint32_t temp;    
+    //alex's clock counter forward
+    temp = ntohl(c->counter.v32[3]);
+    c->counter.v32[3] = htonl(++temp);
+  } else {
+    if (!++(c->counter.v8[15])) 
+      ++(c->counter.v8[14]);
+  }
 }
 
-/*
+inline void aes_icm_advance(aes_icm_ctx_t *c) {
+  aes_icm_advance_ismacryp(c, 0);
+}
+
+
+/*e
  * icm_encrypt deals with the following cases:
  *
  * bytes_to_encr < bytes_in_buffer
@@ -307,25 +325,27 @@ aes_icm_advance(aes_icm_ctx_t *c) {
  */
 
 err_status_t
-aes_icm_encrypt(aes_icm_ctx_t *c,
-		unsigned char *buf, unsigned int *enc_len) {
+aes_icm_encrypt_ismacryp(aes_icm_ctx_t *c,
+              unsigned char *buf, unsigned int *enc_len, 
+              int forIsmacryp) {
   unsigned int bytes_to_encr = *enc_len;
   int i;
   uint32_t *b;
 
-  /* check that there's enough segment left */
-  if ((bytes_to_encr + htons(c->counter.v16[7])) > 0xffff)
+  /* check that there's enough segment left but not for ismacryp*/
+  if (!forIsmacryp && (bytes_to_encr + htons(c->counter.v16[7])) > 0xffff)
     return err_status_terminus;
 
  debug_print(mod_aes_icm, "block index: %d", 
-	     htons(c->counter.v16[7]));
-  
+           htons(c->counter.v16[7]));
   if (bytes_to_encr <= c->bytes_in_buffer) {
     
     /* deal with odd case of small bytes_to_encr */
-    for (i = (16 - c->bytes_in_buffer);
-	 i < (16 - c->bytes_in_buffer + bytes_to_encr); i++) 
-      *buf++ ^= c->keystream_buffer.octet[i];
+    for (i = (sizeof(v128_t) - c->bytes_in_buffer);
+		 i < (sizeof(v128_t) - c->bytes_in_buffer + bytes_to_encr); i++) 
+	{
+      *buf++ ^= c->keystream_buffer.v8[i];
+	}
 
     c->bytes_in_buffer -= bytes_to_encr;
 
@@ -335,8 +355,8 @@ aes_icm_encrypt(aes_icm_ctx_t *c,
   } else {
     
     /* encrypt bytes until the remaining data is 16-byte aligned */    
-    for (i=(16 - c->bytes_in_buffer); i < 16; i++) 
-      *buf++ ^= c->keystream_buffer.octet[i];
+    for (i=(sizeof(v128_t) - c->bytes_in_buffer); i < sizeof(v128_t); i++) 
+      *buf++ ^= c->keystream_buffer.v8[i];
 
     bytes_to_encr -= c->bytes_in_buffer;
     c->bytes_in_buffer = 0;
@@ -344,10 +364,10 @@ aes_icm_encrypt(aes_icm_ctx_t *c,
   }
   
   /* now loop over entire 16-byte blocks of keystream */
-  for (i=0; i < (bytes_to_encr/16); i++) {
+  for (i=0; i < (bytes_to_encr/sizeof(v128_t)); i++) {
 
     /* fill buffer with new keystream */
-    aes_icm_advance(c);
+    aes_icm_advance_ismacryp(c, forIsmacryp);
 
     /*
      * add keystream into the data buffer (this would be a lot faster
@@ -360,32 +380,32 @@ aes_icm_encrypt(aes_icm_ctx_t *c,
     *b++ ^= c->keystream_buffer.v32[1];
     *b++ ^= c->keystream_buffer.v32[2];
     *b++ ^= c->keystream_buffer.v32[3];
-    buf = (octet_t *)b;
+    buf = (uint8_t *)b;
 #else    
-    if ((((uint32_t) buf) & 0x03) != 0) {
-      *buf++ ^= c->keystream_buffer.octet[0];
-      *buf++ ^= c->keystream_buffer.octet[1];
-      *buf++ ^= c->keystream_buffer.octet[2];
-      *buf++ ^= c->keystream_buffer.octet[3];
-      *buf++ ^= c->keystream_buffer.octet[4];
-      *buf++ ^= c->keystream_buffer.octet[5];
-      *buf++ ^= c->keystream_buffer.octet[6];
-      *buf++ ^= c->keystream_buffer.octet[7];
-      *buf++ ^= c->keystream_buffer.octet[8];
-      *buf++ ^= c->keystream_buffer.octet[9];
-      *buf++ ^= c->keystream_buffer.octet[10];
-      *buf++ ^= c->keystream_buffer.octet[11];
-      *buf++ ^= c->keystream_buffer.octet[12];
-      *buf++ ^= c->keystream_buffer.octet[13];
-      *buf++ ^= c->keystream_buffer.octet[14];
-      *buf++ ^= c->keystream_buffer.octet[15];
+    if ((((unsigned long) buf) & 0x03) != 0) {
+      *buf++ ^= c->keystream_buffer.v8[0];
+      *buf++ ^= c->keystream_buffer.v8[1];
+      *buf++ ^= c->keystream_buffer.v8[2];
+      *buf++ ^= c->keystream_buffer.v8[3];
+      *buf++ ^= c->keystream_buffer.v8[4];
+      *buf++ ^= c->keystream_buffer.v8[5];
+      *buf++ ^= c->keystream_buffer.v8[6];
+      *buf++ ^= c->keystream_buffer.v8[7];
+      *buf++ ^= c->keystream_buffer.v8[8];
+      *buf++ ^= c->keystream_buffer.v8[9];
+      *buf++ ^= c->keystream_buffer.v8[10];
+      *buf++ ^= c->keystream_buffer.v8[11];
+      *buf++ ^= c->keystream_buffer.v8[12];
+      *buf++ ^= c->keystream_buffer.v8[13];
+      *buf++ ^= c->keystream_buffer.v8[14];
+      *buf++ ^= c->keystream_buffer.v8[15];
     } else {
       b = (uint32_t *)buf;
       *b++ ^= c->keystream_buffer.v32[0];
       *b++ ^= c->keystream_buffer.v32[1];
       *b++ ^= c->keystream_buffer.v32[2];
       *b++ ^= c->keystream_buffer.v32[3];
-      buf = (octet_t *)b;
+      buf = (uint8_t *)b;
     }
 #endif /* #if ALIGN_32 */
 
@@ -395,13 +415,13 @@ aes_icm_encrypt(aes_icm_ctx_t *c,
   if ((bytes_to_encr & 0xf) != 0) {
     
     /* fill buffer with new keystream */
-    aes_icm_advance(c);
+    aes_icm_advance_ismacryp(c, forIsmacryp);
     
     for (i=0; i < (bytes_to_encr & 0xf); i++)
-      *buf++ ^= c->keystream_buffer.octet[i];
+      *buf++ ^= c->keystream_buffer.v8[i];
     
     /* reset the keystream buffer size to right value */
-    c->bytes_in_buffer = 16 - i;  
+    c->bytes_in_buffer = sizeof(v128_t) - i;  
   } else {
 
     /* no tail, so just reset the keystream buffer size to zero */
@@ -413,7 +433,12 @@ aes_icm_encrypt(aes_icm_ctx_t *c,
 }
 
 err_status_t
-aes_icm_output(aes_icm_ctx_t *c, octet_t *buffer, int num_octets_to_output) {
+aes_icm_encrypt(aes_icm_ctx_t *c, unsigned char *buf, unsigned int *enc_len) {
+  return aes_icm_encrypt_ismacryp(c, buf, enc_len, 0);
+}
+
+err_status_t
+aes_icm_output(aes_icm_ctx_t *c, uint8_t *buffer, int num_octets_to_output) {
   unsigned int len = num_octets_to_output;
   
   /* zeroize the buffer */
@@ -427,26 +452,26 @@ aes_icm_output(aes_icm_ctx_t *c, octet_t *buffer, int num_octets_to_output) {
 char 
 aes_icm_description[] = "aes integer counter mode";
 
-octet_t aes_icm_test_case_0_key[30] = {
+uint8_t aes_icm_test_case_0_key[30] = {
   0x2b, 0x7e, 0x15, 0x16, 0x28, 0xae, 0xd2, 0xa6,
   0xab, 0xf7, 0x15, 0x88, 0x09, 0xcf, 0x4f, 0x3c,
   0xf0, 0xf1, 0xf2, 0xf3, 0xf4, 0xf5, 0xf6, 0xf7,
   0xf8, 0xf9, 0xfa, 0xfb, 0xfc, 0xfd
 };
 
-octet_t aes_icm_test_case_0_nonce[16] = {
+uint8_t aes_icm_test_case_0_nonce[16] = {
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
 
-octet_t aes_icm_test_case_0_plaintext[32] =  {
+uint8_t aes_icm_test_case_0_plaintext[32] =  {
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
 };
 
-octet_t aes_icm_test_case_0_ciphertext[32] = {
+uint8_t aes_icm_test_case_0_ciphertext[32] = {
   0xe0, 0x3e, 0xad, 0x09, 0x35, 0xc9, 0x5e, 0x80,
   0xe1, 0x66, 0xb1, 0x6d, 0xd9, 0x2b, 0x4e, 0xb4,
   0xd2, 0x35, 0x13, 0x16, 0x2b, 0x02, 0xd0, 0xf7,
@@ -464,7 +489,7 @@ cipher_test_case_t aes_icm_test_case_0 = {
   NULL                                   /* pointer to next testcase */
 };
 
- 
+
 /*
  * note: the encrypt function is identical to the decrypt function
  */

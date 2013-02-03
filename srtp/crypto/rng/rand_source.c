@@ -42,102 +42,77 @@
  *
  */
 
-
+#include "config.h"
 #include "rand_source.h"
 
-#include <fcntl.h>          /* for open()  */
-#ifdef WIN32
-#define WINVER 0x0400
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-#include <wincrypt.h>
-#include <io.h>
-#define close _close
-#define open _open
-#define O_RDONLY _O_RDONLY
+#ifdef DEV_URANDOM
+# include <fcntl.h>          /* for open()  */
+# include <unistd.h>         /* for close() */
 #else
-#include <unistd.h>
+# include <stdio.h>
 #endif
-
 
 /* global dev_rand_fdes is file descriptor for /dev/random */
 
-int dev_random_fdes = 0;
+static int dev_random_fdes = -1;
+
 
 err_status_t
-rand_source_init() {
-
-  /* open /dev/random for reading */
-  dev_random_fdes = open("/dev/urandom", O_RDONLY, 0);
-  if (dev_random_fdes == -1)
-#if DEV_RANDOM == 1
+rand_source_init(void) {
+  if (dev_random_fdes >= 0) {
+    /* already open */
+    return err_status_ok;
+  }
+#ifdef DEV_URANDOM
+  /* open random source for reading */
+  dev_random_fdes = open(DEV_URANDOM, O_RDONLY);
+  if (dev_random_fdes < 0)
     return err_status_init_fail;
 #else
-	dev_random_fdes = 0;
+  /* no random source available; let the user know */
+  fprintf(stderr, "WARNING: no real random source present!\n");
+  dev_random_fdes = 17;
 #endif
-
   return err_status_ok;
 }
 
 err_status_t
-rand_source_get_octet_string(void *dest, int len) {
+rand_source_get_octet_string(void *dest, uint32_t len) {
 
   /* 
    * read len octets from /dev/random to dest, and
    * check return value to make sure enough octets were
    * written 
    */
-  if(dev_random_fdes) {
-    if (read(dev_random_fdes, dest, len) != len)
-      return err_status_fail;
-  } else {
-	int* i;
-	char* c;
-	char* end = (char*)dest + len - 1;
-#if defined WIN32
-	int rnd;
-	HCRYPTPROV hProv=0;
-	CryptAcquireContext(&hProv,NULL,NULL, PROV_DH_SCHANNEL , CRYPT_VERIFYCONTEXT);
-#endif
-	while((char*)dest <= end - sizeof(int) + 1) {
-#if defined WIN32
-		if (!CryptGenRandom(hProv,4,&rnd)) {
-			time_t t; time(&t);
-			srand(t^=rand()); rnd=rand();
-		};
-		*((int*)dest) = rnd;
+#ifdef DEV_URANDOM
+  if (read(dev_random_fdes, dest, len) != len)
+    return err_status_fail;
 #else
-		*((int*)dest) = rand();
-#endif
-		i=dest;i++;dest=i;
-	}
-	while(dest <= end) {
-#if defined WIN32
-		if (!CryptGenRandom(hProv,4,&rnd)) {
-			time_t t; time(&t);srand(t^=rand()); rnd=rand();
-		};
-		*(((char*)dest)) = (char)rnd;
-#else
-		*(((char*)dest)) = (char)rand();
-#endif
-		c=dest;c++;dest=c;
-	}
-#if defined WIN32
-	CryptReleaseContext(hProv,0);
-#endif
+  /* Generic C-library (rand()) version */
+  /* This is a random source of last resort */
+  uint8_t *dst = dest;
+  while (len)
+  {
+	  int val = rand();
+	  /* rand() returns 0-32767 (ugh) */
+	  /* Is this a good enough way to get random bytes?
+	     It is if it passes FIPS-140... */
+	  *dst++ = val & 0xff;
+	  len--;
   }
-
+#endif
   return err_status_ok;
 }
 
 err_status_t
-rand_source_deinit() {
-
-  if (dev_random_fdes == -1)
+rand_source_deinit(void) {
+  if (dev_random_fdes < 0)
     return err_status_dealloc_fail;  /* well, we haven't really failed, *
 				      * but there is something wrong    */
-  if (dev_random_fdes > 0)
-    close(dev_random_fdes);  
+#ifdef DEV_URANDOM
+  close(dev_random_fdes);  
+#endif
+  dev_random_fdes = -1;
   
   return err_status_ok;  
 }
