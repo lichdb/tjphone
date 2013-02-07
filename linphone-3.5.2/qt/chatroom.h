@@ -18,7 +18,7 @@ public:
     ~ChatRoom();
 	void setLinphoneChatRoom(LinphoneChatRoom *cr){cr_ = cr;};
 	LinphoneChatRoom *getLinphoneChatRoom(){return cr_;};
-	void ChatRoom::push_text(const char *from, const char *message, bool me);
+	void ChatRoom::push_text(const char *from, const char *message, QString &msgid, bool me);
 
 private slots:
         void on_buttonBox_rejected();

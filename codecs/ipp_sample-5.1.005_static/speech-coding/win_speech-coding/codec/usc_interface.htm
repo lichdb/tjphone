@@ -1,0 +1,1538 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Unified Speech Codec Interface</title>
+<style>
+<!--
+h1
+	{margin-top:12.0pt;
+	margin-right:0in;
+	margin-bottom:3.0pt;
+	margin-left:0in;
+	page-break-after:avoid;
+	font-size:16.0pt;
+	font-family:Arial;
+	}
+ p.MsoNormal
+	{mso-style-parent:"";
+	margin-bottom:.0001pt;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	margin-left:0in; margin-right:0in; margin-top:0in}
+h2
+	{margin-top:12.0pt;
+	margin-right:0in;
+	margin-bottom:3.0pt;
+	margin-left:0in;
+	page-break-after:avoid;
+	font-size:14.0pt;
+	font-family:Arial;
+	font-style:italic}
+h3
+	{margin-top:12.0pt;
+	margin-right:0in;
+	margin-bottom:3.0pt;
+	margin-left:0in;
+	page-break-after:avoid;
+	font-size:13.0pt;
+	font-family:Arial}
+-->
+</style>
+</head>
+
+<body>
+
+<h1 align="center"><font face="Times New Roman"><span lang="EN-US">&nbsp;</span><b><i>Intel<sup>®</sup> 
+Integrated Performance Primitives</i></b></font></h1>
+<h1 align="center">
+<span lang="EN-US" style="font-family: Times New Roman; font-style:italic">
+Unified Speech Codec Interface (USCI) specification</span></h1>
+<p class="MsoNormal">&nbsp;</p>
+<h5><i><span lang="EN-US"><a href="#Disclaimer">Disclaimer</a></span><font face="Times New Roman"><br>
+</font><span lang="en-us"><a href="#License Definitions">License Definitions</a></span><font face="Times New Roman"><br>
+</font><a href="#Purpose">Purpose</a><font face="Times New Roman"><br>
+<a href="#Interface philosophy">Interface philosophy</a><br>
+<a href="#Base USC API">Base USC API</a><br>
+<a href="#USC Codec API">USC Codec API</a><br>
+<a href="#USC Echo Canceller API">USC Echo Canceller API</a><br>
+&nbsp;</font></i></h5>
+<h2><font face="Times New Roman"><a name="Disclaimer"></a>Disclaimer</font></h2>
+<p class="MsoNormal"><span style="FONT-SIZE: 10pt; COLOR: windowtext">
+INFORMATION IN THIS DOCUMENT IS PROVIDED IN CONNECTION WITH INTEL<sup>®</sup> 
+PRODUCTS. NO LICENSE, EXPRESS OR IMPLIED, BY ESTOPPEL OR OTHERWISE, TO ANY 
+INTELLECTUAL PROPERTY RIGHTS IS GRANTED BY THIS DOCUMENT. EXCEPT AS PROVIDED IN 
+INTEL'S TERMS AND CONDITIONS OF SALE FOR SUCH PRODUCTS, INTEL ASSUMES NO 
+LIABILITY WHATSOEVER, AND INTEL DISCLAIMS ANY EXPRESS OR IMPLIED WARRANTY, 
+RELATING TO SALE AND/OR USE OF INTEL PRODUCTS INCLUDING LIABILITY OR WARRANTIES 
+RELATING TO FITNESS FOR A PARTICULAR PURPOSE, MERCHANTABILITY, OR INFRINGEMENT 
+OF ANY PATENT, COPYRIGHT OR OTHER INTELLECTUAL PROPERTY RIGHT. </span></p>
+<p><font face="Times New Roman">Intel products are not intended for use in medical, life saving, life 
+sustaining, critical control or safety systems, or in nuclear facility 
+applications. Intel may make changes to specifications and product descriptions 
+at anytime, without notice.</font></p>
+<h2><font face="Times New Roman"><a name="License Definitions"></a>License Definitions</font></h2>
+<p><font face="Times New Roman">By downloading and installing this sample, you hereby agree that the 
+accompanying Materials are being provided to you under the terms and conditions 
+of the End User License Agreement for the Intel<sup>®</sup> Integrated 
+Performance Primitives (Intel<sup>®</sup> IPP) product previously accepted by 
+you. Please refer to the file <b>ipplic.htm</b> located in the root directory of 
+your Intel<sup>®</sup> IPP product installation for more information.&nbsp;</font></p>
+<h2><span lang="EN-US" style="font-family: Times New Roman"><a name="Purpose">
+</a>Purpose</span></h2>
+<p class="MsoNormal">&nbsp;</p>
+<p class="MsoNormal">This document describes the interface suitable for 
+implementation a speech codec and other algorithm modules in C language in Intel<SUP>®</SUP> Integrated 
+Performance Primitives (Intel<SUP>®</SUP> IPP). The purpose of this interface is to provi<span lang="EN-US">de unified 
+access to a module independent of algorithm internals and to enable 
+binaries to be easily integrated into existing software applications. 
+De-coupling the USC interface&nbsp;from the algorithm details provides a high level of 
+independence between the development of system components and the algorithm 
+implementation. The 
+USC interface defines a global table of unified functions which can be expanded 
+for future extensions. </span></p>
+<h2><span lang="EN-US" style="font-family: Times New Roman">
+<a name="Interface philosophy"></a>Interface philosophy
+</span></h2>
+<p class="MsoNormal"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal"><span lang="EN-US">The interface for each algorithm module is defined as a global 
+table of functions which is exposed by the USC library or object file. The functions must be re-entrant and all memory management 
+is performed outside of the algorithm code. Each algorithms should implement 
+several basic functions and may have extension. Each speech codec should be identified by 
+a unique name.</span></p>
+<p class="MsoNormal"><span lang="EN-US">&nbsp;&nbsp;&nbsp; All USC algorithms 
+must implement the mandatory functions (or base functions) which are described 
+as follows. The <b><i>NumAlloc</i></b>() 
+and <b><i>MemAlloc</i></b>() functions let an application know the algorithm memory 
+requirements. A algorithm specifies its memory usage by filling in a memory 
+table with the block sizes required. An application allocates the memory blocks and passes 
+the pointers to 
+the <b><i>Init</i></b>() function which initializes the the memory for the new 
+algorithm instance. 
+The <b><i>Reinit</i></b>() 
+function can be used to re-initialize the memory for an existing algorithm instance. 
+Each algorithm instance requires its own memory allocation and beyond memory 
+availability, there are no restrictions on the number of algorithm instances an 
+application can create. The <b><i>GetInfo</i></b>() function 
+provides general information about a type of codec or the current state of a 
+given codec instance.&nbsp; The <i><b>GetInfoSize</b></i>() returns a size of 
+memory to allocate for pInfo parameter of GetInfo function. The <b><i>Control</i></b>() function allows the 
+application to modify the algorithm modes asynchronously.</span></p>
+<p class="MsoNormal"><span lang="EN-US">&nbsp;&nbsp;&nbsp; Currently USC library implements two 
+types of the algorithms: the USC Speech Codec and the USC Echo Canceller. </span></p>
+<p class="MsoNormal">USC speech codec <span lang="EN-US">extends the function 
+list with three functions: the <b>
+<i>Encode</i></b>() and <b><i>Decode</i></b>() functions perform the main codec 
+operations and the <b><i>GetOutStreamSize</i></b>() function is used to 
+get the maximum output buffer size required for a given size input buffer when 
+encoding or decoding the stream. The </span><b><i>SetFrameSize</i></b>() 
+function is used to set a codec frame size.&nbsp; </p>
+<p class="MsoNormal">The USC Echo Canceller has only one additional function:&nbsp;
+<i><b>CancelEcho</b>().&nbsp; </i></p>
+<h2>
+<b><i>
+<span lang="EN-US" style="font-size: 14.0pt; font-family: Times New Roman">
+<br clear="all" style="page-break-before: always">
+<a name="Base USC definitions"></a>Base USC definitions</span></i></b></h2>
+<h3><font face="Times New Roman">USC algorithm types</font></h3>
+<p class="MsoNormal" style="text-autospace: none">
+&nbsp;</p>
+<p class="MsoNormal" style="text-autospace: none">
+<span lang="EN-US">typedef struct {</span></p>
+<p class="MsoNormal" style="text-autospace: none">&nbsp;&nbsp;&nbsp; USC_Codec = 0,</p>
+<p class="MsoNormal" style="text-autospace: none">&nbsp;&nbsp;&nbsp; USC_EC&nbsp;&nbsp; 
+= <span lang="EN-US">1,&nbsp; </span></p>
+<p class="MsoNormal" style="text-autospace: none">&nbsp;&nbsp;&nbsp; USC_MAX_ALG</p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">}USC_AlgType;</span></p>
+<p class="MsoNormal" style="text-autospace: none">&nbsp;</p>
+<p class="MsoNormal" style="text-autospace: none">USC_Codec - Codec algorithm</p>
+<p class="MsoNormal" style="text-autospace: none">USC_EC - Echo 
+Cancellation algorithm</p>
+<p class="MsoNormal" style="text-autospace: none">USC_MAX_ALG - last entry in 
+the type structure.</p>
+<p class="MsoNormal" style="text-autospace: none">&nbsp;</p>
+<h3><span lang="EN-US" style="font-family: Times New Roman">PCM types </span>
+</h3>
+<p class="MsoNormal"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none">
+<span lang="EN-US">typedef struct {</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;&nbsp;
+int&nbsp; sample_frequency; </span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;&nbsp;
+int&nbsp; bitPerSample;&nbsp;&nbsp;&nbsp;&nbsp; </span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">
+}USC_PCMType;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">The <b><i>
+USC_PCMType</i></b> structure defines the following parameters of a PCM stream 
+supported by the codec:</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-indent: -1.5in; text-autospace: none; margin-left: 1.5in">
+<span lang="EN-US">sample_frequency&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; the sampling frequency in Hz: 8000, 
+16000 etc.</span></p>
+<p class="MsoNormal" style="text-indent: -1.5in; text-autospace: none; margin-left: 1.5in">
+<span lang="EN-US">bitPerSample&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; the number of bits per sample: 8, 
+16 etc</span></p>
+<p class="MsoNormal" style="text-indent: -1.5in; text-autospace: none; margin-left: 1.5in">
+&nbsp;</p>
+<h3><span lang="EN-US" style="font-family: Times New Roman">PCM stream</span></h3>
+<p class="MsoNormal" style="text-autospace: none">
+<span lang="EN-US">typedef struct {</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;&nbsp;
+char&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *pBuffer;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;&nbsp;
+int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; nbytes;&nbsp;&nbsp;&nbsp;&nbsp; </span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;&nbsp; 
+USC_PCMType&nbsp; pcmType;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;&nbsp;
+int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bitrate;&nbsp;&nbsp;&nbsp; </span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">
+}USC_PCMStream;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">The <b><i>
+USC_PCMStream</i></b> structure defines the PCM stream parameters:</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">pBuffer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+pointer&nbsp;to the PCM stream in memory </span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">nbytes&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+PCM stream length in bytes</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">pcmType&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+PCM type</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">bitrate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+desirable compression rate in bps.</span></p>
+<p class="MsoNormal" style="text-indent: -1.5in; text-autospace: none; margin-left: 1.5in">
+&nbsp;</p>
+<h3><span lang="EN-US" style="font-family: Times New Roman">USC memory types</span></h3>
+<p><font face="Times New Roman">typedef enum {<br>
+&nbsp;&nbsp;&nbsp; USC_OBJECT = 0, /* persistent memory */<br>
+&nbsp;&nbsp;&nbsp; USC_BUFFER = 1, /* scratch memory */<br>
+&nbsp;&nbsp;&nbsp; USC_CONST = 2, /* memory for tables, constants&nbsp; */<br>
+&nbsp;&nbsp;&nbsp; USC_MAX_MEM_TYPES, /* Number of memory types */<br>
+} USC_MemType;<br>
+&nbsp;</font></p>
+<h3><span lang="EN-US" style="font-family: Times New Roman">USC memory space 
+types</span></h3>
+<p><font face="Times New Roman">typedef enum {<br>
+&nbsp;&nbsp;&nbsp; USC_NORMAL = 0, /* normal memory space */<br>
+&nbsp;&nbsp;&nbsp; USC_MEM_CHIP = 1, /* high speed memory*/<br>
+&nbsp;&nbsp;&nbsp; USC_MAX_SPACE , /* Number of memory space types */<br>
+}USC_MemSpaceType;<br>
+&nbsp;</font></p>
+<h3><font face="Times New Roman">USC memory bank</font></h3>
+<p><font face="Times New Roman"><span lang="EN-US">typedef struct {</span><br>
+<span lang="EN-US">&nbsp;&nbsp;&nbsp; char *pMem;</span><br>
+&nbsp;&nbsp;&nbsp; <span lang="EN-US">int&nbsp;&nbsp; nbytes;</span><br>
+&nbsp;&nbsp;&nbsp; int&nbsp;&nbsp; align;<br>
+&nbsp;&nbsp;&nbsp; USC_MemType memType;<br>
+&nbsp;&nbsp;&nbsp; USC_MemSpaceType memSpaceType;<br>
+<span lang="EN-US">
+}USC_MemBank;</span></font></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">The <b><i>
+USC_memBank</i></b> structure defines memory buffer parameters:</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">
+pMem&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pointer to the buffer</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">
+nbytes&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; buffer size in bytes</span></p>
+<p class="MsoNormal" style="text-autospace: none">align&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+number of bytes a memory to align, for example 16 to align to paragraph. 0 - do 
+not care.</p>
+<p class="MsoNormal" style="text-autospace: none">memType&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+memory type&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+<p class="MsoNormal" style="text-autospace: none">memSpaceType&nbsp;&nbsp;&nbsp; 
+memory space type, normal for PC </p>
+<p class="MsoNormal" style="text-autospace: none">&nbsp;</p>
+<h2><span lang="EN-US" style="font-family: Times New Roman">
+<i><b><a name="Base USC API"></a>USC base 
+API&nbsp;</b></i> </span></h2>
+<h3><span lang="EN-US" style="font-family: Times New Roman">USC Functions return codes</span></h3>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">The <b><i>
+USC_Status</i></b> structure enumerates all possible error statuses returned 
+from USCI 
+functions (negative values):</span></p>
+<p class="MsoNormal" style="text-autospace: none">&nbsp;</p>
+<p class="MsoNormal" style="text-autospace: none">typedef enum {<br>
+&nbsp;&nbsp;&nbsp; /* errors: negative response */<br>
+&nbsp;&nbsp;&nbsp; USC_UnsupportedEchoTail&nbsp;&nbsp;&nbsp;&nbsp; = -9,
+<span lang="EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; unsupported echo tail length 
+(for echo canceller)</span><br>
+&nbsp;&nbsp;&nbsp; USC_NotInitialized&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+= -8,<span lang="EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; initialization was 
+not performed prior to operation or initialization can not be performed </span>
+<br>
+&nbsp;&nbsp;&nbsp; USC_InvalidHandler&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+= -7,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<span lang="EN-US">instance handle is invalid</span><br>
+&nbsp;&nbsp;&nbsp; USC_NoOperation&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+= -6,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<span lang="EN-US">given operation can not be performed</span><br>
+&nbsp;&nbsp;&nbsp; USC_UnsupportedPCMType&nbsp; = -5,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<span lang="EN-US">codec does not support the given PCM type<a name="OLE_LINK2">&nbsp; </a></span>
+<br>
+&nbsp;&nbsp;&nbsp; USC_UnsupportedBitRate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = 
+-4,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span lang="EN-US">codec does not 
+support the given compression rate</span><br>
+&nbsp;&nbsp;&nbsp; USC_UnsupportedFrameType = -3,<span lang="EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+codec does not support the given frame type</span><br>
+&nbsp;&nbsp;&nbsp; USC_UnsupportedVADType&nbsp; = -2,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<span lang="EN-US">codec does not support the given VAD mode</span><br>
+&nbsp;&nbsp;&nbsp; USC_BadDataPointer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+= -1,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<span lang="EN-US">invalid data or buffer pointer</span><br>
+&nbsp;&nbsp;&nbsp; USC_NoError&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+= 0,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span lang="EN-US">
+successful operation status (zero value)&nbsp; </span><br>
+&nbsp;&nbsp;&nbsp; /* warnings: positive response */<br>
+&nbsp;&nbsp;&nbsp; USC_StateNotChanged&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+= 1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<span lang="EN-US">operation had no effect</span><br>
+}USC_Status;</p>
+<p class="MsoNormal" style="text-autospace: none">&nbsp;</p>
+<h3 style="text-autospace: none"><font face="Times New Roman"><span lang="EN-US">&nbsp;USC 
+codec base functions</span> description<br>
+&nbsp;&nbsp;&nbsp; </font></h3>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">The USC 
+Interface defines a table of the functions that are supported by all USC objects. Each USC 
+object is visible only by its USC function 
+table which is used for the memory management, creation, and operation of codec instances. The USC codec function table structure is defined below:</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;</span><br>
+typedef 
+struct {</p>
+<p class="MsoNormal" style="text-autospace: none">&nbsp;&nbsp;&nbsp; USC_AlgType 
+algType;</p>
+<p class="MsoNormal" style="text-autospace: none">&nbsp;&nbsp;&nbsp; USC_Status (*GetInfoSize)(int 
+*pSize);</p>
+<p class="MsoNormal" style="text-autospace: none">&nbsp;&nbsp;&nbsp; USC_Status (*GetInfo)(USC_Handle handle, void *pInfo);<br>
+&nbsp;&nbsp;&nbsp; USC_Status (*NumAlloc)(const void *memOptions, int *nbanks);<br>
+&nbsp;&nbsp;&nbsp; USC_Status (*MemAlloc)(const void *memOptions, USC_MemBank *pBanks);<br>
+&nbsp;&nbsp;&nbsp; USC_Status (*Init)(const void *initOptions, const USC_MemBank 
+*pBanks, USC_Handle *handle );<br>
+&nbsp;&nbsp;&nbsp; USC_Status (*Reinit)(const void *reinitParams, USC_Handle 
+handle );<br>
+&nbsp;&nbsp;&nbsp; USC_Status (*Control)(const void *controlParams, USC_Handle 
+handle );<br>
+} USC_stdFxns;</p>
+<p class="MsoNormal" style="text-autospace: none">&nbsp;</p>
+<h4 style="text-autospace: none">Algorithm types</h4>
+<p style="text-autospace: none" class="MsoNormal">USC_CODEC - for USC 
+Codec algorithms,</p>
+<p style="text-autospace: none" class="MsoNormal">USC_EC - for USC echo 
+canceller algorithm.</p>
+<h4 style="text-autospace: none">GetInfoSize</h4>
+<p class="MsoNormal" style="text-autospace: none">&nbsp; Returns a size of memory 
+buffer an application to allocate which can be used as the GetInfo function pInfo 
+parameter.</p>
+<p class="MsoNormal" style="text-autospace: none">&nbsp;</p>
+<p class="MsoNormal" style="text-autospace: none">&nbsp;&nbsp;&nbsp; USC_Status 
+GetInfoSize(int *pSize);</p>
+<p style="text-autospace: none">pSize - pointer to the output buffer size 
+required for GetInfo function </p>
+<h4 style="text-autospace: none">GetInfo </h4>
+<p class="MsoNormal" style="text-autospace: none">&nbsp;Informative about an algorithm 
+features and its instantiation status</p>
+<p class="MsoNormal" style="text-autospace: none">&nbsp;</p>
+<p class="MsoNormal" style="text-autospace: none">&nbsp;&nbsp;&nbsp; USC_Status 
+GetInfo(USC_Handle handle, void *pInfo); </p>
+<p class="MsoNormal" style="text-autospace: none">&nbsp;</p>
+<p class="MsoNormal" style="text-autospace: none">handle - pointer to the 
+algorithm object, if provided the function fills an algorithm specific 
+informational structure with current status of an algorithm instantiation. If a 
+handle is NULL the function returns information about general </p>
+<p class="MsoNormal" style="text-autospace: none">pInfo - pointer to the buffer 
+to fill in with the info structured accordingly,&nbsp; depending on an algorithm 
+type.</p>
+<h4 style="text-autospace: none">NumAlloc</h4>
+<p class="MsoNormal" style="text-autospace: none">&nbsp;- inquiring number of 
+memory buffers</p>
+<p class="MsoNormal" style="text-autospace: none">&nbsp;</p>
+<p class="MsoNormal" style="text-autospace: none">&nbsp;&nbsp;&nbsp; USC_Status NumAlloc(const void *memOptions, int *nbanks);</p>
+<p class="MsoNormal" style="text-autospace: none"><br>
+memOptions - pointer to the algorithm specific memory options input structure<br>
+nbanks - pointer to the output number of memory table entries (size of pBanks 
+table, required for MemAlloc fucntion).<br>
+&nbsp;</p>
+<h4 style="text-autospace: none"><br>
+MemAlloc<br>
+&nbsp;&nbsp;&nbsp; </h4>
+<p class="MsoNormal" style="text-autospace: none">- inquiring information about 
+memory requirement (buffers to be allocated)<br>
+&nbsp;</p>
+<p class="MsoNormal" style="text-autospace: none">&nbsp;&nbsp;&nbsp; USC_Status MemAlloc(const void *memOptions, USC_MemBank *pBanks);<br>
+&nbsp;</p>
+<p class="MsoNormal" style="text-autospace: none">memOptions - pointer to the 
+algorithm specific memory options&nbsp; input structure<br>
+pBanks - pointer to the input table of size nbanks to be filled with memory 
+requirement <br>
+&nbsp;</p>
+<h4 style="text-autospace: none"><br>
+Init</h4>
+<p class="MsoNormal" style="text-autospace: none">&nbsp;- create an USC 
+algorithm handle and set it to initial state</p>
+<p class="MsoNormal" style="text-autospace: none"><br>
+&nbsp;&nbsp;&nbsp; USC_Status Init(const void *initOptions, const USC_MemBank 
+*pBanks, USC_Handle *handle );</p>
+<p class="MsoNormal" style="text-autospace: none"><br>
+initOptions - pointer to the algorithm specific initialization options input 
+structure<br>
+pBanks - pointer to the input structure of allocated memory banks after MemAlloc, 
+each memory block should be properly allocated, and pMem pointers set.<br>
+handle - pointer to the output algorithm instance pointer<br>
+<br>
+&nbsp;</p>
+<h4 style="text-autospace: none">Reinit</h4>
+<p class="MsoNormal" style="text-autospace: none">&nbsp;</p>
+<p class="MsoNormal" style="text-autospace: none">&nbsp;- set an algorithm to 
+initial state<br>
+&nbsp;</p>
+<p class="MsoNormal" style="text-autospace: none">&nbsp;&nbsp;&nbsp; USC_Status Reinit(const void *reinitParams, USC_Handle 
+handle );<br>
+&nbsp;</p>
+<p class="MsoNormal" style="text-autospace: none">reinitParams - pointer to an 
+algorithm specific initialization options input structure<br>
+handle - pointer to the input algorithm instance pointer<br>
+&nbsp;</p>
+<p class="MsoNormal" style="text-autospace: none">&nbsp;</p>
+<h4 style="text-autospace: none">Control</h4>
+<p class="MsoNormal" style="text-autospace: none">&nbsp;</p>
+<p class="MsoNormal" style="text-autospace: none">&nbsp;- alternate an algorithm 
+modes<br>
+&nbsp;</p>
+<p class="MsoNormal" style="text-autospace: none">&nbsp;&nbsp;&nbsp; USC_Status Control(const void *controlParams, USC_Handle 
+handle );<br>
+&nbsp;</p>
+<p class="MsoNormal" style="text-autospace: none">The only modes were set on 
+Init() may be alternated.<br>
+controlParams - pointer to the algorithm specific control options structure<br>
+handle - pointer to the input algorithm instance pointer<br>
+&nbsp;</p>
+<h3>&nbsp;</h3>
+<h2><span lang="EN-US" style="font-family: Times New Roman">
+<a name="USC Codec API"></a>USC Codec
+<i><b>API</b></i></span></h2>
+<h3><span style="font-family: Times New Roman">USC Codec structures</span></h3>
+<h4><span lang="EN-US" style="font-family: Times New Roman">Modes</span></h4>
+<p class="MsoNormal" style="text-autospace: none">
+<span lang="EN-US">typedef struct {</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;&nbsp;
+int bitrate;&nbsp;&nbsp; </span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;&nbsp;
+int truncate;&nbsp; </span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;&nbsp;
+int vad;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;&nbsp;
+int hpf;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;&nbsp;
+int pf;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">}USC_Modes;</span></p>
+<p class="MsoNormal" style="text-autospace: none">&nbsp;</p>
+<p class="MsoNormal" style="text-autospace: none">The <b><i>USC_Modes</i></b> 
+structure entries must all be of &quot;int&quot; type. <span lang="EN-US">The <b><i>
+USC_Modes</i></b> structure contains the modes supported by a codec which have 
+the following meanings:</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-indent: -1.0in; text-autospace: none; margin-left: 1.0in">
+<span lang="EN-US">bitrate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; compression rate in bit per second 
+(bps)</span></p>
+<p class="MsoNormal" style="text-indent: -1.0in; text-autospace: none; margin-left: 1.0in">
+<span lang="EN-US">truncate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if set to 1, indicates truncation of an 
+input or output PCM to less than 16 bits </span></p>
+<p class="MsoNormal" style="text-indent: -1.0in; text-autospace: none; margin-left: 1.0in">
+<span lang="EN-US">vad&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if zero, voice activity detection mode 
+is disabled, otherwise (, 2, ..) it identifies the vad modes supported by the 
+codec</span></p>
+<p class="MsoNormal" style="text-indent: -1.0in; text-autospace: none; margin-left: 1.0in">
+<span lang="EN-US">hpf&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if set to 1, indicates that high pass 
+filter is on</span></p>
+<p class="MsoNormal" style="text-indent: -1.0in; text-autospace: none; margin-left: 1.0in">
+<span lang="EN-US">pf&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if set to 1, indicates that post 
+filter is on </span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp; </span>
+</p>
+<h4><span lang="EN-US" style="font-family: Times New Roman">Bitrates</span></h4>
+<p class="MsoNormal"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none">
+<span lang="EN-US">typedef struct {</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;
+int bitrate;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">} 
+USC_Rates;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">The <b><i>
+USC_Rates</i></b> structure is used as entry in the table of supported 
+compression rates. </span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;</span></p>
+<h4><span lang="EN-US" style="font-family: Times New Roman">Options</span></h4>
+<p class="MsoNormal" style="text-autospace: none">
+<span lang="EN-US" style="font-size: 10.0pt">&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none">
+<span lang="EN-US">typedef struct {</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;&nbsp;
+int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;direction; </span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;&nbsp;
+int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; law;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="fr">&nbsp;&nbsp; 
+int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; framesize;</span></p>
+<p class="MsoNormal" style="text-autospace: none">&nbsp;&nbsp; int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+nModes;</p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;&nbsp; </span>
+<span lang="FR">USC_Modes modes;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="FR">}USC_Option;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="FR">&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">The <b>
+USC_Option</b> structure defines the basic and additional modes of codec operation, 
+namely:</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">
+direction&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - if set to 1, indicates decode operation, if 0 - encode &nbsp;</span></p>
+<p class="MsoNormal" style="text-indent: -1.0in; text-autospace: none; margin-left: 1.0in">
+<span lang="EN-US">law&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - indicates aLaw (1), &#956;law (2) or 
+linear(0) PCM as input to encode or output after decode operation. </span></p>
+<p class="MsoNormal" style="text-indent: -1.0in; text-autospace: none; margin-left: 1.0in">
+nModes&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - number of 
+modes ( actually, supposed to be equal to sizeof(USC_Modes)/sizeof(int) ) </p>
+<p class="MsoNormal" style="text-indent: -1.0in; text-autospace: none; margin-left: 1.0in">
+<span lang="EN-US">modes&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - a codec basic mode&nbsp;&nbsp; 
+&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+<p class="MsoNormal" style="text-indent: -1.0in; text-autospace: none; margin-left: 1.0in">
+framesize&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - a codec frame size<span lang="EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;</span></p>
+<h4><span lang="EN-US" style="font-family: Times New Roman">USC Codec general 
+information</span></h4>
+<p class="MsoNormal"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none">
+<span lang="EN-US">typedef struct {</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;&nbsp;
+const char&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+*name;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;&nbsp;
+int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; maxbitsize; </span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;&nbsp; 
+USC_Option&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; params;&nbsp;&nbsp;&nbsp;&nbsp; </span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;&nbsp; </span>
+<span lang="FR">USC_PCMType&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pcmType;&nbsp;&nbsp;&nbsp; </span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="FR">&nbsp;&nbsp; </span>
+<span lang="EN-US">int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+nRates;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;&nbsp;
+const USC_Rates&nbsp;&nbsp; *pRateTbl;&nbsp; </span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">
+}USC_CodecInfo;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US"><br>
+The <b><i>USC_CodecInfo</i></b> structure encapsulates the whole set of codec 
+specific parameters:</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-indent: -99.0pt; text-autospace: none; margin-left: 99.0pt">
+<span lang="EN-US">name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; codec names </span></p>
+<p class="MsoNormal" style="text-indent: -99.0pt; text-autospace: none; margin-left: 99.0pt">
+&nbsp;</p>
+<blockquote>
+	<table x:str border="0" cellpadding="0" cellspacing="0" width="643" style="border-collapse:
+ collapse;width:482pt" id="table1">
+		<colgroup>
+			<col width="64" span="3" style="width:48pt">
+			<col width="451" style="width: 338pt">
+		</colgroup>
+		<tr height="21" style="height:15.75pt">
+			<td height="21" style="height: 15.75pt; width: 118px; font-weight: 700; font-family: Arial, sans-serif; color: windowtext; font-size: 10.0pt; font-style: normal; text-decoration: none; text-align: general; vertical-align: bottom; white-space: nowrap; border-left: .5pt solid windowtext; border-right: medium none; border-top: .5pt solid windowtext; border-bottom: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px">
+			Codec name</td>
+			<td colspan="3" style="width: 389px; font-size: 12.0pt; font-weight: 700; font-family: 'Times New Roman', serif; text-align: left; color: windowtext; font-style: normal; text-decoration: none; vertical-align: bottom; white-space: nowrap; border-left: medium none; border-right: medium none; border-top: .5pt solid windowtext; border-bottom: medium none; padding-left: 132px; padding-right: 1px; padding-top: 1px">
+			Standards</td>
+		</tr>
+		<tr height="21" style="height:15.75pt">
+			<td height="21" style="height: 15.75pt; font-weight: 700; font-family: Arial, sans-serif; color: windowtext; font-size: 10.0pt; font-style: normal; text-decoration: none; text-align: general; vertical-align: bottom; white-space: nowrap; border-left: .5pt solid windowtext; border-right: medium none; border-top: medium none; border-bottom: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px" width="118">
+			IPP_AMRWB</td>
+			<td colspan="3" style="font-size: 12.0pt; font-family: 'Times New Roman', serif; text-align: left; color: windowtext; font-weight: 400; font-style: normal; text-decoration: none; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 132px; padding-right: 1px; padding-top: 1px">
+			3GPP TS 26 171, 173, 174, 190-194; ITU-T G.722.2</td>
+		</tr>
+		<tr height="21" style="height:15.75pt">
+			<td height="21" style="height: 15.75pt; font-weight: 700; font-family: Arial, sans-serif; color: windowtext; font-size: 10.0pt; font-style: normal; text-decoration: none; text-align: general; vertical-align: bottom; white-space: nowrap; border-left: .5pt solid windowtext; border-right: medium none; border-top: medium none; border-bottom: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px" width="118">
+			IPP_G711A</td>
+			<td colspan="3" style="font-size: 12.0pt; font-family: 'Times New Roman', serif; text-align: left; color: windowtext; font-weight: 400; font-style: normal; text-decoration: none; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 132px; padding-right: 1px; padding-top: 1px">
+			ITU-T G.711, Appendix I and II, A-law compounding.</td>
+		</tr>
+		<tr height="21" style="height:15.75pt">
+			<td height="21" style="height: 15.75pt; font-weight: 700; font-family: Arial, sans-serif; color: windowtext; font-size: 10.0pt; font-style: normal; text-decoration: none; text-align: general; vertical-align: bottom; white-space: nowrap; border-left: .5pt solid windowtext; border-right: medium none; border-top: medium none; border-bottom: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px" width="118">
+			IPP_G711U</td>
+			<td colspan="3" style="font-size: 12.0pt; font-family: 'Times New Roman', serif; text-align: left; color: windowtext; font-weight: 400; font-style: normal; text-decoration: none; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 132px; padding-right: 1px; padding-top: 1px">
+			ITU-T G.711, Appendix I and II, Mu-law compounding.</td>
+		</tr>
+		<tr height="21" style="height:15.75pt">
+			<td height="21" style="height: 15.75pt; font-weight: 700; font-family: Arial, sans-serif; color: windowtext; font-size: 10.0pt; font-style: normal; text-decoration: none; text-align: general; vertical-align: bottom; white-space: nowrap; border-left: .5pt solid windowtext; border-right: medium none; border-top: medium none; border-bottom: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px" width="118">
+			IPP_G722</td>
+			<td colspan="3" style="font-size: 12.0pt; font-family: 'Times New Roman', serif; text-align: left; color: windowtext; font-weight: 400; font-style: normal; text-decoration: none; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 132px; padding-right: 1px; padding-top: 1px">
+			ITU-T G.722</td>
+		</tr>
+		<tr height="21" style="height:15.75pt">
+			<td height="21" style="height: 15.75pt; font-weight: 700; font-family: Arial, sans-serif; color: windowtext; font-size: 10.0pt; font-style: normal; text-decoration: none; text-align: general; vertical-align: bottom; white-space: nowrap; border-left: .5pt solid windowtext; border-right: medium none; border-top: medium none; border-bottom: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px" width="118">
+			IPP_G722.1</td>
+			<td colspan="3" style="font-size: 12.0pt; font-family: 'Times New Roman', serif; text-align: left; color: windowtext; font-weight: 400; font-style: normal; text-decoration: none; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 132px; padding-right: 1px; padding-top: 1px">
+			ITU-T G.722.1</td>
+		</tr>
+		<tr height="21" style="height:15.75pt">
+			<td height="21" style="height: 15.75pt; font-weight: 700; font-family: Arial, sans-serif; color: windowtext; font-size: 10.0pt; font-style: normal; text-decoration: none; text-align: general; vertical-align: bottom; white-space: nowrap; border-left: .5pt solid windowtext; border-right: medium none; border-top: medium none; border-bottom: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px" width="118">
+			IPP_G.723.1</td>
+			<td colspan="3" style="font-size: 12.0pt; font-family: 'Times New Roman', serif; text-align: left; color: windowtext; font-weight: 400; font-style: normal; text-decoration: none; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 132px; padding-right: 1px; padding-top: 1px">
+			ITU-T G.723.1, G.723.1 Annex A, G.723.1A.software</td>
+		</tr>
+		<tr height="21" style="height:15.75pt">
+			<td height="21" style="height: 15.75pt; font-weight: 700; font-family: Arial, sans-serif; color: windowtext; font-size: 10.0pt; font-style: normal; text-decoration: none; text-align: general; vertical-align: bottom; white-space: nowrap; border-left: .5pt solid windowtext; border-right: medium none; border-top: medium none; border-bottom: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px" width="118">
+			IPP_G.726</td>
+			<td colspan="3" style="font-size: 12.0pt; font-family: 'Times New Roman', serif; text-align: left; color: windowtext; font-weight: 400; font-style: normal; text-decoration: none; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 132px; padding-right: 1px; padding-top: 1px">
+			ITU-T G.726, G.726A</td>
+		</tr>
+		<tr height="21" style="height:15.75pt">
+			<td height="21" style="height: 15.75pt; font-weight: 700; font-family: Arial, sans-serif; color: windowtext; font-size: 10.0pt; font-style: normal; text-decoration: none; text-align: general; vertical-align: bottom; white-space: nowrap; border-left: .5pt solid windowtext; border-right: medium none; border-top: medium none; border-bottom: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px" width="118">
+			IPP_G.728</td>
+			<td colspan="3" style="font-size: 12.0pt; font-family: 'Times New Roman', serif; text-align: left; color: windowtext; font-weight: 400; font-style: normal; text-decoration: none; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 132px; padding-right: 1px; padding-top: 1px">
+			ITU-T G.728, G.728 Annexes I, G, H</td>
+		</tr>
+		<tr height="21" style="height:15.75pt">
+			<td height="21" style="height: 15.75pt; font-weight: 700; font-family: Arial, sans-serif; color: windowtext; font-size: 10.0pt; font-style: normal; text-decoration: none; text-align: general; vertical-align: bottom; white-space: nowrap; border-left: .5pt solid windowtext; border-right: medium none; border-top: medium none; border-bottom: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px" width="118">
+			IPP_G729I_FP</td>
+			<td colspan="3" style="font-size: 12.0pt; font-family: 'Times New Roman', serif; text-align: left; color: windowtext; font-weight: 400; font-style: normal; text-decoration: none; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 132px; padding-right: 1px; padding-top: 1px">
+			ITU-T G.729 Annexes C, C+, G.729C.software, G.729C+.software</td>
+		</tr>
+		<tr height="21" style="height:15.75pt">
+			<td height="21" style="height: 15.75pt; font-weight: 700; font-family: Arial, sans-serif; color: windowtext; font-size: 10.0pt; font-style: normal; text-decoration: none; text-align: general; vertical-align: bottom; white-space: nowrap; border-left: .5pt solid windowtext; border-right: medium none; border-top: medium none; border-bottom: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px" width="118">
+			IPP_G729A_FP</td>
+			<td colspan="3" style="font-size: 12.0pt; font-family: 'Times New Roman', serif; text-align: left; color: windowtext; font-weight: 400; font-style: normal; text-decoration: none; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 132px; padding-right: 1px; padding-top: 1px">
+			ITU-T G.729 Annexes A, B, floating point implementation</td>
+		</tr>
+		<tr height="21" style="height:15.75pt">
+			<td height="21" style="height: 15.75pt; font-weight: 700; font-family: Arial, sans-serif; color: windowtext; font-size: 10.0pt; font-style: normal; text-decoration: none; text-align: general; vertical-align: bottom; white-space: nowrap; border-left: .5pt solid windowtext; border-right: medium none; border-top: medium none; border-bottom: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px" width="118">
+			IPP_G729A</td>
+			<td colspan="3" style="font-size: 12.0pt; font-family: 'Times New Roman', serif; text-align: left; color: windowtext; font-weight: 400; font-style: normal; text-decoration: none; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 132px; padding-right: 1px; padding-top: 1px">
+			ITU-T G.729 Annexes A, B, G.729A.software</td>
+		</tr>
+		<tr height="21" style="height:15.75pt">
+			<td height="21" style="height: 15.75pt; font-weight: 700; font-family: Arial, sans-serif; color: windowtext; font-size: 10.0pt; font-style: normal; text-decoration: none; text-align: general; vertical-align: bottom; white-space: nowrap; border-left: .5pt solid windowtext; border-right: medium none; border-top: medium none; border-bottom: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px" width="118">
+			IPP_G729I</td>
+			<td colspan="3" style="font-size: 12.0pt; font-family: 'Times New Roman', serif; text-align: left; color: windowtext; font-weight: 400; font-style: normal; text-decoration: none; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 132px; padding-right: 1px; padding-top: 1px">
+			ITU-T G.729, Annexes B, D, E, I, G.729I.software</td>
+		</tr>
+		<tr height="21" style="height:15.75pt">
+			<td height="21" style="height: 15.75pt; font-weight: 700; font-family: Arial, sans-serif; color: windowtext; font-size: 10.0pt; font-style: normal; text-decoration: none; text-align: general; vertical-align: bottom; white-space: nowrap; border-left: .5pt solid windowtext; border-right: medium none; border-top: medium none; border-bottom: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px" width="118">
+			IPP_GSMAMR</td>
+			<td colspan="3" style="font-size: 12.0pt; font-family: 'Times New Roman', serif; text-align: left; color: windowtext; font-weight: 400; font-style: normal; text-decoration: none; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 132px; padding-right: 1px; padding-top: 1px">
+			ETSI GSM 06.90-94, 06.73, 06.73. </td>
+		</tr>
+		<tr height="21" style="height:15.75pt">
+			<td height="21" style="height: 15.75pt; font-weight: 700; font-family: Arial, sans-serif; color: windowtext; font-size: 10.0pt; font-style: normal; text-decoration: none; text-align: general; vertical-align: bottom; white-space: nowrap; border-left: .5pt solid windowtext; border-right: medium none; border-top: medium none; border-bottom: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px" width="118">
+			IPP_GSMFR</td>
+			<td colspan="3" style="font-size: 12.0pt; font-family: 'Times New Roman', serif; text-align: left; color: windowtext; font-weight: 400; font-style: normal; text-decoration: none; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 132px; padding-right: 1px; padding-top: 1px">
+			ETSI GSM 06.10, 06.11, 06.31, 06.32</td>
+		</tr>
+		<tr height="21" style="height:15.75pt">
+			<td height="21" style="height: 15.75pt; font-weight: 700; font-family: Arial, sans-serif; color: windowtext; font-size: 10.0pt; font-style: normal; text-decoration: none; text-align: general; vertical-align: bottom; white-space: nowrap; border-left: .5pt solid windowtext; border-right: medium none; border-top: medium none; border-bottom: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px" width="118">
+			IPP_EC_INT</td>
+			<td colspan="3" style="font-size: 12.0pt; font-family: 'Times New Roman', serif; text-align: left; color: windowtext; font-weight: 400; font-style: normal; text-decoration: none; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 132px; padding-right: 1px; padding-top: 1px">
+			ITU-T G.167, G.168 Echo canceller pure integer version.</td>
+		</tr>
+		<tr height="21" style="height:15.75pt">
+			<td height="21" style="height: 15.75pt; font-weight: 700; font-family: Arial, sans-serif; color: windowtext; font-size: 10.0pt; font-style: normal; text-decoration: none; text-align: general; vertical-align: bottom; white-space: nowrap; border-left: .5pt solid windowtext; border-right: medium none; border-top: medium none; border-bottom: .5pt solid windowtext; padding-left: 1px; padding-right: 1px; padding-top: 1px" width="118">
+			IPP_EC_FP</td>
+			<td colspan="3" style="font-size: 12.0pt; font-family: 'Times New Roman', serif; text-align: left; color: windowtext; font-weight: 400; font-style: normal; text-decoration: none; vertical-align: bottom; white-space: nowrap; border-left: medium none; border-right: medium none; border-top: medium none; border-bottom: .5pt solid windowtext; padding-left: 132px; padding-right: 1px; padding-top: 1px">
+			ITU-T G.167, G.168 Echo canceller floating-point version.</td>
+		</tr>
+	</table>
+</blockquote>
+<p class="MsoNormal" style="text-indent: -99.0pt; text-autospace: none; margin-left: 99.0pt">
+&nbsp;</p>
+<p class="MsoNormal" style="text-indent: -99.0pt; text-autospace: none; margin-left: 99.0pt">
+<span lang="EN-US">maxbitsize&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; longest bitstream frame 
+that can be 
+obtained from encoding of one input PCM frame </span></p>
+<p class="MsoNormal" style="text-indent: -99.0pt; text-autospace: none; margin-left: 99.0pt">
+<span lang="EN-US">params&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; options supported by the codec 
+type or 
+the current options of an instance</span></p>
+<p class="MsoNormal" style="text-indent: -99.0pt; text-autospace: none; margin-left: 99.0pt">
+<span lang="EN-US">pcmType&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; PCM type supported by the codec</span></p>
+<p class="MsoNormal" style="text-indent: -99.0pt; text-autospace: none; margin-left: 99.0pt">
+<span lang="EN-US">nRates&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; number of different compression 
+rates supported by the codec (number of entries in pRateTbl)</span></p>
+<p class="MsoNormal" style="text-indent: -99.0pt; text-autospace: none; margin-left: 99.0pt">
+<span lang="EN-US">pRateTbl&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; table of supported compression 
+rates</span></p>
+<p class="MsoNormal" style="text-indent: -99.0pt; text-autospace: none; margin-left: 99.0pt">
+<span lang="EN-US">&nbsp;</span></p>
+<h4><span lang="EN-US" style="font-family: Times New Roman">Bitstream </span>
+</h4>
+<p class="MsoNormal"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none">
+<span lang="EN-US">typedef struct {</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;&nbsp;
+char&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *pBuffer;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;&nbsp;
+int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; nbytes;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;&nbsp;
+int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; frametype;&nbsp; </span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;&nbsp;
+int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bitrate;&nbsp;&nbsp;&nbsp; </span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">}USC_Bitstream;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">The <b><i>
+USC_Bitstream</i></b> structure defines the following parameters of a bitstream 
+produced by the codec:</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">pBuffer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+pointer to the buffer containing bitstream data</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">
+nbytes&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bitstream length in bytes</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">
+frametype&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; type of bitstream frame, codec specific</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">
+bitrate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bitstream compression rate in bps</span><span lang="EN-US" style="font-size: 12.0pt; font-family: Times New Roman"><br clear="all" style="page-break-before: always">
+&nbsp;</span></p>
+<h3 style="text-autospace: none"><font face="Times New Roman">USC Codec function 
+description</font></h3>
+<p class="MsoNormal" style="text-autospace: none">&nbsp;</p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">USC codec 
+function table consists of std functions and extended with codec specific 
+functions: &nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none">&nbsp;</p>
+<p class="MsoNormal" style="text-autospace: none">typedef 
+struct {<br>
+&nbsp;&nbsp;&nbsp; USC_stdFxns std;</p>
+<p class="MsoNormal" style="text-autospace: none">&nbsp;&nbsp;&nbsp; USC_Status (*Encode)(USC_Handle handle, USC_PCMStream *in, 
+USC_Bitstream *out);<br>
+&nbsp;&nbsp;&nbsp; USC_Status (*Decode)(USC_Handle handle, USC_Bitstream *in, 
+USC_PCMStream *out);<br>
+&nbsp;&nbsp;&nbsp; USC_Status (*GetOutStreamSize)(const 
+USC_Option *options, int bitrate,
+int nbytesSrc, int *nbytesDst);</p>
+<p class="MsoNormal" style="text-autospace: none">&nbsp;&nbsp;&nbsp; USC_Status 
+(*SetFrameSize)(const USC_Option *options, USC_Handle handle, int frameSize);<br>
+}USC_Fxns;</p>
+<p class="MsoNormal" style="text-autospace: none">&nbsp;</p>
+<h4 style="text-autospace: none"><span lang="EN-US">The base (std) part of USC 
+Codec functions </span></h4>
+<p class="MsoNormal" style="text-autospace: none">The base (std) functions of the USC 
+Codec algorithm 
+are declared as follows:&nbsp; </p>
+<p class="MsoNormal" style="text-autospace: none">&nbsp;</p>
+<p class="MsoNormal" style="text-autospace: none">&nbsp;&nbsp;&nbsp; USC_Status GetInfoSize(int 
+*pSize);</p>
+<p class="MsoNormal" style="text-autospace: none">&nbsp;&nbsp;&nbsp; USC_Status GetInfo(USC_Handle handle, USC_CodecInfo *pInfo);<br>
+&nbsp;&nbsp;&nbsp; USC_Status NumAlloc(const 
+USC_Option *options, int *nbanks);<br>
+&nbsp;&nbsp;&nbsp; USC_Status MemAlloc(const 
+USC_Option *options, USC_MemBank *pBanks);<br>
+&nbsp;&nbsp;&nbsp; USC_Status Init(const USC_Option *options, const USC_MemBank *pBanks, USC_Handle *handle );<br>
+&nbsp;&nbsp;&nbsp; USC_Status Reinit(USC_Modes *modes, USC_Handle handle );<br>
+&nbsp;&nbsp;&nbsp; USC_Status Control(USC_Handle handle, USC_Modes *modes);<br>
+&nbsp;</p>
+<p class="MsoNormal" style="text-autospace: none">The USC Codec standard 
+functions are described as follows:</p>
+<h3><i><span lang="EN-US" style="font-family: Times New Roman">GetInfo </span>
+</i></h3>
+<p class="MsoNormal"><span lang="EN-US">Queries the algorithm features or instance 
+status</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">USC_Status 
+GetInfo(USC_Handle handle, USC_CodecInfo *pInfo);</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">Parameters:</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">handle&nbsp; 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; algorithm instance pointer or NULL if 
+the info for the algorithm type are queried
+</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">pInfo&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+pointer to the output structure </span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">In the case 
+of a NULL handle the GetInfo() function reports the features and modes supported 
+by any instance of this algorithm type,</span></p>
+<p class="MsoNormal" style="text-autospace: none">for example for a USC codec<span lang="EN-US"> 
+GetInfo reports: </span></p>
+<p class="MsoNormal" style="text-indent: -69.15pt; text-autospace: none; margin-left: 78.15pt">
+<span lang="EN-US">-<span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7.0pt; font-family: Times New Roman">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Number of VAD mode variations supported, for example, vad=2 means that if 
+enabled the algorithm supports two vad modes.&nbsp;&nbsp;&nbsp;&nbsp; </span></p>
+<p class="MsoNormal" style="text-indent: -69.15pt; text-autospace: none; margin-left: 78.15pt">
+<span lang="EN-US">-<span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7.0pt; font-family: Times New Roman">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Number and table of compression rates supported, </span></p>
+<p class="MsoNormal" style="text-indent: -69.15pt; text-autospace: none; margin-left: 78.15pt">
+<span lang="EN-US">-<span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7.0pt; font-family: Times New Roman">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Whether postfilter (pf=1), high pass filter (hpf=1) or truncation modes 
+are supported.</span></p>
+<p class="MsoNormal" style="text-indent: -69.15pt; text-autospace: none; margin-left: 78.15pt">
+<span lang="EN-US">-<span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7.0pt; font-family: Times New Roman">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Maximal PCM frame length supported</span></p>
+<p class="MsoNormal" style="text-indent: -69.15pt; text-autospace: none; margin-left: 78.15pt">
+<span lang="EN-US">-<span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7.0pt; font-family: Times New Roman">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Number of direction supported: 0 – only encode, 1 – only decode, 2 – both</span></p>
+<p class="MsoNormal" style="text-indent: -69.15pt; text-autospace: none; margin-left: 78.15pt">
+<span lang="EN-US">-<span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7.0pt; font-family: Times New Roman">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Maximum bitstream frame size supported</span></p>
+<p class="MsoNormal" style="text-autospace: none">&nbsp;</p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">The 
+GetInfo() function is re-entrant. </span></p>
+<h3><i><span lang="EN-US" style="font-family: Times New Roman">NumAlloc </span>
+</i></h3>
+<p class="MsoNormal"><span lang="EN-US">Queries the number of memory blocks 
+required for an instance.</span></p>
+<p class="MsoNormal"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">USC_Status 
+NumAlloc(const USC_Option *options,
+int *nbanks);</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">Parameters:</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">
+options&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pointer to the options 
+for the new instance to be created</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">nbanks&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+output number of memory blocks required for the new instance</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">The 
+NumAlloc() function returns the number of memory blocks a algorithm instance might 
+require for proper operation in the configuration determined by the supplied options. </span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;&nbsp; </span></p>
+<h3><i><span lang="EN-US" style="font-family: Times New Roman">MemAlloc </span>
+</i></h3>
+<p class="MsoNormal"><span lang="EN-US">Queries the sizes of the memory blocks 
+required for an instance</span></p>
+<p class="MsoNormal"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">USC_Status 
+MemAlloc(const USC_Option *options, USC_MemBank 
+*pBanks);</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">Parameters:</span></p>
+<p class="MsoNormal" style="text-indent: -70.5pt; text-autospace: none; margin-left: 70.5pt">
+<span lang="EN-US">options&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pointer to the options 
+for the new instance to be created, must be the same as used in NumAlloc()&nbsp; </span></p>
+<p class="MsoNormal" style="text-indent: -70.5pt; text-autospace: none; margin-left: 70.5pt">
+<span lang="EN-US">pBanks&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+pointer to the output array of USC_MemBank structure of length determined by 
+NumAlloc()&nbsp;&nbsp;&nbsp; &nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none">&nbsp;</p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">The 
+MemAlloc() function fills in each element of the pBanks array with the size in 
+bytes of memory block required for the instance to be created.</span></p>
+<p class="MsoNormal" style="text-indent: -70.5pt; text-autospace: none; margin-left: 70.5pt">
+<span lang="EN-US">&nbsp;&nbsp; </span></p>
+<h3><i><span lang="EN-US" style="font-family: Times New Roman">Init </span></i>
+</h3>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">Creates an 
+instance of the codec</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">USC_Status 
+Init(const USC_Option *options, const USC_MemBank *pBanks, USC_Handle</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">*handle );</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">Parameters:</span></p>
+<p class="MsoNormal" style="text-indent: -70.5pt; text-autospace: none; margin-left: 70.5pt">
+<span lang="EN-US">options&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+pointer to the options for the new instance to be created, it must be the same 
+options used in the NumAlloc() and MemAlloc() 
+functions </span></p>
+<p class="MsoNormal" style="text-indent: -70.5pt; text-autospace: none; margin-left: 70.5pt">
+<span lang="EN-US">pBanks&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pointer to the input array of USC_MemBank 
+structures which contain the pointers to the memory blocks allocated by the application according to the sizes reported by the MemAlloc() function</span></p>
+<p class="MsoNormal" style="text-indent: -70.5pt; text-autospace: none; margin-left: 70.5pt">
+<span lang="EN-US">handle&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pointer to the output instance handle to 
+be created</span></p>
+<p class="MsoNormal" style="text-indent: -70.5pt; text-autospace: none; margin-left: 70.5pt">
+<span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">The Init() 
+function creates an instance of the algorithm and returns its handle.&nbsp; The memory 
+passed via the pBank array is for the exclusive use of the new algorithm instance and 
+the Init() function should not be used to re-initialize the memory.</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;</span></p>
+<h3><i><span lang="EN-US" style="font-family: Times New Roman">Reinit </span>
+</i></h3>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">Puts an 
+instance to its initial state.</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">USC_Status 
+Reinit(USC_Modes *modes, USC_Handle handle );</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">Parameters:</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">
+modes&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pointer to the USC_Modes structure contains the modes to be 
+set </span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">
+handle&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; instance handle</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">The Reinit() 
+function initialized the codec instance and set the requested modes. The instance 
+continues occupying the same memory and its 
+instance handle is not changed. The Reinit() 
+function is not re-entrant. </span></p>
+<h3><i><span lang="EN-US" style="font-family: Times New Roman">Control </span>
+</i></h3>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">Changes the 
+instance modes on fly</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">USC_Status 
+Control(USC_Handle handle, USC_Modes *modes);</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">Parameters:</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">handle&nbsp; 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; instance handle</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">
+modes&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pointer to the USC_Modes structure contains the modes to be 
+set </span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">The Control() function sets the instance to the requested modes. &nbsp;&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none">&nbsp;</p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">The <b><i>
+USC_Fxns</i></b> defines a USC function table structure which consists of the 
+standard part and codec algorithm extensions.&nbsp;&nbsp; </span></p>
+<h3><i><span lang="EN-US" style="font-family: Times New Roman">Encode</span></i></h3>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">Compresses 
+an input PCM audio</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">USC_Status 
+Encode(USC_Handle handle, USC_PCMStream *in, USC_Bitstream *out);</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">Parameters;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">
+handle&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; instance handle</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">
+in&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pointer to the input PCM audio stream</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">
+out&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pointer to the output bitstream </span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">The 
+Encode() function compresses one frame of the input PCM audio and forms the 
+output compressed bit-stream frame at the requested compression rate.&nbsp; The 
+function sets in-&gt;nbytes to the frame size in bytes, i.e. the number of bytes 
+actually encoded. The out-&gt;nbytes is set to the length of the output 
+compressed bit-stream frame in bytes. Out-&gt;frametype is set to a codec 
+dependent bitstream frame type.&nbsp; Out-&gt;bitrate is set to the compression 
+rate of the compressed bitstream.&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;</span></p>
+<h3><i><span lang="EN-US" style="font-family: Times New Roman">Decode</span></i></h3>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">Decompress 
+a bitstream&nbsp;&nbsp; </span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">USC_Status 
+Decode(USC_Handle handle, USC_Bitstream *in, USC_PCMStream *out);</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">Parameters;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">
+handle&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; instance handle</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">
+in&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pointer to the input bitstream </span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">
+out&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pointer to the output PCM audio stream</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">The 
+Decode() function decompresses one input bitstream frame and forms the output 
+PCM audio frame.&nbsp; The function sets in-&gt;nbytes to the bitstream frame size 
+in bytes, i.e. number of bytes actually decoded. The out-&gt;nbytes is set to 
+the length of the output decompressed PCM audio frame in bytes. If the input 
+data pointer, in-&gt;pBuffer, is NULL, then a lost frame is to be decoded. &nbsp;If PLC 
+is not 
+supported by the codec the status USC_NoOperation is returned and no output data 
+produced. It is the application's responsibility to 
+remedy losses for a codec without PLC support.&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;</span></p>
+<h3><i><span lang="EN-US" style="font-family: Times New Roman">GetOutStreamSize</span></i></h3>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">Reports the 
+maximum size of the output stream</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">USC_Status 
+GetOutStreamSize(const USC_Option *options, int bitrate, int 
+nbytesSrc, int *nbytesDst);</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">Parameters:</span></p>
+<p class="MsoNormal" style="text-indent: -70.5pt; text-autospace: none; margin-left: 70.5pt">
+<span lang="EN-US">options&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pointer to the options &nbsp;</span></p>
+<p class="MsoNormal" style="text-indent: -70.5pt; text-autospace: none; margin-left: 70.5pt">
+<span lang="EN-US">bitrate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; compressing rate in bps</span></p>
+<p class="MsoNormal" style="text-indent: -70.5pt; text-autospace: none; margin-left: 70.5pt">
+<span lang="EN-US">nbytesSrc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; the input 
+buffer</span> size in bytes.</p>
+<p class="MsoNormal" style="text-indent: -70.5pt; text-autospace: none; margin-left: 70.5pt">
+<span lang="EN-US">nbytesDst&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; output 
+buffer size in bytes</span></p>
+<p class="MsoNormal" style="text-indent: -70.5pt; text-autospace: none; margin-left: 70.5pt">
+<span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">The 
+GetOutStreamSize() function reports the size in <i>nbytesDst</i> of the longest output 
+buffer for an input buffer size of <i>nbytesSrc.</i> The size can be for encoding or decoding 
+of the stream. If&nbsp;options-&gt;direction = 0 then the input stream assumed 
+to be a PCM stream and <i>nbytesDst</i> specifies the encoded buffer size. 
+Otherwise, the input bitstream is encoded and the longest output PCM buffer size 
+after decode is returned in <i>nbytesDst</i>. In the latter case options-&gt;modes.vad=0 determines 
+if silence insertion detection (SID) frames are allowed in the input bitstream.</span></p>
+<p class="MsoNormal" style="text-autospace: none">&nbsp;</p>
+<h3><i><span lang="EN-US" style="font-family: Times New Roman">SetFrameSize</span></i></h3>
+<p class="MsoNormal" style="text-autospace: none">Sets the PCM audio frame size.</p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none">USC_Status SetFrameSize(const 
+USC_Option *options, USC_Handle handle, int frameSize);</p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">Parameters:</span></p>
+<p class="MsoNormal" style="text-indent: -70.5pt; text-autospace: none; margin-left: 70.5pt">
+<span lang="EN-US">options&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pointer to the options &nbsp;</span></p>
+<p class="MsoNormal" style="text-indent: -70.5pt; text-autospace: none; margin-left: 70.5pt">
+handle<span lang="EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+instance handle</span></p>
+<p class="MsoNormal" style="text-indent: -70.5pt; text-autospace: none; margin-left: 70.5pt">
+frameSize<span lang="EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+Desired input frame size</span> in bytes.</p>
+<p class="MsoNormal" style="text-indent: -70.5pt; text-autospace: none; margin-left: 70.5pt">
+<span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">The 
+SetFrameSize() function change PCM audio frame size to the number not greater 
+than frameSize. Funtion GetInfo should be called to get changed PCM audio frame 
+size and new bitsream frame size. </span>There aren't any changes in codec 
+behavior if codec doesn't allows changing frame size.</p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;&nbsp;&nbsp; </span></p>
+<p class="MsoNormal" style="text-autospace: none">
+<span lang="EN-US">&nbsp;</span></p>
+<h2 style="text-autospace: none">
+<span lang="EN-US" style="font-family: Times New Roman"><i><b><font size="5">
+<a name="USC Echo Canceller API"></a>USC Echo Canceller API</font> </b></i> </span>
+</h2>
+<p class="MsoNormal" style="text-autospace: none">
+&nbsp;</p>
+<h3 style="text-autospace: none">
+<font face="Times New Roman">
+<b><span style="font-size: 13pt">USC Echo Canceller structures</span></b></font></h3>
+<h4 style="text-autospace: none">
+<b>EC algorithms types</b></h4>
+<p class="MsoNormal" style="text-autospace: none">
+&nbsp;</p>
+<p class="MsoNormal" style="text-autospace: none">
+typedef enum {<br>
+&nbsp;&nbsp;&nbsp; EC_SUBBAND = 0,<br>
+&nbsp;&nbsp;&nbsp; EC_FULLBAND = 1,<br>
+&nbsp;&nbsp;&nbsp; EC_FASTSUBBAND = 2<br>
+} USC_EC_Algs;<br>
+&nbsp;</p>
+<p class="MsoNormal" style="text-autospace: none">
+EC_SUBBAND - sub band</p>
+<p class="MsoNormal" style="text-autospace: none">
+EC_FULLBAND - full band</p>
+<p class="MsoNormal" style="text-autospace: none">
+EC_FASTSUBBAND - fast sub band</p>
+<p class="MsoNormal" style="text-autospace: none">
+&nbsp;</p>
+<h4 style="text-autospace: none">
+<b>EC adaptation types</b></h4>
+<p class="MsoNormal" style="text-autospace: none">
+<br>
+typedef enum {<br>
+&nbsp;&nbsp;&nbsp; AD_OFF = 0,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+- no adaptation<br>
+&nbsp;&nbsp;&nbsp; AD_FULLADAPT = 1,&nbsp;&nbsp;&nbsp; -&nbsp; full adaptation <br>
+&nbsp;&nbsp;&nbsp; AD_LITEADAPT = 2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - lite adaptation<br>
+} USC_AdaptType;</p>
+<p class="MsoNormal" style="text-autospace: none">
+&nbsp;</p>
+<h4 style="text-autospace: none">
+<b>EC modes</b></h4>
+<p class="MsoNormal" style="text-autospace: none">
+&nbsp;</p>
+<p class="MsoNormal" style="text-autospace: none">
+typedef struct {<br>
+&nbsp;&nbsp;&nbsp; USC_AdaptType adapt;<br>
+&nbsp;&nbsp;&nbsp; int zeroCoeff;<br>
+&nbsp;&nbsp;&nbsp; int nlp;<br>
+&nbsp;&nbsp;&nbsp; int td;<br>
+&nbsp;&nbsp;&nbsp; int ah; </p>
+<p class="MsoNormal" style="text-autospace: none">
+&nbsp;&nbsp;&nbsp; int hd_period;</p>
+<p class="MsoNormal" style="text-autospace: none">
+&nbsp;&nbsp;&nbsp; int freq_shift;<br>
+}USC_EC_Modes;</p>
+<p class="MsoNormal" style="text-autospace: none">
+&nbsp;</p>
+<p class="MsoNormal" style="text-autospace: none">The <b><i>USC_EC_Modes</i></b> 
+structure entries must all be of &quot;int&quot; type. <span lang="EN-US">The <b><i>
+USC_EC_Modes</i></b> structure contains the modes supported by an echo canceller which have 
+the following meanings:</span></p>
+<p class="MsoNormal" style="text-autospace: none">
+&nbsp;</p>
+<p class="MsoNormal" style="text-indent: -99.0pt; text-autospace: none; margin-left: 99.0pt">
+adapt<span lang="EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
+Type of the adaptation</p>
+<p class="MsoNormal" style="text-indent: -99.0pt; text-autospace: none; margin-left: 99.0pt">
+zeroCoeff<span lang="EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span lang="ru">0 
+- </span>disable zero filter's coefficient, 1 - enable</p>
+<p class="MsoNormal" style="text-indent: -99.0pt; text-autospace: none; margin-left: 99.0pt">
+nlp<span lang="EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
+0 - disable Non-Linear Processor (NLP), 1 - enable NLP<span lang="EN-US"> </span></p>
+<p class="MsoNormal" style="text-indent: -99.0pt; text-autospace: none; margin-left: 99.0pt">
+td<span lang="EN-US"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
+0 - disable Tone Disabler (TD), 1 - enable TD</p>
+<p class="MsoNormal" style="text-indent: -99.0pt; text-autospace: none; margin-left: 99.0pt">
+ah<span lang="EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>0 
+- disable Anti-Howling (AH),&nbsp; 1-spectra-based Howling Detector (HD), 2- energy-based HD</p>
+<p class="MsoNormal" style="text-indent: -99.0pt; text-autospace: none; margin-left: 99.0pt">
+hd_period&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+HD period</p>
+<p class="MsoNormal" style="text-indent: -99.0pt; text-autospace: none; margin-left: 99.0pt">
+freq_shift&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+AH frequency shift;&nbsp;&nbsp;&nbsp; </p>
+<p class="MsoNormal" style="text-indent: -99.0pt; text-autospace: none; margin-left: 99.0pt">
+&nbsp;</p>
+<h4 style="text-autospace: none">
+<b>EC options</b></h4>
+<p class="MsoNormal" style="text-autospace: none">
+&nbsp;</p>
+<p class="MsoNormal" style="text-autospace: none">
+typedef struct {<br>
+&nbsp;&nbsp;&nbsp; USC_EC_Algs algType; <br>
+&nbsp;&nbsp;&nbsp; USC_PCMType pcmType;</p>
+<p class="MsoNormal" style="text-indent: -1.0in; text-autospace: none; margin-left: 1.0in">
+&nbsp;&nbsp;&nbsp; int echotail; </p>
+<p class="MsoNormal" style="text-autospace: none">
+&nbsp;&nbsp;&nbsp; int framesize;<br>
+&nbsp;&nbsp;&nbsp; int&nbsp; nModes;&nbsp; </p>
+<p class="MsoNormal" style="text-indent: -1.0in; text-autospace: none; margin-left: 1.0in">
+&nbsp;&nbsp;&nbsp; USC_EC_Modes modes;</p>
+<p class="MsoNormal" style="text-autospace: none">
+}USC_EC_Option;</p>
+<p class="MsoNormal" style="text-autospace: none">
+&nbsp;</p>
+<p class="MsoNormal" style="text-indent: -99.0pt; text-autospace: none; margin-left: 99.0pt">
+algType<span lang="EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>Type 
+of the EC algorithm</p>
+<p class="MsoNormal" style="text-indent: -99.0pt; text-autospace: none; margin-left: 99.0pt">
+pcmType<span lang="EN-US">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PCM type supported by the codec</span></p>
+<p class="MsoNormal" style="text-indent: -1.0in; text-autospace: none; margin-left: 1.0in">
+nModes;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+Number of modes ( actually, supposed to be equal to sizeof(USC_EC_Modes)/sizeof(int) 
+) </p>
+<p class="MsoNormal" style="text-indent: -99.0pt; text-autospace: none; margin-left: 99.0pt">
+modes<span lang="EN-US"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+EC modes</span></p>
+<p class="MsoNormal" style="text-indent: -99.0pt; text-autospace: none; margin-left: 99.0pt">
+echotail<span lang="ru"> </span><span lang="EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+Maximal echo </span>tail length supported, in ms.&nbsp; </p>
+<p class="MsoNormal" style="text-indent: -99.0pt; text-autospace: none; margin-left: 99.0pt">
+framesize&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+EC frame size</p>
+<p class="MsoNormal" style="text-indent: -99.0pt; text-autospace: none; margin-left: 99.0pt">
+&nbsp;</p>
+<h4><span style="font-family: Times New Roman" lang="EN-US">EC general 
+information</span></h4>
+<p class="MsoNormal"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none">
+<span lang="EN-US">typedef struct {</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;&nbsp;
+const char&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+*name;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;&nbsp; 
+USC_EC_Option&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; params;&nbsp;&nbsp;&nbsp;&nbsp; </span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">
+}USC_EC_Info;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US"><br>
+The <b><i>USC_EC_Info</i></b> structure encapsulates the whole set of AEC 
+specific parameters:</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-indent: -99.0pt; text-autospace: none; margin-left: 99.0pt">
+<span lang="EN-US">name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; codec name</span></p>
+<p class="MsoNormal" style="text-indent: -99.0pt; text-autospace: none; margin-left: 99.0pt">
+<span lang="EN-US">params&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; options supported by the 
+AEC 
+type or 
+the current options of an instance</span></p>
+<p class="MsoNormal" style="text-indent: -99.0pt; text-autospace: none; margin-left: 99.0pt">
+&nbsp;</p><h3><span lang="EN-US" style="font-family: Times New Roman">USC Echo 
+Canceller functions&nbsp; </span></h3>
+<p>&nbsp;</p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">The <b><i>
+USC_EC_Fxns</i></b> defines a USC function table structure which consists of the 
+standard part and AEC algorithm extensions.</span></p>
+<p>&nbsp;</p>
+<p class="MsoNormal" style="text-autospace: none">typedef 
+struct {<br>
+&nbsp;&nbsp;&nbsp; USC_stdFxns std;</p>
+<p class="MsoNormal" style="text-autospace: none">&nbsp;&nbsp;&nbsp; USC_Status 
+(*CancelEcho)(USC_Handle handle, short *pSin, short *pRin, short *pSout);<br>
+}USC_EC_Fxns;</p>
+<h4 style="text-autospace: none"><span lang="EN-US">The base (std) part of USC 
+Echo Canceller functions </span></h4>
+<p style="text-autospace: none">The base (std) functions of the USC EC algorithm 
+are declared as follows:&nbsp; </p>
+<p class="MsoNormal" style="text-autospace: none">&nbsp;&nbsp;&nbsp; USC_Status GetInfoSize(int 
+*pSize);</p>
+<p class="MsoNormal" style="text-autospace: none">&nbsp;&nbsp;&nbsp;
+<span lang="EN-US">USC_Status GetInfo(USC_Handle handle, USC_EC_Info *pInfo);<br>
+&nbsp;&nbsp;&nbsp; USC_Status NumAlloc(const USC_EC_Option *options, int *nbanks);<br>
+&nbsp;&nbsp;&nbsp; USC_Status MemAlloc(const USC_EC_Option *options, USC_MemBank 
+*pBanks);<br>
+&nbsp;&nbsp;&nbsp; USC_Status Init(const USC_EC_Option *options, const 
+USC_MemBank *pBanks, USC_Handle *handle);<br>
+&nbsp;&nbsp;&nbsp; USC_Status Reinit(const USC_EC_Modes *modes, USC_Handle 
+handle );<br>
+&nbsp;&nbsp;&nbsp; USC_Status Control(const USC_EC_Modes *modes, USC_Handle 
+handle );</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none">The USC Echo Canceller base 
+functions are described as follows:</p>
+<h3><i><span lang="EN-US" style="font-family: Times New Roman">GetInfo </span>
+</i></h3>
+<p class="MsoNormal"><span lang="EN-US">Queries the object features or instance 
+status</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">USC_Status 
+GetInfo(USC_Handle handle, USC_EC_Info *pInfo);</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">Parameters:</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">handle&nbsp; 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; codec instance pointer or NULL if 
+the info for the codec type are queried
+</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">pInfo&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+pointer to the output structure </span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">In the case of 
+a NULL handle the GetInfo() function reports the features and modes supported by 
+any instance of this codec type: </span></p>
+<p class="MsoNormal" style="text-indent: -69.15pt; text-autospace: none; margin-left: 78.15pt">
+<span lang="EN-US">-<span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7.0pt; font-family: Times New Roman">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>
+<span style="font-style: normal; font-variant: normal; font-weight: normal; font-family: Times New Roman">
+Default algorithm type (EC_SUBBAND),</span></span></p>
+<p class="MsoNormal" style="text-indent: -69.15pt; text-autospace: none; margin-left: 78.15pt">
+<span lang="EN-US">-<span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7.0pt; font-family: Times New Roman">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>
+<span style="font-style: normal; font-variant: normal; font-weight: normal; font-family: Times New Roman">
+Default adaptation type (AD_FULLADAPT)</span>, </span></p>
+<p class="MsoNormal" style="text-indent: -69.15pt; text-autospace: none; margin-left: 78.15pt">
+-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Default echo tail length (16)</p>
+<p class="MsoNormal" style="text-indent: -69.15pt; text-autospace: none; margin-left: 78.15pt">
+<span lang="EN-US">-<span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7.0pt; font-family: Times New Roman">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Whether ToneDisabler (td=1), zero filter's coefficient (</span>zeroCoeff<span lang="EN-US">=1), 
+NLP (nlp=1), anti-hawling (ah=1) are supported.</span></p>
+<p class="MsoNormal" style="text-indent: -69.15pt; text-autospace: none; margin-left: 78.15pt">
+<span lang="EN-US">-<span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7.0pt; font-family: Times New Roman">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Maximal PCM frame length supported</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">The 
+GetInfo() function is re-entrant.</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp; </span></p>
+<h3><i><span style="font-family: Times New Roman">CancelEcho</span></i></h3>
+<p class="MsoNormal" style="text-autospace: none">Process one input PCM audio 
+frame</p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">USC_Status 
+(*CancelEcho)(USC_Handle handle, short *pSin, short *pRin, short *pSout);</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">Parameters:</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">handle&nbsp; 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; instance handle</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">pSin&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
+pointer to send-in PCM data (input)</p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">pRin&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+pointer to receive-in PCM data (input) </span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">pSout&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+pointer to send-out PCM data (output) </span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="text-autospace: none"><span lang="EN-US">The 
+CancelEcho() function takes </span>send-in<span lang="EN-US"> (contains speech + 
+echo) and receive-in (contains echo) PCM audio data and removes echo from </span>
+send-in<span lang="EN-US">. Result of the echo cancellation is stored in the 
+send-out.</span></p>
+<p class="MsoNormal" style="text-autospace: none">&nbsp;</p>
+<p class="MsoNormal" style="text-autospace: none">&nbsp;</p>
+<p class="MsoNormal" style="text-indent: -99.0pt; text-autospace: none; margin-left: 99.0pt">
+&nbsp;</p>
+<h2><font face="Times New Roman"><span lang="EN-US">Usage example</span></font></h2>
+<p class="MsoNormal" style="text-autospace: none">
+<span lang="EN-US">The C-code given in this example 
+demonstrates how a raw PCM file can be compressed and decompressed by the USC 
+codec:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></p>
+<p class="MsoNormal" style="text-autospace: none">
+&nbsp;</p>
+<p class="MsoNormal" style="text-autospace: none">
+<font size="2">/* <br>
+&nbsp;&nbsp;&nbsp;
+preliminary includes, defines etc <br>
+*/<br>
+#include &quot;usc.h&quot;<br>
+#include &lt;stdlib.h&gt;<br>
+#define PCMDATA_LEN 10000 /* some input PCM data length */<br>
+static int lenSrc = PCMDATA_LEN; <br>
+static unsigned char foo[PCMDATA_LEN]={0}; /* foo: supposed to be filled with 
+input PCM data */<br>
+static unsigned char fooUncompressed[PCMDATA_LEN]; /* uncompressed PCM after 
+encode and decode in chain */<br>
+static USC_Option params = {0,0,{0,0,0,0,0}};<br>
+static char* outputBuffer = NULL;<br>
+extern USC_Fxns USC_G729I_Fxns; /* this time linked for example to G729I codec 
+*/ <br>
+USC_Fxns *USC_Gxxx_Fnxs = &amp;USC_G729I_Fxns; <br>
+&nbsp;</font></p>
+<p class="MsoNormal" style="text-autospace: none">
+<font size="2">/*&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;
+main program: foo data encoding &amp; decoding <br>
+*/<br>
+int main(int argc, char *argv[]){<br>
+&nbsp;&nbsp;&nbsp; /* Locals */</font></p>
+<p class="MsoNormal" style="text-autospace: none">
+<font size="2">&nbsp;&nbsp;&nbsp;
+USC_CodecInfo pInfo;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;
+int i, nbanksEnc,nbanksDec;<br>
+&nbsp;&nbsp;&nbsp;
+USC_MemBank* pBanksEnc;<br>
+&nbsp;&nbsp;&nbsp;
+USC_MemBank* pBanksDec;<br>
+&nbsp;&nbsp;&nbsp;
+USC_Handle hUSCEncoder;<br>
+&nbsp;&nbsp;&nbsp;
+USC_Handle hUSCDecoder;<br>
+&nbsp;&nbsp;&nbsp;
+int lenDst, bytesRemaining;<br>
+&nbsp;&nbsp;&nbsp;
+char* tmpInputBuff=NULL;<br>
+&nbsp;&nbsp;&nbsp;
+char* tmpOutputBuff=NULL;<br>
+&nbsp;&nbsp;&nbsp;
+char* tmpOutputPCMBuff=NULL;<br>
+&nbsp;</font></p>
+<p class="MsoNormal" style="text-autospace: none">
+<font size="2">&nbsp;&nbsp;&nbsp;
+/* Get the Gxxx codec info */<br>
+&nbsp;&nbsp;&nbsp;
+if(USC_NoError != USC_Gxxx_Fnxs-&gt;std.GetInfo((USC_Handle)NULL, &amp;pInfo)) exit(1);<br>
+&nbsp;&nbsp;&nbsp;
+/*<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+encoder instance creation<br>
+&nbsp;&nbsp;&nbsp;
+*/<br>
+&nbsp;&nbsp;&nbsp;
+pInfo.params.direction = 0;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* Direction: encode */<br>
+&nbsp;&nbsp;&nbsp;
+pInfo.params.modes.vad = 0;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* Suppress a silence compression */<br>
+&nbsp;&nbsp;&nbsp;
+pInfo.params.law = 0;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* Linear PCM input */<br>
+&nbsp;&nbsp;&nbsp;
+pInfo.params.modes.bitrate = pInfo.pRateTbl[pInfo.nRates-1].bitrate;&nbsp;&nbsp;&nbsp;&nbsp; /*Set 
+highest bitrate*/<br>
+&nbsp;</font></p>
+<p class="MsoNormal" style="text-autospace: none">
+<font size="2">&nbsp;&nbsp;&nbsp;
+/* Learn how many memory block needed &nbsp;for the encoder */<br>
+&nbsp;&nbsp;&nbsp;
+if(USC_NoError != USC_Gxxx_Fnxs-&gt;std.NumAlloc(&amp;pInfo.params, &amp;nbanksEnc)) 
+exit(2);<br>
+&nbsp;</font></p>
+<p class="MsoNormal" style="text-autospace: none">
+<font size="2">&nbsp;&nbsp;&nbsp;
+/* allocate memory for memory bank table */<br>
+&nbsp;&nbsp;&nbsp;
+pBanksEnc = (USC_MemBank*)malloc(sizeof(USC_MemBank)*nbanksEnc);<br>
+&nbsp;</font></p>
+<p class="MsoNormal" style="text-autospace: none">
+<font size="2">&nbsp;&nbsp;&nbsp;
+/* Query how big has to be each block */<br>
+&nbsp;&nbsp;&nbsp;
+if(USC_NoError != USC_Gxxx_Fnxs-&gt;std.MemAlloc(&amp;pInfo.params, pBanksEnc)) 
+exit(3);<br>
+&nbsp;</font></p>
+<p class="MsoNormal" style="text-autospace: none">
+<font size="2">&nbsp;&nbsp;&nbsp;
+/* allocate memory for each block */<br>
+&nbsp;&nbsp;&nbsp;
+for(i=0; i&lt;nbanksEnc;i++){<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+pBanksEnc[i].pMem = (unsigned char*)malloc(pBanksEnc[i].nbytes);<br>
+&nbsp;&nbsp;&nbsp;
+}<br>
+&nbsp;&nbsp;&nbsp;
+</font></p>
+<p class="MsoNormal" style="text-autospace: none">
+<font size="2">&nbsp;&nbsp;&nbsp;
+/* Create encoder instance */<br>
+&nbsp;&nbsp;&nbsp;
+if(USC_NoError != USC_Gxxx_Fnxs-&gt;std.Init(&amp;pInfo.params, pBanksEnc, &amp;hUSCEncoder)) 
+exit(4);<br>
+&nbsp;&nbsp;&nbsp;
+</font></p>
+<p class="MsoNormal" style="text-autospace: none">
+<font size="2">&nbsp;&nbsp;&nbsp;
+/* Query how big can be max output bitstream */<br>
+&nbsp;&nbsp;&nbsp;
+if(USC_NoError != USC_Gxxx_Fnxs-&gt;GetOutStreamSize(&amp;pInfo.params,pInfo.params.modes.bitrate, 
+lenSrc, &amp;lenDst)) exit(5);<br>
+&nbsp;&nbsp;&nbsp; </font></p>
+<p class="MsoNormal" style="text-autospace: none">
+<font size="2">&nbsp;&nbsp;&nbsp;
+/* allocate output bitstream buffer */<br>
+&nbsp;&nbsp;&nbsp;
+outputBuffer = (char*)malloc(lenDst);<br>
+&nbsp;&nbsp;&nbsp; </font></p>
+<p class="MsoNormal" style="text-autospace: none">
+<font size="2">&nbsp;&nbsp;&nbsp;
+/*<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+decoder instance creation<br>
+&nbsp;&nbsp;&nbsp;
+*/<br>
+&nbsp;&nbsp;&nbsp;
+pInfo.params.direction = 1;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* Direction: decode */<br>
+&nbsp;</font></p>
+<p class="MsoNormal" style="text-autospace: none">
+<font size="2">&nbsp;&nbsp;&nbsp;
+/* Learn how many memory block needed for the decoder */<br>
+&nbsp;&nbsp;&nbsp;
+if(USC_NoError != USC_Gxxx_Fnxs-&gt;std.NumAlloc(&amp;pInfo.params, &amp;nbanksDec)) 
+exit(2);<br>
+&nbsp;</font></p>
+<p class="MsoNormal" style="text-autospace: none">
+<font size="2">&nbsp;&nbsp;&nbsp;
+/* allocate memory for memory bank table */<br>
+&nbsp;&nbsp;&nbsp;
+pBanksDec = (USC_MemBank*)malloc(sizeof(USC_MemBank)*nbanksDec);<br>
+&nbsp;</font></p>
+<p class="MsoNormal" style="text-autospace: none">
+<font size="2">&nbsp;&nbsp;&nbsp;
+/* Query how big has to be each block */<br>
+&nbsp;&nbsp;&nbsp;
+if(USC_NoError != USC_Gxxx_Fnxs-&gt;std.MemAlloc(&amp;pInfo.params, pBanksDec)) 
+exit(3);<br>
+&nbsp;</font></p>
+<p class="MsoNormal" style="text-autospace: none">
+<font size="2">&nbsp;&nbsp;&nbsp;
+/* allocate memory for each block */<br>
+&nbsp;&nbsp;&nbsp;
+for(i=0; i&lt;nbanksDec;i++){<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+pBanksDec[i].pMem = (unsigned char*)malloc(pBanksDec[i].nbytes);<br>
+&nbsp;&nbsp;&nbsp;
+}<br>
+&nbsp;&nbsp;&nbsp;
+/* Create decoder instance */<br>
+&nbsp;&nbsp;&nbsp;
+if(USC_NoError != USC_Gxxx_Fnxs-&gt;std.Init(&amp;pInfo.params, pBanksDec, &amp;hUSCDecoder)) 
+exit(4);<br>
+<br>
+&nbsp;&nbsp;&nbsp;
+/*<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Ready to encode and decode.</font></p>
+<p class="MsoNormal" style="text-autospace: none">
+<font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Now, set 
+initial data pointers. <br>
+&nbsp;&nbsp;&nbsp;
+*/<br>
+&nbsp;&nbsp;&nbsp;
+bytesRemaining = lenSrc;<br>
+&nbsp;&nbsp;&nbsp;
+tmpInputBuff = foo;<br>
+&nbsp;&nbsp;&nbsp;
+tmpOutputBuff = outputBuffer;<br>
+&nbsp;&nbsp;&nbsp;
+tmpOutputPCMBuff = fooUncompressed;<br>
+&nbsp;&nbsp;&nbsp; </font></p>
+<p class="MsoNormal" style="text-autospace: none">
+<font size="2">&nbsp;&nbsp;&nbsp;
+/*
+Main encoding &amp; decoding loop
+*/</font></p>
+<p class="MsoNormal" style="text-autospace: none">
+<font size="2">&nbsp;&nbsp;&nbsp;
+while(bytesRemaining &gt;= pInfo.framesize) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+USC_PCMStream in, outpcm;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+USC_Bitstream out;<br>
+&nbsp;&nbsp;&nbsp; </font></p>
+<p class="MsoNormal" style="text-autospace: none">
+<font size="2">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+/* Set input stream params */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+in.bitrate = pInfo.params.modes.bitrate;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+in.nbytes = bytesRemaining;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+in.pBuffer = tmpInputBuff;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+in.pcmType.bitPerSample = pInfo.pcmType.bitPerSample;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+in.pcmType.sample_frequency = pInfo.pcmType.sample_frequency;<br>
+&nbsp;&nbsp;&nbsp;
+</font></p>
+<p class="MsoNormal" style="text-autospace: none">
+<font size="2">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+/* Set output buffer */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+out.pBuffer = tmpOutputBuff;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+outpcm.pBuffer = tmpOutputPCMBuff;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</font></p>
+<p class="MsoNormal" style="text-autospace: none">
+<font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* Encode a frame&nbsp; */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+if(USC_NoError != USC_Gxxx_Fnxs-&gt;Encode (hUSCEncoder, &amp;in, &amp;out)) exit(6);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* Decode a frame */</font></p>
+<p class="MsoNormal" style="text-autospace: none">
+<font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if(USC_NoError != USC_Gxxx_Fnxs-&gt;Decode (hUSCDecoder, &amp;out, &amp;outpcm)) 
+exit(6);<br>
+&nbsp;</font></p>
+<p class="MsoNormal" style="text-autospace: none">
+<font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/* Move to the next frame */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tmpInputBuff += in.nbytes;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tmpOutputBuff += out.nbytes;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tmpOutputPCMBuff += outpcm.nbytes;<br>
+&nbsp;</font></p>
+<p class="MsoNormal" style="text-autospace: none">
+<font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/* calculate the rest PCM data size */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+bytesRemaining -= in.nbytes;<br>
+&nbsp;&nbsp;&nbsp;
+}<br>
+&nbsp;&nbsp;&nbsp;
+/*<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Release encoder memory <br>
+&nbsp;&nbsp;&nbsp;
+*/<br>
+&nbsp;&nbsp;&nbsp;
+for(i=0; i&lt;nbanksEnc;i++){<br>
+&nbsp;&nbsp;&nbsp;
+free(pBanksEnc[i].pMem);<br>
+&nbsp;&nbsp;&nbsp;
+}<br>
+&nbsp;&nbsp;&nbsp;
+free(pBanksEnc);<br>
+&nbsp;&nbsp;&nbsp;
+/*<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Release decoder memory <br>
+&nbsp;&nbsp;&nbsp;
+*/<br>
+&nbsp;&nbsp;&nbsp;
+for(i=0; i&lt;nbanksDec;i++){<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+free(pBanksDec[i].pMem);<br>
+&nbsp;&nbsp;&nbsp;
+}<br>
+&nbsp;&nbsp;&nbsp;
+free(pBanksDec);<br>
+}<br>
+</font><br>
+&nbsp;</p>
+
+<p><font face="Times New Roman"><font size="1">Intel, the Intel logo, Intel SpeedStep, Intel NetBurst, Intel 
+NetStructure, MMX, Intel386, Intel486, Celeron, Intel Centrino, Intel Xeon, 
+Intel XScale, Itanium, Pentium, Pentium II Xeon, Pentium III Xeon, Pentium M, 
+and VTune are trademarks or registered trademarks of Intel Corporation or its 
+subsidiaries in the United States and other countries.</font><span lang="EN-US"><span class="SpellE"><font size="1"><br>
+<br>
+</font></span></span><span lang="EN-US" style="FONT-SIZE: 7.5pt">* Other names 
+and brands may be claimed as the property of others.<br>
+&nbsp;<br>
+</span><span style="FONT-SIZE: 7.5pt">Copyright © 2005 Intel Corporation. </span>
+</font>
+</p>
+
+</body>
+
+</html>

@@ -240,6 +240,7 @@ typedef void (*SalOnNotifyPresence)(SalOp *op, SalSubscribeStatus ss, SalPresenc
 typedef void (*SalOnSubscribeReceived)(SalOp *salop, const char *from);
 typedef void (*SalOnSubscribeClosed)(SalOp *salop, const char *from);
 typedef void (*SalOnPingReply)(SalOp *salop);
+typedef void (*SalOnMsgStatus)(SalOp *op, const char *from, const char *callid);
 
 typedef struct SalCallbacks{
 	SalOnCallReceived call_received;
@@ -264,6 +265,8 @@ typedef struct SalCallbacks{
 	SalOnSubscribeReceived subscribe_received;
 	SalOnSubscribeClosed subscribe_closed;
 	SalOnPingReply ping_reply;
+	SalOnMsgStatus message_success;
+	SalOnMsgStatus message_failure;
 }SalCallbacks;
 
 typedef struct SalAuthInfo{
@@ -316,6 +319,7 @@ void sal_op_authenticate(SalOp *h, const SalAuthInfo *info);
 void sal_op_cancel_authentication(SalOp *h);
 void sal_op_set_user_pointer(SalOp *h, void *up);
 int sal_op_get_auth_requested(SalOp *h, const char **realm, const char **username);
+int sal_op_get_callid(SalOp *op, const char **callid);
 const char *sal_op_get_from(const SalOp *op);
 const char *sal_op_get_to(const SalOp *op);
 const char *sal_op_get_contact(const SalOp *op);

@@ -5,7 +5,7 @@
 /* #undef AC_APPLE_UNIVERSAL_BUILD */
 
 /* Tells whether localisation is possible */
-//#define ENABLE_NLS 1
+#define ENABLE_NLS 1
 
 /* Defined when using gsm at nonstandard rates */
 /* #undef ENABLE_NONSTANDARD_GSM */
@@ -131,15 +131,15 @@
 
 #ifdef WIN32
 /* Defines the place where data are found */
-#define PACKAGE_DATA_DIR "..\\share\\"
+#define PACKAGE_DATA_DIR ".\\share"
 /* Defines the place where locales can be found */
-#define PACKAGE_LOCALE_DIR "."
+#define PACKAGE_LOCALE_DIR ".\\locale"
 
 /* Define to the full name of this package. */
 #define PACKAGE_NAME "linphone"
 
 /* Defines the place where linphone sounds are found */
-#define PACKAGE_SOUND_DIR "sounds"
+#define PACKAGE_SOUND_DIR ".\\sounds"
 
 #else
 /* Defines the place where data are found */

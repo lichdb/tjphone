@@ -21,6 +21,7 @@
 #include "custom_tree.h"
 #include "callviewframe.h"
 #include "conferenceframe.h"
+#include "chatroom.h"
 
 
 MainWindow *w=NULL;
@@ -411,7 +412,7 @@ void MainWindow::qt_load_identities(void)
 	linphone_core_get_default_proxy(linphone_qt_get_core(),&def);
 	
 	def_identity.sprintf("%s",linphone_core_get_primary_contact(linphone_qt_get_core()));
-	def_identity += N_(" (Local)");
+	def_identity += _(" (Local)");
 
 	ui->comboBox_account->insertItem(count, def_identity, QVariant::fromValue(NULL));
 
@@ -781,7 +782,7 @@ void MainWindow::call_view_set_calling(LinphoneCall *call)
 {
 	CallViewFrame *callview=(CallViewFrame *)linphone_call_get_user_pointer(call);
 	
-	callview->set_callstatus(N_("Calling..."));
+	callview->set_callstatus(_("Calling..."));
 	QString a = "00::00::00";
 	callview->set_duration(a);
 	callview->set_peer_name(get_peer_name(linphone_call_get_remote_address (call)));
@@ -839,7 +840,7 @@ void MainWindow::call_view_terminate(LinphoneCall *call, QString &error_msg)
 	if(!callview) return;
 	bool_t in_conf=linphone_call_params_local_conference_mode(linphone_call_get_current_params(call));	
 	if (error_msg.isEmpty()){
-		callview->set_callstatus(N_("Call ended"));
+		callview->set_callstatus(_("Call ended"));
 	}else{
 		callview->set_callstatus(error_msg);
 	}
@@ -892,7 +893,7 @@ void MainWindow::call_view_set_incoming(LinphoneCall *call)
 {
 	CallViewFrame *callview=(CallViewFrame *)linphone_call_get_user_pointer(call);
 
-	callview->set_callstatus(N_("Incoming call"));
+	callview->set_callstatus(_("Incoming call"));
 	callview->enable_hold_button(false, false);
 	callview->show_mute_hold(false);
 	callview->show_answer_decline(true);
@@ -950,7 +951,7 @@ void MainWindow::enable_transfer_button(LinphoneCore *lc, bool value)
 			delete transfer_button;
 			transfer_button=NULL;
 		}else if (!transfer_button && value==true){
-			transfer_button=new QPushButton(N_("transfer"), callview);
+			transfer_button=new QPushButton(_("transfer"), callview);
 		}
 		callview->set_transfer_button(transfer_button);
 	}
@@ -967,7 +968,7 @@ void MainWindow::enable_conference_button(LinphoneCore *lc, bool value)
 			delete button;
 			button=NULL;
 		}else if (!button && value==TRUE){
-			button=new QPushButton(N_("Conference"), callview);
+			button=new QPushButton(_("Conference"), callview);
 		}
 		callview->set_conference_button(button);
 	}
@@ -1144,13 +1145,13 @@ void MainWindow::call_view_set_transfer_status(LinphoneCall *transfered, Linphon
 		const char *transfer_status="unknown";
 		switch(new_call_state){
 			case LinphoneCallOutgoingProgress:
-				transfer_status=N_("Transfer in progress");
+				transfer_status=_("Transfer in progress");
 			break;
 			case LinphoneCallConnected:
-				transfer_status=N_("Transfer done.");
+				transfer_status=_("Transfer done.");
 			break;
 			case LinphoneCallError:
-				transfer_status=N_("Transfer failed.");
+				transfer_status=_("Transfer failed.");
 			break;
 			default:
 			break;

@@ -595,7 +595,7 @@ LinphoneChatRoom * linphone_core_create_chat_room(LinphoneCore *lc, const char *
  */
 void linphone_chat_room_destroy(LinphoneChatRoom *cr);
 
-
+void linphone_chat_room_remove(LinphoneChatRoom *cr);
 /**
  * get peer address \link linphone_core_create_chat_room() associated to \endlink this #LinphoneChatRoom
  * @param cr #LinphoneChatRoom object
@@ -607,7 +607,7 @@ const LinphoneAddress* linphone_chat_room_get_peer_address(LinphoneChatRoom *cr)
  * @param cr #LinphoneChatRoom object
  * @param msg message to be sent
  */
-void linphone_chat_room_send_message(LinphoneChatRoom *cr, const char *msg);
+const char* linphone_chat_room_send_message(LinphoneChatRoom *cr, const char *msg);
 
 void linphone_chat_room_set_user_data(LinphoneChatRoom *cr, void * ud);
 void * linphone_chat_room_get_user_data(LinphoneChatRoom *cr);
@@ -687,6 +687,16 @@ typedef void (*CallLogUpdated)(struct _LinphoneCore *lc, struct _LinphoneCallLog
  * @param message incoming message
  *  */
 typedef void (*TextMessageReceived)(LinphoneCore *lc, LinphoneChatRoom *room, const LinphoneAddress *from, const char *message);
+/**
+ * Callback prototype
+ *
+ * @param lc #LinphoneCore object
+ * @param room #LinphoneChatRoom involved in this conversation. Can be be created by the framework in case \link #LinphoneAddress the from \endlink is not present in any chat room.
+ * @param from #LinphoneAddress from
+ * @param callid #message call_id
+ * @param status #response code
+ *  */
+typedef void (*TextMessageStatus)(LinphoneCore *lc, LinphoneChatRoom *room, const LinphoneAddress *from, const char *callid, bool_t status);
 /** Callback prototype */
 typedef void (*DtmfReceived)(struct _LinphoneCore* lc, LinphoneCall *call, int dtmf);
 /** Callback prototype */
@@ -723,6 +733,7 @@ typedef struct _LinphoneVTable{
 	DisplayMessageCb display_warning;/** Callback to display a warning to the user */
 	DisplayUrlCb display_url;
 	ShowInterfaceCb show; /**< Notifies the application that it should show up*/
+	TextMessageStatus text_status;
 } LinphoneCoreVTable;
 
 /**

@@ -6,6 +6,7 @@
 #include <QStandardItemModel>
 #include <QTextCodec>
 #include <QString>
+#include <QFileDialog>
 #include "HTMLDelegate.h"
 #include "sip_account.h"
 
@@ -180,20 +181,20 @@ typedef struct _LangCodes{
 }LangCodes;
 
 static  LangCodes supported_langs[]={
-	{	"C"	,	N_("English")	},
-	{	"fr"	,	N_("French")	},
-	{	"sv"	,	N_("Swedish")	},
-	{	"it"	,	N_("Italian")	},
-	{	"es"	,	N_("Spanish")	},
-	{	"pt_BR"	,	N_("Brazilian Portugese")	},
-	{	"pl"	,	N_("Polish")	},
-	{	"de"	,	N_("German")	},
-	{	"ru"	,	N_("Russian")	},
-	{	"ja"	,	N_("Japanese")	},
-	{	"nl"	,	N_("Dutch")	},
-	{	"hu"	,	N_("Hungarian")	},
-	{	"cs"	,	N_("Czech")	},
-	{	"zh_CN" ,	N_("Chinese")	},
+	{	"C"	,	_("English")	},
+	{	"fr"	,	_("French")	},
+	{	"sv"	,	_("Swedish")	},
+	{	"it"	,	_("Italian")	},
+	{	"es"	,	_("Spanish")	},
+	{	"pt_BR"	,	_("Brazilian Portugese")	},
+	{	"pl"	,	_("Polish")	},
+	{	"de"	,	_("German")	},
+	{	"ru"	,	_("Russian")	},
+	{	"ja"	,	_("Japanese")	},
+	{	"nl"	,	_("Dutch")	},
+	{	"hu"	,	_("Hungarian")	},
+	{	"cs"	,	_("Czech")	},
+	{	"zh_CN" ,	_("Chinese")	},
 	{	NULL	,	NULL		}
 };
 
@@ -560,9 +561,13 @@ void Preference::on_comboBox_capture_device_currentIndexChanged(const QString &a
 
 void Preference::on_pushButton_choose_file_clicked()
 {
-	char *file;
-	file = NULL;
-    linphone_core_set_ring(linphone_qt_get_core(),file);
+	QString fileName = QFileDialog::getOpenFileName(this, tr("Ring File"),
+                                                 "./",
+                                                 tr("WAV (*.wav)"));
+	if(!fileName.isEmpty()){
+		linphone_core_set_ring(linphone_qt_get_core(),fileName.toLocal8Bit().constData());
+		ui->lineEdit_ring_file->setText(fileName);
+	}
 }
 
 

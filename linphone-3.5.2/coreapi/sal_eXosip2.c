@@ -342,6 +342,10 @@ void sal_set_callbacks(Sal *ctx, const SalCallbacks *cbs){
 		ctx->callbacks.text_received=(SalOnTextReceived)unimplemented_stub;
 	if (ctx->callbacks.ping_reply==NULL)
 		ctx->callbacks.ping_reply=(SalOnPingReply)unimplemented_stub;
+	if (ctx->callbacks.message_success==NULL)
+		ctx->callbacks.message_success=(SalOnMsgStatus)unimplemented_stub;
+	if (ctx->callbacks.message_failure==NULL)
+		ctx->callbacks.message_failure=(SalOnMsgStatus)unimplemented_stub;
 }
 
 int sal_unlisten_ports(Sal *ctx){
@@ -921,6 +925,15 @@ void sal_op_cancel_authentication(SalOp *h) {
 	}
 
 }
+
+int sal_op_get_callid(SalOp *op, const char **callid){
+	if (op->call_id){
+		*callid=op->call_id->number;
+		return op->cid;
+	}
+	return -1;
+}
+
 static void set_network_origin(SalOp *op, osip_message_t *req){
 	const char *received=NULL;
 	int rport=5060;
@@ -981,6 +994,7 @@ static SalOp *find_op(Sal *sal, eXosip_event_t *ev){
 		return sal_find_in_subscribe(sal,ev->nid);
 	}
 	if (ev->response) return sal_find_other(sal,ev->response);
+	if (ev->request) return sal_find_other(sal,ev->request);
 	return NULL;
 }
 
@@ -1935,6 +1949,47 @@ static bool_t registration_failure(Sal *sal, eXosip_event_t *ev){
 	return TRUE;
 }
 
+static bool_t message_status(Sal *sal, eXosip_event_t *ev){
+	const char *callid;
+	char *from;
+	int status_code=0;
+	const char *reason=NULL;
+	SalOp *op=find_op(sal,ev);
+	SalReason sr=SalReasonUnknown;
+	SalError se=SalErrorUnknown;
+	if (strcmp(ev->request->sip_method,"MESSAGE")!=0) return;
+	if (ev->response){
+		status_code=osip_message_get_status_code(ev->response);
+		reason=osip_message_get_reason_phrase(ev->response);
+		callid = ev->response->call_id->number;
+		osip_from_to_str(ev->response->to,&from);
+		if(status_code>199 && status_code <300){
+			sal->callbacks.message_success(op,from,callid);
+		}else{
+			sal->callbacks.message_failure(op,from,callid);
+		}
+	}
+	
+	return TRUE;
+}
+static bool_t process_message_timeout(Sal *sal, eXosip_event_t *ev){
+	const char *callid;
+	char *from;
+	SalOp* op;
+	if (ev->request==NULL) return FALSE;
+	if (!ev->response){
+			if (strcmp(ev->request->sip_method,"MESSAGE")==0){
+				op=(SalOp*)find_op(sal,ev);
+				/*MESSAGE timeout*/
+				callid = ev->request->call_id->number;
+				osip_from_to_str(ev->request->to,&from);	
+				sal->callbacks.message_failure(op,from,callid);
+				osip_free(from);
+			}
+	}
+	return TRUE;
+}
+
 static void other_request_reply(Sal *sal,eXosip_event_t *ev){
 	SalOp *op=find_op(sal,ev);
 
@@ -2069,11 +2124,14 @@ static bool_t process_event(Sal *sal, eXosip_event_t *ev){
 		case EXOSIP_MESSAGE_NEW:
 			other_request(sal,ev);
 			break;
-		case EXOSIP_MESSAGE_PROCEEDING:
 		case EXOSIP_MESSAGE_ANSWERED:
-		case EXOSIP_MESSAGE_REDIRECTED:
 		case EXOSIP_MESSAGE_SERVERFAILURE:
 		case EXOSIP_MESSAGE_GLOBALFAILURE:
+			message_status(sal,ev);
+			other_request_reply(sal,ev);
+			break;
+		case EXOSIP_MESSAGE_PROCEEDING:
+		case EXOSIP_MESSAGE_REDIRECTED:
 			other_request_reply(sal,ev);
 			break;
 		case EXOSIP_MESSAGE_REQUESTFAILURE:
@@ -2086,9 +2144,13 @@ static bool_t process_event(Sal *sal, eXosip_event_t *ev){
 					case 412: {
 						eXosip_automatic_action ();
 						return 1;
+					case 404:
+						message_status(sal,ev);
 					}
 				}
-			}
+			}else{
+				process_message_timeout(sal,ev);
+ 			}
 			other_request_reply(sal,ev);
 			break;
 		default:

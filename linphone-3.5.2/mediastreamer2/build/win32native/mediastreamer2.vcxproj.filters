@@ -230,9 +230,6 @@
     <ClInclude Include="..\..\src\dxfilter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\mediastreamer2\g711common.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\mediastreamer2\ice.h">
       <Filter>Header Files</Filter>
     </ClInclude>

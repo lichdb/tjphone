@@ -1,0 +1,937 @@
+<HTML><HEAD><TITLE>Intel® Integrated Performance Primitives Sample Readme</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+<META content="Microsoft FrontPage 6.0" name=GENERATOR>
+<style>
+<!--
+div.Section1
+	{page:Section1;}
+ li.MsoNormal
+	{mso-style-parent:"";
+	margin-bottom:.0001pt;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	color:black; margin-left:0in; margin-right:0in; margin-top:0in}
+span.SpellE
+	{}
+-->
+</style>
+</HEAD>
+<BODY text=#000000 bgColor=#ffffff>
+<CENTER>
+<H1><B><I>Intel<SUP>®</SUP> Integrated Performance Primitives<BR>Speech coding 
+samples for Windows</I></B><i><span lang=EN-US
+style='mso-ansi-language:EN-US'>*</span></i></H1></CENTER>
+<H5><A 
+href="#Disclaimer">Disclaimer</A><BR><A 
+href="#License_Definitions">License 
+Definitions</A><BR><A 
+href="#Overview">Overview</A><BR><A 
+href="#System_Requirements">System 
+Requirements</A><BR><A 
+href="#Package_Contents">Package 
+Contents</A> <BR><A 
+href="#Installation">Installation</A> 
+<BR><A 
+href="#How_to_Build_Source_Code">How 
+to Build Source Code</A><BR><A 
+href="#Running_the_Software">Running 
+the Software</A><BR><A 
+href="#Known_Limitations">Known 
+Limitations</A><BR><A 
+href="#Support">Technical Support 
+and Feedback</A><BR>&nbsp;</H5>
+<H2><A name=Disclaimer></A>Disclaimer</H2>
+<P class=MsoNormal style="mso-layout-grid-align: none"><SPAN 
+style="FONT-SIZE: 10pt; COLOR: windowtext; mso-bidi-font-size: 7.5pt">INFORMATION 
+IN THIS DOCUMENT IS PROVIDED IN CONNECTION WITH INTEL<SUP>®</SUP> PRODUCTS. NO 
+LICENSE, EXPRESS OR IMPLIED, BY ESTOPPEL OR OTHERWISE, TO ANY INTELLECTUAL 
+PROPERTY RIGHTS IS GRANTED BY THIS DOCUMENT. EXCEPT AS PROVIDED IN INTEL'S TERMS 
+AND CONDITIONS OF SALE FOR SUCH PRODUCTS, INTEL ASSUMES NO LIABILITY WHATSOEVER, 
+AND INTEL DISCLAIMS ANY EXPRESS OR IMPLIED WARRANTY, RELATING TO SALE AND/OR USE 
+OF INTEL PRODUCTS INCLUDING LIABILITY OR WARRANTIES RELATING TO FITNESS FOR A 
+PARTICULAR PURPOSE, MERCHANTABILITY, OR INFRINGEMENT OF ANY PATENT, COPYRIGHT OR 
+OTHER INTELLECTUAL PROPERTY RIGHT. </SPAN></P>
+<P>Intel products are not intended for use in medical, life saving, life 
+sustaining, critical control or safety systems, or in nuclear facility 
+applications. Intel may make changes to specifications and product descriptions 
+at anytime, without notice.</P>
+<H2><A name=License_Definitions></A>License Definitions</H2>
+<P>By downloading and installing this sample, you hereby agree that the 
+accompanying Materials are being provided to you under the terms and conditions 
+of the End User License Agreement for the Intel<sup>®</sup> Integrated 
+Performance Primitives product previously accepted by you. Please refer to the 
+file <b>ipplic.htm</b> located in the root directory of your Intel<sup>®</sup> 
+IPP product installation for more information.&nbsp;</P>
+<P>The G.168, G.167, G.711, G.722, G.722.1, G.722.2, AMRWB, G.723.1, G.726, 
+G.728, G.729, GSM AMR, GSM FR are international standards 
+promoted by ITU (<a href="http://www.itu.int">http://www.itu.int</a>), ETSI (<a href="http://www.etsi.org">http://www.etsi.org</a>), 
+3GPP (<a href="http://www.3gpp.org">http://www.3gpp.org</a>) and other organizations. 
+Implementations of these standards, or the standard enabled platforms may 
+require licenses from various entities, including Intel Corporation.</P>
+<H2><A name=Overview></A>Overview</H2>This package contains the speech codec 
+sample (./application/usc_speech_codec) and the echo cancellation sample 
+(./application/usc_ec). 
+<p>The speech codec sample supports encoding and decoding compliant to the ITU-T 
+G.711/I/II, G.722, G.722.1, <span class="GramE" lang="EN-US">G.723.1/A, </span>
+G.726/A, G.728G//I/H, G.729/A/B/D/E/I/C/C+ recommendations, ETSI GSM 06.90-06.94, 
+06.10-06.12, 06.31-06.32 recommendations. </p>
+<p>The echo cancellation sample complies to the ITU-T G.168-2000 and G.167 
+recommendations.&nbsp; </p>
+<p>The samples have been implemented using the Intel<sup>®</sup> Integrated 
+Performance Primitives (Intel<sup>®</sup> IPP) Speech Coding functions.&nbsp;They are 
+command line based applications which process data given by one or more 
+input PCM files and store the result into output bitstreams or PCM files. Both 
+narrow band (8000 Hz)&nbsp; and wide band (16000 KHz) are supported. &nbsp; </p>
+<p>For more information refer to the specific sample readme.htm file.&nbsp;&nbsp;
+</p>
+<p>Additional information on this software as well as other Intel<sup>®</sup> 
+Software Development Products is available at <A 
+href="http://developer.intel.com/software/products/">http://developer.intel.com/software/products/</A>. 
+
+</p>
+
+<H2><A name=System_Requirements></A>System Requirements</H2>
+<div class="Section1">
+	<p class="MsoNormal"><b><span style="font-size: 10pt">Recommended hardware:</span></b><span style="font-size: 10pt"> 
+	&nbsp;</span> </p>
+	<ul type="disc" style="margin-bottom: 0in">
+		<li class="MsoNormal"><span lang="EN-US">A system based on the Intel<sup>®</sup> 
+		Pentium<sup>®</sup> 4 processor with 128 megabytes of RAM, or better.</span></li>
+		<li class="MsoNormal">A system based on a Intel<sup>®</sup> Itanium<sup>®</sup> 
+		architecture with 512 megabytes of RAM, or better  
+		</li>
+		<li class="MsoNormal">A system based on Intel<sup>®</sup> Pentium<sup>®</sup> 
+		D processor with Intel<sup>®</sup> Extended Memory 64 Technology
+		<span lang="EN-US">(Intel<sup>® </sup>EM64T)</span></li>
+		<li class="MsoNormal">A<span lang="EN-US"> system based on the Intel<sup>®</sup> 
+		IXP425 processor.<U1:P> </U1:P></span></li>
+	</ul>
+	<p class="MsoNormal"><b><span style="font-size: 10pt">Hardware requirements:</span></b>
+	</p>
+	<ul type="disc" style="margin-bottom: 0in">
+		<li class="MsoNormal"><span lang="EN-US">A system based on a Intel<sup>®</sup> 
+		Pentium<sup>®</sup> processor, Intel<sup>®</sup> Xeon<sup>®</sup> processor, or 
+		subsequent IA-32 processor</span> </li>
+		<li class="MsoNormal">A system based on a Intel<sup>®</sup> Itanium<sup>®</sup>&nbsp; 
+		2 processor</li>
+		<li class="MsoNormal"><span lang="EN-US">A system based on a Intel<sup>®</sup> 
+		Xeon<sup>®</sup> processor with Intel<sup>®</sup> Extended Memory 64 Technology 
+		(Intel<sup>® </sup>EM64T)</span> </li>
+		<li class="MsoNormal">A<span lang="EN-US"> system based on the Intel<sup>®</sup> 
+		IXP4xx processor.<U1:P> </U1:P></span></li>
+	</ul>
+	<p class="MsoNormal"><b><span style="font-size: 10pt">Software 
+	requirements:&nbsp;</span></b> </p>
+	<ul type="disc" style="margin-bottom: 0in">
+		<li class="MsoNormal"><span lang="EN-US">Intel<sup>®</sup> IPP 5.1 for 
+		Windows*, or later</span> 
+		</li>
+		<li class="MsoNormal"><span lang="EN-US">Intel<sup>®</sup> C++ Compiler 
+		8.1 for Windows*, or later</span> 
+		</li>
+		<li class="MsoNormal"><span lang="EN-US">Microsoft* Visual C++* 6.0 or 
+		Microsoft* Visual C++* .NET*</span> 
+		</li>
+		<li class="MsoNormal"><span class="TrkFieldValue">Microsoft* Windows* 
+		2003 Server</span></li>
+		<li class="MsoNormal"><span lang="EN-US">Microsoft* Windows* 2000, or 
+		Windows* XP</span> 
+		</li>
+		<li class="MsoNormal"><span lang="EN-US">For an Intel<sup>®</sup> Xeon<sup>®</sup>  
+		processor with Intel<sup>® </sup>EM64T: </span>
+		<span class="TrkFieldValue">Microsoft* Platform SDK for Windows* Server 
+		2003 SP1&quot; for EM64T platform</span></li>
+		<li>For Intel 
+		XScale<span lang="EN-US"><sup>®</sup></span>:&nbsp; Microsoft* eMbedded 
+		Visual C++* 4.0 SP4</li>
+		<li style="width: " type="circle"><font size="3">When building for a 
+		Windows* CE 5.0 for x86, Standard SDK for Windows* CE 5.0 is required</font></li>
+		<li type="circle">&nbsp;<font size="3">When building for a Windows* CE 
+		5.0 for </font><font face="Times New Roman">IXP 4XX product line 
+		processor</font><font size="3">, IXP </font>
+		<font face="Times New Roman">4XX product line</font><font size="3"> SDK 
+		for Windows* CE 5.0 is required</font> </li>
+	</ul>
+	<p>&nbsp;</div>
+<H2><A name=Package_Contents></A>Package Contents</H2>
+<table height="213" width="100%" border="1" id="table1">
+	<tr>
+		<td width="100%" bgColor="#c0c0c0" colSpan="2" height="23"><b>./ipp_sample/speech-coding</b></td>
+	</tr>
+	<tr>
+		<td width="50%" height="23">readme.htm</td>
+		<td width="50%" height="23">This file</td>
+	</tr>
+	<tr>
+		<td style="width: 234.15pt; height: 19.5pt; padding: 0.75pt" width="312">
+		<p class="MsoNormal">build32.bat, build64.bat, buildem64t.bat, 
+		buildwcex86.bat, buildwce420xsc.bat, buildwcexsc.bat </td>
+		<td style="width: 235.1pt; height: 19.5pt; padding: 0.75pt" width="313">
+		<p class="MsoNormal"><span lang="EN-US">Platform specific tools to build 
+		the samples</span></td>
+	</tr>
+	<tr>
+		<td width="50%" height="26">ipplic.htm</td>
+		<td width="50%" height="26">End User License Agreement </td>
+	</tr>
+	<tr>
+		<td width="50%" height="26">support.txt</td>
+		<td width="50%" height="26">Contains information for technical support</td>
+	</tr>
+	<tr>
+		<td width="50%" height="26">
+<table height="213" width="100%" border="1" id="table4">
+	<tr>
+		<td width="100%" bgColor="#c0c0c0" height="23"><b>./ipp_sample/speech-coding/application</b></td>
+	</tr>
+</table></td>
+		<td width="50%" height="26">
+<table height="206" width="100%" border="1" id="table3">
+	<tr>
+		<td width="100%" bgColor="#c0c0c0" height="200">This folder contains 2 
+		implementations of applications <br>
+		<br>
+		1) usc_ec :&nbsp; ITU G168 and G167 compliant implementation for Echo 
+		Canceller (EC) Sample<br>
+		2) usc_speech_codec: USC base speech coding implementation</td>
+	</tr>
+</table></td>
+	</tr>
+	<tr>
+		<td width="100%" bgColor="#c0c0c0" colSpan="2" height="23"><b>./ipp_sample/speech-coding/application/usc_speech_codec</b></td>
+	</tr>
+	<tr>
+		<td style="width: 234.15pt; height: 17.25pt; padding: 0.75pt" width="312">
+		<p class="MsoNormal">Readme.htm</td>
+		<td style="width: 235.1pt; height: 17.25pt; padding: 0.75pt" width="313">
+		<p class="MsoNormal">USC speech codec readme file</td>
+	</tr>
+	<tr>
+		<td style="width: 234.15pt; height: 19.5pt; padding: 0.75pt" width="312">
+		<p class="MsoNormal">ia32.ini, ia64.ini, em64t.ini, wcex86.ini, 
+		wce420xsc.ini, wcexsc.ini </td>
+		<td style="width: 235.1pt; height: 19.5pt; padding: 0.75pt" width="313">
+		<p class="MsoNormal"><span lang="EN-US">Platform specific initialization 
+		files for build tools</span></td>
+	</tr>
+	<tr>
+		<td style="width: 234.15pt; height: 19.5pt; padding: 0.75pt" width="312">
+		<p class="MsoNormal">build32.bat, build64.bat, buildem64t.bat, 
+		buildwcex86.bat, buildwce420xsc.bat, buildwcexsc.bat </td>
+		<td style="width: 235.1pt; height: 19.5pt; padding: 0.75pt" width="313">
+		<p class="MsoNormal"><span lang="EN-US">Platform specific batch files to 
+		build the samples</span></td>
+	</tr>
+	<tr>
+		<td style="width: 234.15pt; height: 19.5pt; padding: 0.75pt" width="312">
+		<p class="MsoNormal">makefile</td>
+		<td style="width: 235.1pt; height: 19.5pt; padding: 0.75pt" width="313">
+		<p class="MsoNormal"><span lang="EN-US">Platform specific make file for 
+		build tools</span></td>
+	</tr>
+	<tr>
+		<td width="100%" bgColor="#c0c0c0" colSpan="2" height="23"><b>./ipp_sample/speech-coding/application/usc_speech_codec/include/</b></td>
+	</tr>
+	<tr>
+		<td width="50%" height="23">formats.h</td>
+		<td width="50%" height="23">Format library API definition header files</td>
+	</tr>
+	<tr>
+		<td width="50%" height="23">uscfmt.h</td>
+		<td width="50%" height="23">Format library API definition header files</td>
+	</tr>
+	<tr>
+		<td width="50%" height="23">loadcodec.h</td>
+		<td width="50%" height="23">Plug-ins API definition header file</td>
+	</tr>
+	<tr>
+		<td width="50%" height="23">platform.h</td>
+		<td width="50%" height="23">Timing API definition header file</td>
+	</tr>
+	<tr>
+		<td width="50%" height="23">usc_cdcs.h</td>
+		<td width="50%" height="23">USC function tables </td>
+	</tr>
+	<tr>
+		<td width="50%" height="23">usccodec.h</td>
+		<td width="50%" height="23">USC wrapper definition header file</td>
+	</tr>
+	<tr>
+		<td width="50%" height="23">util.h</td>
+		<td width="50%" height="23">Auxiliary functions</td>
+	</tr>
+	<tr>
+		<td width="50%" height="23">wavfile.h</td>
+		<td width="50%" height="23">Wave file reading/writing API definition 
+		header file</td>
+	</tr>
+	<tr>
+		<td width="100%" bgColor="#c0c0c0" colSpan="2" height="23"><b>./ipp_sample/speech-coding/application/usc_speech_codec/src</b></td>
+	</tr>
+	<tr>
+		<td width="50%" height="23">formats.c</td>
+		<td width="50%" height="23">Format library functions file</td>
+	</tr>
+	<tr>
+		<td width="50%" height="23">loadcodec.c</td>
+		<td width="50%" height="23">Plug-ins<span style="font-size: 11pt; font-family: Times"> 
+		operation </span>functions.</td>
+	</tr>
+	<tr>
+		<td width="50%" height="23">platform.c</td>
+		<td width="50%" height="23">Timing functions file</td>
+	</tr>
+	<tr>
+		<td width="50%" height="23">player.c</td>
+		<td width="50%" height="23">Main program file</td>
+	</tr>
+	<tr>
+		<td width="50%" height="23">timing.c</td>
+		<td width="50%" height="23">Codec timing function</td>
+	</tr>
+	<tr>
+		<td width="50%" height="23">usccodec.c</td>
+		<td width="50%" height="23">USC wrapper functions file</td>
+	</tr>
+	<tr>
+		<td width="50%" height="23">util.c</td>
+		<td width="50%" height="23">Auxiliary functions</td>
+	</tr>
+	<tr>
+		<td width="50%" height="23">wavfile.c</td>
+		<td width="50%" height="23">Wave file reading/writing&nbsp; functions 
+		file</td>
+	</tr>
+</table>
+<table class="MsoNormalTable" style="width: 100%" height="214" cellPadding="0" width="100%" border="1" id="table2">
+	<tr style="height: 17.25pt">
+		<td style="width: 470.75pt; height: 17.25pt; padding: 0.75pt; background: silver" width="628" colSpan="2">
+		<p class="MsoNormal"><b>./ipp_sample/speech-coding/application/<span lang="EN-US">usc_ec/</span></b></td>
+	</tr>
+	<tr style="height: 17.25pt">
+		<td style="width: 312px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">Readme.htm</td>
+		<td style="width: 388px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">USC echo canceller readme file</td>
+	</tr>
+	<tr>
+		<td style="width: 234.15pt; height: 19.5pt; padding: 0.75pt" width="312">
+		<p class="MsoNormal">ia32.ini, ia64.ini, em64t.ini, wcex86.ini, 
+		wce420xsc.ini, wcexsc.ini </td>
+		<td style="width: 235.1pt; height: 19.5pt; padding: 0.75pt" width="313">
+		<p class="MsoNormal"><span lang="EN-US">Platform specific initialization 
+		files for build tools</span></td>
+	</tr>
+	<tr style="height: 19.5pt">
+		<td style="width: 312px; height: 19.5pt; padding: 0.75pt">
+		<p class="MsoNormal">build32.bat, build64.bat, buildem64t.bat, 
+		buildwcex86.bat, buildwce420xsc.bat, buildwcexsc.bat </td>
+		<td style="width: 388px; height: 19.5pt; padding: 0.75pt">
+		<p class="MsoNormal"><span lang="EN-US">Platform specific batch files to 
+		build the samples</span></td>
+	</tr>
+	<tr style="height: 19.5pt">
+		<td style="width: 312px; height: 19.5pt; padding: 0.75pt">
+		<p class="MsoNormal">makefile</td>
+		<td style="width: 388px; height: 19.5pt; padding: 0.75pt">
+		<p class="MsoNormal"><span lang="EN-US">Platform specific make file for 
+		build tools</span></td>
+	</tr>
+	<tr>
+		<td style="width: 470.75pt; height: 17.25pt; padding: 0.75pt; background: silver" width="628" colSpan="2">
+		<p class="MsoNormal"><b>./ipp_sample/speech-coding/application/<span lang="EN-US">usc_ec/</span>include</b></td>
+	</tr>
+	<tr>
+		<td style="width: 312px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal"><span lang="EN-US">loadec</span>.h</td>
+		<td style="width: 388px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">Plug-ins API definition header file</td>
+	</tr>
+	<tr>
+		<td style="width: 312px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal"><span lang="EN-US">u</span>til.h</td>
+		<td style="width: 388px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">Auxiliary functions</td>
+	</tr>
+	<tr>
+		<td style="width: 470.75pt; height: 17.25pt; padding: 0.75pt; background: silver" width="628" colSpan="2">
+		<p class="MsoNormal"><b>./ipp_sample/speech-coding/application/<span lang="EN-US">usc_ec/src</span></b></td>
+	</tr>
+	<tr>
+		<td style="width: 312px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal"><span lang="EN-US">loadec</span>.c</td>
+		<td style="width: 388px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">Plug-ins<span style="font-size: 11pt; font-family: Times"> 
+		operation </span>functions.</td>
+	</tr>
+	<tr>
+		<td style="width: 312px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal"><span lang="EN-US">usc_ec</span>.c</td>
+		<td style="width: 388px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">E<span lang="EN-US">C </span>main program file</td>
+	</tr>
+	<tr>
+		<td style="width: 312px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">util.c</td>
+		<td style="width: 388px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">Auxiliary functions</td>
+	</tr>
+	<tr>
+		<td width="314" height="26">
+<table height="213" width="101%" border="1" id="table7">
+	<tr>
+		<td width="100%" bgColor="#c0c0c0" height="23"><b>./ipp_sample/speech-coding/codec</b></td>
+	</tr>
+</table></td>
+		<td width="390" height="26">
+<table height="206" width="100%" border="1" id="table8">
+	<tr>
+		<td width="100%" bgColor="#c0c0c0" height="200">This folder contains 
+		implementation of a variety of USC interface based speech codecs </td>
+	</tr>
+</table></td>
+	</tr>
+	<tr>
+		<td style="width: 312px; height: 19.5pt; padding: 0.75pt">
+		<p class="MsoNormal">build32.bat, build64.bat, buildem64t.bat, 
+		buildwcex86.bat, buildwce420xsc.bat, buildwcexsc.bat </td>
+		<td style="width: 388px; height: 19.5pt; padding: 0.75pt">
+		<p class="MsoNormal"><span lang="EN-US">Platform specific batch files to 
+		build the samples</span></td>
+	</tr>
+	<tr>
+		<td style="width: 312px; height: 19.5pt; padding: 0.75pt">
+		<p class="MsoNormal">makefile</td>
+		<td style="width: 388px; height: 19.5pt; padding: 0.75pt">
+		<p class="MsoNormal"><span lang="EN-US">Platform specific make file for 
+		build tools</span></td>
+	</tr>
+	<tr>
+		<td style="width: 312px; height: 19.5pt; padding: 0.75pt">
+		<p class="MsoNormal">usc_interface.htm</td>
+		<td style="width: 388px; height: 19.5pt; padding: 0.75pt">
+		<p class="MsoNormal">Unified Speech Codec (USC) interface description 
+		HTML file</td>
+	</tr>
+	<tr>
+		<td style="width: 470.75pt; height: 17.25pt; padding: 0.75pt; background: silver" width="628" colSpan="2">
+		<p class="MsoNormal"><b>./ipp_sample/speech-coding/codec/<span lang="EN-US">include/</span></b></td>
+	</tr>
+	<tr>
+		<td style="width: 312px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">scratchmem.h</td>
+		<td style="width: 388px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">Local memory definition header file</td>
+	</tr>
+	<tr>
+		<td style="width: 312px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">usc.h</td>
+		<td style="width: 388px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">USC header file</td>
+	</tr>
+	<tr>
+		<td style="width: 312px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">usc_base.h</td>
+		<td style="width: 388px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">USC base header file</td>
+	</tr>
+	<tr>
+		<td style="width: 312px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">usc_ec.h</td>
+		<td style="width: 388px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">Unified Echo Canceller Interface header file.</td>
+	</tr>
+	<tr>
+		<td style="width: 312px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">uscreg.h</td>
+		<td style="width: 388px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">USC format tags header file</td>
+	</tr>
+	<tr style="height: 17.25pt">
+		<td style="width: 470.75pt; height: 17.25pt; padding: 0.75pt; background: silver" width="628" colSpan="2">
+		<p class="MsoNormal"><b>./ipp_sample/speech-coding/codec/<span lang="EN-US">ec/include/</span></b></td>
+	</tr>
+	<tr>
+		<td style="width: 312px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal"><span lang="EN-US">ah_</span>api.h</td>
+		<td style="width: 388px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">Anti - howling API header file</td>
+	</tr>
+	<tr>
+		<td style="width: 312px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal"><span lang="EN-US">ec_</span>api.h</td>
+		<td style="width: 388px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">EC float API header file</td>
+	</tr>
+	<tr style="height: 17.25pt">
+		<td style="width: 312px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal"><span lang="EN-US">ecusc</span>.h</td>
+		<td style="width: 388px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">USC EC float functions table</td>
+	</tr>
+	<tr>
+		<td style="width: 312px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal"><span lang="EN-US">ownah</span>.h</td>
+		<td style="width: 388px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">EC float Anti - howling header file</td>
+	</tr>
+	<tr style="height: 17.25pt">
+		<td style="width: 312px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal"><span lang="EN-US">ownec</span>.h</td>
+		<td style="width: 388px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal"><span lang="EN-US">EC </span>float
+		<span lang="EN-US">internal</span> header file</td>
+	</tr>
+	<tr>
+		<td style="width: 470.75pt; height: 17.25pt; padding: 0.75pt; background: silver" width="628" colSpan="2">
+		<p class="MsoNormal"><b>./ipp_sample/speech-coding/codec/<span lang="EN-US">ec_int/src</span></b></td>
+	</tr>
+	<tr>
+		<td style="width: 312px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal"><span lang="EN-US">ah</span>.c</td>
+		<td style="width: 388px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">Anti - howling <span lang="EN-US">functions for 
+		subband algorithm fast implementation</span></td>
+	</tr>
+	<tr>
+		<td style="width: 312px; height: 17.25pt; padding: 0.75pt; background: white">
+		<p class="MsoNormal"><span lang="EN-US">e</span>c<span lang="EN-US">_fb</span>.c</td>
+		<td style="width: 388px; height: 17.25pt; padding: 0.75pt; background: white">
+		<p class="MsoNormal"><span lang="EN-US" style="font-family: Times">EC
+		</span>float <span lang="EN-US">functions for fullband&nbsp;algorithm 
+		implementation</span></td>
+	</tr>
+	<tr>
+		<td style="width: 312px; height: 17.25pt; padding: 0.75pt; background: white">
+		<p class="MsoNormal"><span lang="EN-US">ec_sb.c</span></td>
+		<td style="width: 388px; height: 17.25pt; padding: 0.75pt; background: white">
+		<p class="MsoNormal"><span lang="EN-US" style="font-family: Times">EC
+		</span>float <span lang="EN-US">functions for subband&nbsp;algorithm 
+		implementation</span></td>
+	</tr>
+	<tr>
+		<td style="width: 312px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal"><span lang="EN-US">ec_sbf.c</span></td>
+		<td style="width: 388px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal"><span lang="EN-US" style="font-family: Times">EC
+		</span>float <span lang="EN-US">functions for subband algorithm fast 
+		implementation </span></td>
+	</tr>
+	<tr>
+		<td style="width: 312px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal"><span lang="EN-US">ecusc</span>.c</td>
+		<td style="width: 388px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">USC EC float functions</td>
+	</tr>
+	<tr>
+		<td style="width: 470.75pt; height: 17.25pt; padding: 0.75pt; background: silver" width="628" colSpan="2">
+		<p class="MsoNormal"><b>./ipp_sample/speech-coding/codec/<span lang="EN-US">ec_int/include/</span></b></td>
+	</tr>
+	<tr>
+		<td style="width: 312px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal"><span lang="EN-US">ah_</span>api_int.h</td>
+		<td style="width: 388px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">Anti - howling API header file</td>
+	</tr>
+	<tr>
+		<td style="width: 312px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal"><span lang="EN-US">ec_</span>api_int.h</td>
+		<td style="width: 388px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">EC API header file</td>
+	</tr>
+	<tr>
+		<td style="width: 312px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal"><span lang="EN-US">ecusc_int</span>.h</td>
+		<td style="width: 388px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">USC EC integer functions table</td>
+	</tr>
+	<tr>
+		<td style="width: 312px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal"><span lang="EN-US">ownah_int</span>.h</td>
+		<td style="width: 388px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">EC integer Anti - howling header file</td>
+	</tr>
+	<tr>
+		<td style="width: 312px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal"><span lang="EN-US">ownec_int</span>.h</td>
+		<td style="width: 388px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal"><span lang="EN-US">EC </span>integer
+		<span lang="EN-US">internal</span> header file</td>
+	</tr>
+	<tr>
+		<td style="width: 470.75pt; height: 17.25pt; padding: 0.75pt; background: silver" width="628" colSpan="2">
+		<p class="MsoNormal"><b>./ipp_sample/speech-coding/codec/<span lang="EN-US">ec/src</span></b></td>
+	</tr>
+	<tr>
+		<td style="width: 312px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal"><span lang="EN-US">ah_int</span>.c</td>
+		<td style="width: 388px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">Anti - howling <span lang="EN-US">functions </span></td>
+	</tr>
+	<tr>
+		<td style="width: 312px; height: 17.25pt; padding: 0.75pt; background: white">
+		<p class="MsoNormal"><span lang="EN-US">e</span>c<span lang="EN-US">_fb_int</span>.c</td>
+		<td style="width: 388px; height: 17.25pt; padding: 0.75pt; background: white">
+		<p class="MsoNormal"><span lang="EN-US" style="font-family: Times">EC
+		</span><span lang="EN-US">functions for fullband&nbsp;algorithm 
+		implementation</span></td>
+	</tr>
+	<tr>
+		<td style="width: 312px; height: 17.25pt; padding: 0.75pt; background: white">
+		<p class="MsoNormal"><span lang="EN-US">ec_sb_int.c</span></td>
+		<td style="width: 388px; height: 17.25pt; padding: 0.75pt; background: white">
+		<p class="MsoNormal"><span lang="EN-US" style="font-family: Times">EC
+		</span><span lang="EN-US">functions for subband&nbsp;algorithm implementation</span></td>
+	</tr>
+	<tr>
+		<td style="width: 312px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal"><span lang="EN-US">ec_sbf_int.c</span></td>
+		<td style="width: 388px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal"><span lang="EN-US" style="font-family: Times">EC
+		</span><span lang="EN-US">functions for subband algorithm fast 
+		implementation </span></td>
+	</tr>
+	<tr>
+		<td style="width: 312px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal"><span lang="EN-US">ecusc_int</span>.c</td>
+		<td style="width: 388px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">USC EC functions</td>
+	</tr>
+	<tr>
+		<td style="width: 470.75pt; height: 17.25pt; padding: 0.75pt; background: silver" width="628" colSpan="2">
+		<p class="MsoNormal"><b>./ipp_sample/speech-coding/codec/<span lang="EN-US">amrwb/include/</span></b></td>
+	</tr>
+	<tr>
+		<td style="width: 312px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">amrwb_types.h, amrwbapi.h, amrwusc.h, ownarwb.h</td>
+		<td style="width: 388px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">AMRWB (G.722.2) codec header file</td>
+	</tr>
+	<tr>
+		<td style="width: 470.75pt; height: 17.25pt; padding: 0.75pt; background: silver" width="628" colSpan="2">
+		<p class="MsoNormal"><b>./ipp_sample/speech-coding/codec/<span lang="EN-US">amrwb/src</span></b></td>
+	</tr>
+	<tr>
+		<td style="width: 312px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">&nbsp;decamrwb.c, dtxamrwb.c, encamrwb.c, 
+		ownamrwb.c, tabamrwb.c, uscamrwb.c, utilamrwb.c</td>
+		<td style="width: 388px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">AMRWB (G.722.2) codec implementation files</td>
+	</tr>
+	<tr>
+		<td style="width: 470.75pt; height: 17.25pt; padding: 0.75pt; background: silver" width="628" colSpan="2">
+		<p class="MsoNormal"><b>./ipp_sample/speech-coding/codec/<span lang="EN-US">g711/include/</span></b></td>
+	</tr>
+	<tr>
+		<td style="width: 312px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">g711api.h, owng711.h</td>
+		<td style="width: 388px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">G.711 codec header file</td>
+	</tr>
+	<tr>
+		<td style="width: 470.75pt; height: 17.25pt; padding: 0.75pt; background: silver" width="628" colSpan="2">
+		<p class="MsoNormal"><b>./ipp_sample/speech-coding/codec/<span lang="EN-US">g711/src</span></b></td>
+	</tr>
+	<tr>
+		<td style="width: 312px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">decg711.c, encg711.c, plcg711.c, uscg711.c </td>
+		<td style="width: 388px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">G.711 codec implementation files</td>
+	</tr>
+	<tr>
+		<td style="width: 470.75pt; height: 17.25pt; padding: 0.75pt; background: silver" width="628" colSpan="2">
+		<p class="MsoNormal"><b>./ipp_sample/speech-coding/codec/<span lang="EN-US">g722/include/</span></b></td>
+	</tr>
+	<tr>
+		<td style="width: 312px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">g722sb.h, g722sbapi.h, owng722sb.h</td>
+		<td style="width: 388px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">G.722 codec header file</td>
+	</tr>
+	<tr>
+		<td style="width: 470.75pt; height: 17.25pt; padding: 0.75pt; background: silver" width="628" colSpan="2">
+		<p class="MsoNormal"><b>./ipp_sample/speech-coding/codec/<span lang="EN-US">g722/src</span></b></td>
+	</tr>
+	<tr>
+		<td style="width: 312px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">decg722sb.c, encg722sb.c, owng722sb.c, uscg722sb.c</td>
+		<td style="width: 388px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">G.722 codec implementation files</td>
+	</tr>
+	<tr>
+		<td style="width: 470.75pt; height: 17.25pt; padding: 0.75pt; background: silver" width="628" colSpan="2">
+		<p class="MsoNormal"><b>./ipp_sample/speech-coding/codec/<span lang="EN-US">g722.1/include/</span></b></td>
+	</tr>
+	<tr>
+		<td style="width: 312px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">g722.h, g722api.h, owng722.h</td>
+		<td style="width: 388px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">G.722.1 codec header file</td>
+	</tr>
+	<tr>
+		<td style="width: 470.75pt; height: 17.25pt; padding: 0.75pt; background: silver" width="628" colSpan="2">
+		<p class="MsoNormal"><b>./ipp_sample/speech-coding/codec/<span lang="EN-US">g722.1/src</span></b></td>
+	</tr>
+	<tr>
+		<td style="width: 312px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">decg722.c, encg722.c, g722api.c, owng722.c, 
+		uscg722.c</td>
+		<td style="width: 388px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">G.722.1 codec implementation files</td>
+	</tr>
+	<tr>
+		<td style="width: 470.75pt; height: 17.25pt; padding: 0.75pt; background: silver" width="628" colSpan="2">
+		<p class="MsoNormal"><b>./ipp_sample/speech-coding/codec/<span lang="EN-US">g723.1/include/</span></b></td>
+	</tr>
+	<tr>
+		<td style="width: 312px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">g723api.h, g723ipp.h,owng723.h</td>
+		<td style="width: 388px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">G.723.1 codec header file</td>
+	</tr>
+	<tr>
+		<td style="width: 470.75pt; height: 17.25pt; padding: 0.75pt; background: silver" width="628" colSpan="2">
+		<p class="MsoNormal"><b>./ipp_sample/speech-coding/codec/<span lang="EN-US">g723.1/src</span></b></td>
+	</tr>
+	<tr>
+		<td style="width: 312px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">decg723.c, encg723.c, owng723.c, uscg723.c</td>
+		<td style="width: 388px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">G.723.1 codec implementation files</td>
+	</tr>
+	<tr>
+		<td style="width: 470.75pt; height: 17.25pt; padding: 0.75pt; background: silver" width="628" colSpan="2">
+		<p class="MsoNormal"><b>./ipp_sample/speech-coding/codec/<span lang="EN-US">g726/src</span></b></td>
+	</tr>
+	<tr>
+		<td style="width: 312px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">uscg726.c</td>
+		<td style="width: 388px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">G.726 codec implementation files</td>
+	</tr>
+	<tr>
+		<td style="width: 470.75pt; height: 17.25pt; padding: 0.75pt; background: silver" width="628" colSpan="2">
+		<p class="MsoNormal"><b>./ipp_sample/speech-coding/codec/<span lang="EN-US">g728/include/</span></b></td>
+	</tr>
+	<tr>
+		<td style="width: 312px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">g728.h, g728api.h, g728tables.h, owng728.h</td>
+		<td style="width: 388px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">G.728 codec header file</td>
+	</tr>
+	<tr>
+		<td style="width: 470.75pt; height: 17.25pt; padding: 0.75pt; background: silver" width="628" colSpan="2">
+		<p class="MsoNormal"><b>./ipp_sample/speech-coding/codec/<span lang="EN-US">g728/src</span></b></td>
+	</tr>
+	<tr>
+		<td style="width: 312px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">adapters.c, consealg728.c, g728api.c, g728tables.c, 
+		owng728.c, pitchg728.c, pstg728.c, uscg728.c, vq.c</td>
+		<td style="width: 388px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">G.728 codec implementation files</td>
+	</tr>
+	<tr>
+		<td style="width: 470.75pt; height: 17.25pt; padding: 0.75pt; background: silver" width="628" colSpan="2">
+		<p class="MsoNormal"><b>./ipp_sample/speech-coding/codec/<span lang="EN-US">g729fp/include/</span></b></td>
+	</tr>
+	<tr>
+		<td style="width: 312px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">g729fpapi.h, owng729fp.h</td>
+		<td style="width: 388px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">G.729 floating-point codec header file</td>
+	</tr>
+	<tr>
+		<td style="width: 470.75pt; height: 17.25pt; padding: 0.75pt; background: silver" width="628" colSpan="2">
+		<p class="MsoNormal"><b>./ipp_sample/speech-coding/codec/<span lang="EN-US">g729fp/src</span></b></td>
+	</tr>
+	<tr>
+		<td style="width: 312px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">decg729fp.c, encg729fp.c, owng729fp.c, usc729fp.c</td>
+		<td style="width: 388px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">G.729 floating-point codec implementation files</td>
+	</tr>
+	<tr>
+		<td style="width: 470.75pt; height: 17.25pt; padding: 0.75pt; background: silver" width="628" colSpan="2">
+		<p class="MsoNormal"><b>./ipp_sample/speech-coding/codec/<span lang="EN-US">g729i/include/</span></b></td>
+	</tr>
+	<tr>
+		<td style="width: 312px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">g729api.h, g729usc.h, owng729.h</td>
+		<td style="width: 388px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">G.729 codec header file</td>
+	</tr>
+	<tr>
+		<td style="width: 470.75pt; height: 17.25pt; padding: 0.75pt; background: silver" width="628" colSpan="2">
+		<p class="MsoNormal"><b>./ipp_sample/speech-coding/codec/<span lang="EN-US">g729i/src</span></b></td>
+	</tr>
+	<tr>
+		<td style="width: 312px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">decg729.c, encg729.c, owng729.c, uscg729i.c</td>
+		<td style="width: 388px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">G.729 codec implementation files</td>
+	</tr>
+	<tr>
+		<td style="width: 470.75pt; height: 17.25pt; padding: 0.75pt; background: silver" width="628" colSpan="2">
+		<p class="MsoNormal"><b>./ipp_sample/speech-coding/codec/<span lang="EN-US">gsmamr/include/</span></b></td>
+	</tr>
+	<tr>
+		<td style="width: 312px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">gsmamr.h, gsmamr_types.h, gsmamrapi.h, gsmamrusc.h, 
+		owngsmamr.h</td>
+		<td style="width: 388px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">GSM 06.90 AMR codec header file</td>
+	</tr>
+	<tr>
+		<td style="width: 470.75pt; height: 17.25pt; padding: 0.75pt; background: silver" width="628" colSpan="2">
+		<p class="MsoNormal"><b>./ipp_sample/speech-coding/codec/<span lang="EN-US">gsmamr/src</span></b></td>
+	</tr>
+	<tr>
+		<td style="width: 312px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">bitgsmamr.c, decgsmamr.c, dtxgsmamr.c, encgsmamr.c, 
+		gain_util.c, tabgsmamr.c, uscgsmamr.c, utilgsmamr.c</td>
+		<td style="width: 388px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">GSM 06.90 AMR codec implementation files</td>
+	</tr>
+	<tr>
+		<td style="width: 470.75pt; height: 17.25pt; padding: 0.75pt; background: silver" width="628" colSpan="2">
+		<p class="MsoNormal"><b>./ipp_sample/speech-coding/codec/<span lang="EN-US">gsmfr/include/</span></b></td>
+	</tr>
+	<tr>
+		<td style="width: 312px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">gsmfr_types.h, gsmfrapi.h, owngsmfr.h</td>
+		<td style="width: 388px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">GSM 06.10 codec header file</td>
+	</tr>
+	<tr>
+		<td style="width: 470.75pt; height: 17.25pt; padding: 0.75pt; background: silver" width="628" colSpan="2">
+		<p class="MsoNormal"><b>./ipp_sample/speech-coding/codec/<span lang="EN-US">gsmfr/src</span></b></td>
+	</tr>
+	<tr>
+		<td style="width: 312px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">decgsmfr.c, encgsmfr.c, owngsmfr.c, uscgsmfr.c</td>
+		<td style="width: 388px; height: 17.25pt; padding: 0.75pt">
+		<p class="MsoNormal">GSM 06.10 codec implementation files</td>
+	</tr>
+	<tr>
+    <td width="100%" bgColor="#cccccc" colSpan="2" height="19"><b>
+	./ipp_sample/speech-coding/vm/include/</b></td>
+  	</tr>
+	<tr>
+    <td width="50%" height="19">vm_strings.h, vm_sys_info.h, vm_types.h</td>
+    <td width="50%" height="19">Header files</td>
+  	</tr>
+	<tr>
+    <td width="100%" bgColor="#cccccc" colSpan="2" height="19"><b>
+	./ipp_sample/speech-coding/vm/include/sys/</b></td>
+  	</tr>
+	<tr>
+    <td width="50%" height="19">vm_types_linux32.h, vm_types_win32.h </td>
+    <td width="50%" height="19">Header file containing definition of cross
+      platform types for IA-32 platforms running Linux*/Microsoft* Windows*</td>
+  	</tr>
+	<tr>
+    <td width="100%" bgColor="#cccccc" colSpan="2" height="19"><b>
+	./ipp_sample/speech-coding/vm/src/</b></td>
+  	</tr>
+	<tr>
+    <td width="50%" height="19">vm_sys_info_linux32.c, vm_sys_info_win32.c</td>
+    <td width="50%" height="19">Source files&nbsp; for IA-32 platforms running Linux*/Microsoft* Windows*</td>
+  	</tr>
+</table>
+<H2>&nbsp;</H2>
+<H2><A name=Installation></A>Installation</H2>
+<div class="Section1">
+	<span lang="EN-US">Extract all files in w_ipp-sample-speech-coding_*.zip to 
+	a desired folder. Please make sure to preserve the directory structure. The 
+	files for the USC Speech Codec and Echo Cancellation sample will be found in 
+	the ./ipp_sample/speech-coding folder. </span></div>
+
+<H2><A name=How_to_Build_Source_Code></A>How to Build Source Code</H2>
+<ul>
+	<li>Set up your build environment by creating an 
+	environment variable named <b>IPPROOT</b> that points to the root directory 
+	of your Intel<sup>®</sup> IPP installation. For example: <b>IPPROOT=C:/Program 
+	Files/Intel/IPP/5.1/ia32/</b> </li>
+	<li>
+	<div class="Section1">
+		<ul type="disc">
+			<li><span lang="EN-US">To build for an IA-32 system: </span>
+			<span class="SpellE">run</span> build32.bat. </li>
+			<li><span lang="EN-US">To build for an Intel<sup>®</sup> Xeon(TM) 
+			Processor with Intel<sup>®</sup> Extended Memory 64 Technology 
+			system: </span><span class="SpellE">run</span> buildem64t.bat. </li>
+			<li><span lang="EN-US">To build for an Intel<sup>®</sup> Itanium<sup>®</sup> 
+			processor based system: </span><span class="SpellE">run</span> 
+			build64.bat. </li>
+			<li><span lang="EN-US">To build for an Intel<sup>®</sup> IXP4xx 
+			processor: r</span>un buildwce420xsc.bat (XScale wce420) or buildwcexsc.bat (XScale 
+			wce500), buildwcex86.bat (IA32,WindowsCE)</li>
+		</ul>
+	</div>
+	</li>
+</ul>
+<p><font size="3">Note for developers for WindowsCE 5.0.&nbsp; Probably you'll 
+need to set the </font><font face="Courier New" size="3">SDKROOT</font><font size="3"> 
+environment variable manually, for example:&nbsp; </font>
+<font face="Courier New" size="3">set SDKROOT=C:\Program Files\Windows CE Tools</font> </p>
+<p>The easiest way to build all application is to simply run build32.bat located 
+under directory ./<span lang="EN-US">ipp_sample/</span>speech-coding if the 
+target system is based on Intel® Pentium® Processor system. The build*.bat will build the USC speech codec library and two samples, 
+namely the unified echo canceller and&nbsp;the unified speech codec. If build is successful all relevant .obj 
+files and .lib files are created and stored under directory .<span lang="EN-US">/ipp_sample/speech-coding/</span>bin/ia32/obj/* 
+and&nbsp; .<span lang="EN-US">/ipp_sample/speech-coding/</span>bin/ia32/lib/* 
+respectively. The .exe files will be placed in ./<span lang="EN-US">ipp_sample/speech-coding/</span>bin/ia32.</p>
+<p>The USC library and samples can be built separately for desired platform 
+using build*.bat batch files located in specific folders:</p>
+<ol>
+	<li>
+	<span lang="EN-US">./ipp_sample/speech-coding/codec/build*.bat - to build 
+	the USC library</span>&nbsp;&nbsp; </li>
+	<li>
+	<span lang="EN-US">./ipp_sample/speech-coding/application/usc_speech_codec/build*.bat 
+	- to build USC Speech Codec sample. The USC library must be built prior to 
+	the USC speech codec separate build. </span></li>
+	<li><span lang="EN-US">&nbsp;./ipp_sample/speech-coding/application/usc_ec/build*.bat 
+	- to build the Echo Canceller sample.</span></li>
+</ol>
+<p>Note, with default settings it will build the sample with Intel C++ compiler. To 
+change defaults see the Makefile for a brief description of the available variables 
+and additional options.</p>
+<H2><A name=Running_the_Software></A>Running the Software</H2>
+<P>Read the specific sample readme.htm file to learn how to build and run 
+the sample (to locate see the table above).&nbsp; <FONT color=#ff0000>&nbsp;</FONT><P>In 
+order to run each executable created by this sample, the Intel® IPP DLLs must be 
+on the system's path. DLLs are located in the bin subdirectory of 
+the root directory of the Intel® IPP installation (IPPROOT). This can be done by 
+setting the PATH environment variable manually or invoking the batch file: &quot;%IPPROOT%/tools/env/ippenv.bat&quot; 
+from the Intel® IPP installation.<FONT color=#ff0000>&nbsp;</FONT> 
+<H2><A name=Known_Limitations></A>Known Limitations</H2>There is no known 
+limitation.<H2><A name=Support></A>Technical Support and Feedback</H2>
+To receive support or provide feedback for speech coding sample, please refer to 
+the <i>&quot;Technical Support and Feedback&quot;</i> section of the release notes (<b>ippnotes.htm</b>) 
+provided in the Intel<sup>® </sup>IPP product installation. 
+<div class="Section1">
+	<span lang="EN-US">Your feedback on the Intel IPP samples is very important 
+	to us and your input will be considered for future releases. The Intel IPP 
+	sample code is intended only as an example of how to use the APIs to 
+	implement algorithms in different development environments. Please submit 
+	problems with installation, compiling, linking, runtime errors or incorrect 
+	output to </span><a style="COLOR: blue" href="https://premier.intel.com/">
+	<u><span lang="EN-US">Intel® Premier Support</span></u></a><span lang="EN-US">.
+	</span></div>
+<p>You can also share and discuss the experience of IPP sample usage with other 
+developers at <a href="http://softwareforums.intel.com/ids">Intel Software 
+Developer Forum</a>.</p>
+
+<font size=-2>
+<p>Intel, the Intel logo, Intel SpeedStep, Intel NetBurst, Intel NetStructure, 
+MMX, i386, i486, Intel386, Intel486, Intel740, IntelDX2, IntelDX4, 
+IntelSX2,Celeron, Intel Centrino, Intel Xeon, Intel XScale, Itanium, Pentium, 
+Pentium II Xeon, Pentium III Xeon, Pentium M, and VTune are trademarks or 
+registered trademarks of Intel Corporation or its subsidiaries in the United 
+States and other countries. </p>
+<p>* Other names and brands may be claimed as the property of others. <br>
+&nbsp;<br>
+Copyright © 2002-2006 Intel Corporation.</p>
+
+</BODY></HTML>

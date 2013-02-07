@@ -27,6 +27,17 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "linphonecore.h"
 #include <QString>
 
+#  if defined(ENABLE_NLS)
+#    include <libintl.h>
+#    define _(String) dgettext (GETTEXT_PACKAGE, String)
+#  else
+#    define _(String) (String)
+#  endif // ENABLE_NLS
+#ifdef _MSC_VER
+#define N_(String) (String)
+#else
+#define N_(String) _(String)
+#endif
 
 #ifdef USE_BUILDDATE_VERSION
 #include "version_date.h"
@@ -61,6 +72,7 @@ static void linphone_qt_call_encryption_changed(LinphoneCore *lc, LinphoneCall *
 static void linphone_qt_call_transfer_state_changed(LinphoneCore *lc, LinphoneCall *transfered, LinphoneCallState new_call_state);
 static void linphone_qt_dtmf_received(LinphoneCore *lc, LinphoneCall *call, int dtmf);
 static void linphone_qt_text_received(LinphoneCore *lc, LinphoneChatRoom *room, const LinphoneAddress *from, const char *message);
+static void linphone_qt_text_status(LinphoneCore *lc, LinphoneChatRoom *room, const LinphoneAddress *from, const char *callid, bool_t status);
 static void linphone_qt_buddy_info_updated(LinphoneCore *lc, LinphoneFriend *lf);
 static void linphone_qt_call_stats_updated(LinphoneCore *lc, LinphoneCall *call, const LinphoneCallStats *stats);
 /*linphonecore  callback api end*/
@@ -116,6 +128,7 @@ void linphone_qt_enable_hold_button(LinphoneCall *call, bool sensitive, bool hol
 void linphone_qt_enable_transfer_button(LinphoneCore *lc, bool value);
 void linphone_qt_enable_conference_button(LinphoneCore *lc, bool value);
 void text_received(LinphoneCore *lc, LinphoneChatRoom *room, const LinphoneAddress *from, const char *message);
+void text_status(LinphoneCore *lc, LinphoneChatRoom *room, const LinphoneAddress *from, const char *callid, bool status);
 
 void linphone_qt_show_status(const char *status);
 void display_message(const char *msg);

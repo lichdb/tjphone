@@ -2,18 +2,20 @@
 #include "ui_chatroom.h"
 #include <QPushButton>
 #include "linphone.h"
+#include "mainwindow.h"
+
 
 ChatRoom * linphone_qt_init_chatroom(LinphoneChatRoom *cr, const char *with){
-	ChatRoom *w;
+	ChatRoom *chatw;
 	QString tmp;
-	w = new ChatRoom();
+	chatw = new ChatRoom(w);
 	tmp.sprintf("Chat with %s",with);
-	w->setWindowTitle(tmp);
-	w->setLinphoneChatRoom(cr);
+	chatw->setWindowTitle(tmp);
+	chatw->setLinphoneChatRoom(cr);
 	linphone_chat_room_set_user_data(cr,w);
-	w->setAttribute(Qt::WA_DeleteOnClose);
-	w->show();
-	return w;
+	chatw->setAttribute(Qt::WA_DeleteOnClose);
+	chatw->show();
+	return chatw;
 }
 
 void linphone_qt_create_chatroom(const char *with){
@@ -36,18 +38,21 @@ ChatRoom::ChatRoom(QWidget *parent) :
 
 ChatRoom::~ChatRoom()
 {
-	linphone_chat_room_destroy(cr_);
+	//linphone_chat_room_destroy(cr_);
     delete ui;
 }
 
-void ChatRoom::push_text(const char *from, const char *message, bool me)
+void ChatRoom::push_text(const char *from, const char *message, QString &msgid, bool me)
 {
 	QTextBrowser *text = ui->textBrowser;
 	QString author;
 	QString msg;
-	author.sprintf("%s:\t", from);
+	author.sprintf("%s", from);
+	if(!msgid.isEmpty()){
+		author += "\tmsgid:" + msgid;
+	}
 	msg.sprintf("%s",message);
-	text->append(from);
+	text->append(author);
 	text->append(msg);
 }
 
@@ -58,10 +63,27 @@ void text_received(LinphoneCore *lc, LinphoneChatRoom *room, const LinphoneAddre
 	if (w==NULL){
 		w=linphone_qt_init_chatroom(room,linphone_address_as_string_uri_only(from));
 	}
-	w->push_text(linphone_address_as_string_uri_only(from),message,false);
+	QString msgid;
+	w->push_text(linphone_address_as_string_uri_only(from), message, msgid, false);
 	w->activateWindow();
 	w->show();
 }
+void text_status(LinphoneCore *lc, LinphoneChatRoom *room, const LinphoneAddress *from, const char *callid, bool status)
+{
+	//ChatRoom *chatw=(ChatRoom*)linphone_chat_room_get_user_data(room);
+	//if (chatw==NULL){
+	//	chatw=linphone_qt_init_chatroom(room,from);
+	//}
+	//chatw->text_status(linphone_address_as_string_uri_only(from), callid, status);
+	QString msg;
+	if(!status){
+		msg.sprintf(_("IM Message Send Failured ID:%s"), callid);
+	}else{
+		msg.sprintf(_("IM Message Send Successed ID:%s"), callid);
+	}
+	linphone_qt_show_status(msg.toUtf8().constData());
+}
+
 
 void ChatRoom::on_buttonBox_rejected()
 {
@@ -85,8 +107,9 @@ void ChatRoom::on_buttonBox_clicked(QAbstractButton *button)
 	//if(button->text()!="send") return;
     QString msg = ui->textEdit->toPlainText();
     if (msg.length()>0) {
-            push_text(get_used_identity(),msg.toLocal8Bit(),true);
-            linphone_chat_room_send_message(cr_,msg.toLocal8Bit());
+			QString msgid = linphone_chat_room_send_message(cr_,msg.toLocal8Bit());
+            push_text(get_used_identity(),msg.toLocal8Bit(), msgid, true);
+            
             ui->textEdit->clear();
     }
 }

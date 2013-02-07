@@ -49,7 +49,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #if defined(_MSC_VER)
 #define MS2_PUBLIC	__declspec(dllexport)
-#define N_
 #else
 #define MS2_PUBLIC
 #endif
@@ -251,7 +250,11 @@ MS2_PUBLIC unsigned int ms_get_cpu_count();
 #  else
 #    define _(String) (String)
 #  endif // ENABLE_NLS
+#ifdef _MSC_VER
 #define N_(String) (String)
+#else
+#define N_(String) _(String)
+#endif
 #endif // MS2_INTERNAL
 
 #ifdef ANDROID

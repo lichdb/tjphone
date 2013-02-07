@@ -39,7 +39,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #endif
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#include "linphonecore_config.h"
 #endif
 
 /*#define UNSTANDART_GSM_11K 1*/
@@ -4432,9 +4432,13 @@ static void linphone_core_uninit(LinphoneCore *lc)
 
 	ms_list_for_each(lc->call_logs,(void (*)(void*))linphone_call_log_destroy);
 	lc->call_logs=ms_list_free(lc->call_logs);
-
 	linphone_core_free_payload_types(lc);
 	ortp_exit();
+	if (lc->chatrooms){
+		ms_list_for_each(lc->chatrooms,(void (*)(void *))linphone_chat_room_destroy);
+		lc->chatrooms=ms_list_free(lc->chatrooms);
+	}
+		
 	linphone_core_set_state(lc,LinphoneGlobalOff,"Off");
 #ifdef TUNNEL_ENABLED
 	if (lc->tunnel) linphone_tunnel_destroy(lc->tunnel);

@@ -157,6 +157,8 @@ static FILE *log_init()
 			}
 		}else if (linphone_logfile!=NULL){
 				snprintf(_logfname,sizeof(_logfname),"%s",linphone_logfile);
+				dst_fname = linphone_logfile;
+				snprintf(_logdir,sizeof(_logdir),".");
 		}
 		if (_logfname[0]!='\0'){
 				/* If the constant LOGFILE_ROTATION is greater than zero, then
