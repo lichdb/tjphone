@@ -26,13 +26,14 @@ private slots:
     void remove_selected();
     void wait_for_friend();
     void chat_selected();
-    //void update_bookmarks();
+	void call_selected();
     void update_all();
 
 private:
 	friend_record get_selected_friend() const;
 	QAction* add_action_;
     QAction* edit_action_;
+	QAction* call_action_;
     QAction* remove_action_;
     QAction* chat_action_;
     QAction* update_all_action_;
