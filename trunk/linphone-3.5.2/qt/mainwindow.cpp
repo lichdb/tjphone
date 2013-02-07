@@ -97,6 +97,7 @@ MainWindow::MainWindow(QWidget *parent) :
 		ui->actionEnable_selfview->setChecked(false);
 	}
 	//on_action_audio_only_triggered();
+
 	_tree = new custom_tree(this);
 	QSizePolicy policy(QSizePolicy::Expanding,QSizePolicy::Expanding); 
 	policy.setHorizontalStretch(0);
@@ -105,31 +106,30 @@ MainWindow::MainWindow(QWidget *parent) :
 	_tree->setSizePolicy(policy);
 	ui->gridLayout_4->addWidget(_tree, 2, 0, 1, 1);
 	_tree->friends_ = new friend_list();
-	//_tree->setAlternatingRowColors(true);
-	//_tree->setBackgroundRole(QPalette::Base);
-	//_tree->setFrameStyle();
 	_tree->setSelectionMode(QAbstractItemView::ExtendedSelection);
 	_tree->setRootIsDecorated(false);
-//     _tree->setUniformRowHeights(true);
 	_tree->setSortingEnabled(true);
 	_tree->setAllColumnsShowFocus(true);
-//     _tree->setWordWrap(true);
-
 	_tree->setContextMenuPolicy(Qt::DefaultContextMenu);
+
+	
 
 	QTextCodec::setCodecForCStrings(QTextCodec::codecForName("utf8"));
 	QTextCodec *codec = QTextCodec::codecForCStrings();
-	QString a; 
+	//QString a; 
 	
 	QTreeWidgetItem* it = _tree->headerItem();
-	a = codec->toUnicode("name");
-	it->setText(0, a);
-	a = codec->toUnicode("status");
-	it->setText(1, a);
+	//a = codec->toUnicode(_("name"));
+	it->setText(0, tr("name"));
+	//a = codec->toUnicode(_("status"));
+	it->setText(1, tr("status"));
 
 	QHeaderView* hdr = _tree->header();
 	hdr->resizeSection(0, 80);
 	_tree->setItemDelegateForColumn( 1, new status_item_delegate(this) );
+	connect(_tree, SIGNAL(itemClicked(QTreeWidgetItem *, int)), this, SLOT(tree_Clicked(QTreeWidgetItem *, int)));
+	connect(_tree, SIGNAL(itemDoubleClicked (QTreeWidgetItem *, int)), this, SLOT(tree_DoubleClicked(QTreeWidgetItem *, int)));
+
 
 	_presence_menu = _tree->create_presence_menu();
 	connect(_presence_menu, SIGNAL(triggered(QAction *)), this, SLOT(set_my_presence(QAction *)));
@@ -169,6 +169,24 @@ void MainWindow::history_closed()
 {
     _callhistory = NULL;
 }
+void MainWindow::tree_Clicked(QTreeWidgetItem *item, int column)
+{
+	const LinphoneFriend *lf;
+	char *uri;
+	friend_record currentfr;
+	currentfr = item->data(1, c_friend_role).value<friend_record>();
+	lf = currentfr.frienddata();
+	uri=linphone_address_as_string(linphone_friend_get_address(lf));
+	this->setUriText(uri);
+	ms_free(uri);
+}
+
+void MainWindow::tree_DoubleClicked(QTreeWidgetItem *item, int column)
+{
+	tree_Clicked(item, column);
+	on_toolButton_call_clicked();
+}
+
 void MainWindow::on_action_Quit_triggered()
 {
 	LinphoneCore *lc=linphone_qt_get_core();

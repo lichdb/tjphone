@@ -94,13 +94,17 @@ custom_tree::custom_tree(QWidget *parent)
     wait_for_friend_action_ = new QAction(QIcon("icons:chronometer.png"), tr("Wait for the friend"), this);
     connect(wait_for_friend_action_, SIGNAL(triggered()), SLOT(wait_for_friend()));
 
-	
+	call_action_ = new QAction(QIcon("icons:chronometer.png"), tr("call to"), this);
+    connect(call_action_, SIGNAL(triggered()), SLOT(call_selected()));
+
 
    acts << edit_action_
         << remove_action_
 		<< chat_action_
+		<< call_action_
         << add_separator_action(this,"")
 		<< add_action_;
+
 	
 	setContextMenuPolicy( Qt::DefaultContextMenu );
 
@@ -109,7 +113,6 @@ custom_tree::custom_tree(QWidget *parent)
 	_status_icons.insert("status-red.png", QPixmap("icons:status-red.png"));
 	_status_icons.insert("status-offline.png", QPixmap("icons:status-offline.png"));
 	_status_icons.insert("status-green.png", QPixmap("icons:status-green.png"));
-
 }
 
 custom_tree::~custom_tree()
@@ -166,18 +169,21 @@ void custom_tree::contextMenuEvent ( QContextMenuEvent * event)
 	if(itemAt(event->pos()) != NULL) //如果有item则添加"修改"菜单 [1]*
     {
 		item = itemAt(event->pos())->data(1, c_friend_role).value<friend_record>();
-		name = "edit ";
+		name = tr("edit ");
 		name.append(item.name());
 		edit_action_->setText(name);
-		name = "chat with ";
+		name = tr("chat with ");
 		name.append(item.name());
 		chat_action_->setText(name);
-		name = "edit ";
+		name = tr("edit ");
 		name.append(item.name());
 		edit_action_->setText(name);
-		name = "remove ";
+		name = tr("remove ");
 		name.append(item.name());
 		remove_action_->setText(name);
+		name = tr("call ");
+		name.append(item.name());
+		call_action_->setText(name);
 		popMenu->addActions(acts); 	
 	}else{
 		popMenu->addAction(add_action_);
@@ -229,6 +235,17 @@ void custom_tree::edit_selected()
 	contactwin.set_friend((LinphoneFriend *)lf);
 	contactwin.show();
 	contactwin.exec();
+}
+
+void custom_tree::call_selected()
+{
+	const LinphoneFriend *lf;
+	char *uri;
+    const friend_record& fr = get_selected_friend();
+	lf = fr.frienddata();
+	uri=linphone_address_as_string(linphone_friend_get_address(lf));
+	linphone_qt_start_call(NULL, uri);
+	ms_free(uri);
 }
 
 void custom_tree::remove_selected()

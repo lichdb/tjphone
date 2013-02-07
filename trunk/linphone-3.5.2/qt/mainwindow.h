@@ -111,6 +111,8 @@ private slots:
 	void dtmf_released();
 	void on_comboBox_account_currentIndexChanged(int index);
 	void on_actionEnable_selfview_toggled(bool arg1);
+	void tree_Clicked(QTreeWidgetItem *item, int column);
+	void tree_DoubleClicked(QTreeWidgetItem *item, int column);
 
 protected:
 	virtual void timerEvent (QTimerEvent *event);
