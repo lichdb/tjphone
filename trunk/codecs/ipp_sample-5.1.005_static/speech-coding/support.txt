@@ -1,0 +1,4 @@
+Please use the following information when submitting customer support requests
+
+Package ID: w_ipp-sample-speech-coding_p_5.1.005
+Package Contents: Intel(R) IPP Speech Coding Samples for Windows*

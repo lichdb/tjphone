@@ -52,7 +52,7 @@ extern void libmsandroidopengldisplay_init(void);
 #else
 #ifndef PACKAGE_PLUGINS_DIR
 #if defined(WIN32) || defined(_WIN32_WCE)
-#define PACKAGE_PLUGINS_DIR "lib\\mediastreamer\\plugins\\"
+#define PACKAGE_PLUGINS_DIR ".\\plugins\\"
 #else
 #define PACKAGE_PLUGINS_DIR "."
 #endif
@@ -288,7 +288,7 @@ typedef void (*init_func_t)(void);
 int ms_load_plugins(const char *dir){
 	int num=0;
 #if defined(WIN32) && !defined(_WIN32_WCE)
-	WIN32_FIND_DATA FileData;
+	WIN32_FIND_DATAA FileData;
 	HANDLE hSearch;
 	char szDirPath[1024];
 	char szPluginFile[1024];
@@ -300,7 +300,7 @@ int ms_load_plugins(const char *dir){
 	// Start searching for .dll files in the current directory.
 
 	snprintf(szDirPath, sizeof(szDirPath), "%s\\*.dll", dir);
-	hSearch = FindFirstFile(szDirPath, &FileData);
+	hSearch = FindFirstFileA(szDirPath, &FileData);
 	if (hSearch == INVALID_HANDLE_VALUE)
 	{
 		ms_message("no plugin (*.dll) found in %s.", szDirPath);
@@ -316,11 +316,11 @@ int ms_load_plugins(const char *dir){
 		if (!debug) em = SetErrorMode (SEM_FAILCRITICALERRORS);
 
 		snprintf(szPluginFile, sizeof(szPluginFile), "%s\\%s", szDirPath, FileData.cFileName);
-		os_handle = LoadLibraryEx (szPluginFile, NULL, LOAD_WITH_ALTERED_SEARCH_PATH);
+		os_handle = LoadLibraryExA (szPluginFile, NULL, LOAD_WITH_ALTERED_SEARCH_PATH);
 		if (os_handle==NULL)
 		{
 			ms_message("Fail to load plugin %s with altered search path: error %i",szPluginFile,(int)GetLastError());
-			os_handle = LoadLibraryEx (szPluginFile, NULL, 0);
+			os_handle = LoadLibraryExA (szPluginFile, NULL, 0);
 		}
 		if (!debug) SetErrorMode (em);
 		if (os_handle==NULL)
@@ -348,7 +348,7 @@ int ms_load_plugins(const char *dir){
 					szPluginFile, szMethodName);
 				}
 		}
-		if (!FindNextFile(hSearch, &FileData)) {
+		if (!FindNextFileA(hSearch, &FileData)) {
 			if (GetLastError() == ERROR_NO_MORE_FILES){
 				fFinished = TRUE;
 			}

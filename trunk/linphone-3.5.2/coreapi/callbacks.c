@@ -849,6 +849,22 @@ static void notify_refer(SalOp *op, SalReferStatus status){
 	}
 }
 
+static void message_success(SalOp *op, const char *from, const char *callid){
+	//LinphoneCore *lc=NULL;
+	//if(op){
+	//	lc=(LinphoneCore *)sal_get_user_pointer(sal_op_get_sal(op));
+	//}
+	linphone_core_text_status(op,from,callid,TRUE);
+}
+
+static void message_failure(SalOp *op, const char *from, const char *callid){
+	//LinphoneCore *lc=NULL;
+	//if(op){
+	//	lc=(LinphoneCore *)sal_get_user_pointer(sal_op_get_sal(op));
+	//}
+	linphone_core_text_status(op,from,callid,FALSE);
+}
+
 SalCallbacks linphone_sal_callbacks={
 	call_received,
 	call_ringing,
@@ -871,7 +887,9 @@ SalCallbacks linphone_sal_callbacks={
 	notify_refer,
 	subscribe_received,
 	subscribe_closed,
-	ping_reply
+	ping_reply,
+	message_success,
+	message_failure
 };
 
 

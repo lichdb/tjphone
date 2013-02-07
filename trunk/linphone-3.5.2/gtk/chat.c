@@ -45,7 +45,7 @@ void linphone_gtk_create_chatroom(const char *with){
 G_MODULE_EXPORT 
 void linphone_gtk_chat_destroyed(GtkWidget *w){
 	LinphoneChatRoom *cr=(LinphoneChatRoom*)g_object_get_data(G_OBJECT(w),"cr");
-	linphone_chat_room_destroy(cr);
+	linphone_chat_room_remove(cr);
 }
 
 G_MODULE_EXPORT 

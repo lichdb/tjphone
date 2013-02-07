@@ -5,6 +5,7 @@
 #include <QDir>
 #include "mainwindow.h"
 #include <glib.h>
+#include <QTranslator>
 
 #define VIDEOSELFVIEW_DEFAULT 1
 
@@ -28,8 +29,8 @@ extern "C" {
 const char *this_program_ident_string="linphone_ident_string=" LINPHONE_VERSION;
 
 
-#define LINPHONE_CONFIG_DIR "linphone"
-#define PACKAGE_DATA_DIR "."
+//#define LINPHONE_CONFIG_DIR "linphone"
+//#define PACKAGE_DATA_DIR ""
 
 
 #ifndef WIN32
@@ -68,7 +69,7 @@ static GOptionEntry linphone_options[]={
 		0,
 		G_OPTION_ARG_NONE,
 		(gpointer)&verbose,
-		N_("log to stdout some debug information while running."),
+		_("log to stdout some debug information while running."),
 		NULL
 	},
 	{
@@ -77,7 +78,7 @@ static GOptionEntry linphone_options[]={
 	    0,
 		G_OPTION_ARG_STRING,
 		&linphone_logfile,
-		N_("path to a file to write logs into."),
+		_("path to a file to write logs into."),
 		NULL
 	},
 	{
@@ -86,7 +87,7 @@ static GOptionEntry linphone_options[]={
 	    0,
 		G_OPTION_ARG_STRING,
 		&linphone_cfgfile,
-		N_("path to the tjpphonerc config file."),
+		_("path to the tjpphonerc config file."),
 		NULL
 	},
 	{
@@ -95,7 +96,7 @@ static GOptionEntry linphone_options[]={
 		0,
 		G_OPTION_ARG_NONE,
 		(gpointer)&iconified,
-		N_("Start only in the system tray, do not show the main interface."),
+		_("Start only in the system tray, do not show the main interface."),
 		NULL
 	},
 	{
@@ -104,7 +105,7 @@ static GOptionEntry linphone_options[]={
 		0,
 	    G_OPTION_ARG_STRING,
 	    &addr_to_call,
-	    N_("address to call right now"),
+	    _("address to call right now"),
 		NULL
 	},
 	{
@@ -113,7 +114,7 @@ static GOptionEntry linphone_options[]={
 		0,
 	    G_OPTION_ARG_NONE,
 	    (gpointer) & auto_answer,
-	    N_("if set automatically answer incoming calls"),
+	    _("if set automatically answer incoming calls"),
 		NULL
 	},
 	{
@@ -122,7 +123,7 @@ static GOptionEntry linphone_options[]={
 		0,
 	    G_OPTION_ARG_STRING,
 	    (gpointer) & workingdir,
-	    N_("Specifiy a working directory (should be the base of the installation, eg: c:\\Program Files\\Linphone)"),
+	    _("Specifiy a working directory (should be the base of the installation, eg: c:\\Program Files\\Linphone)"),
 		NULL
 	},
 	{0}
@@ -363,11 +364,12 @@ int main(int argc, char *argv[])
     int result;
 	const char *config_file;
 	const char *factory_config_file;
+	const char *lang;
 	QString appname="TJphone";
 
 	GError *error = NULL;
 	GOptionContext *context;
-	context = g_option_context_new (N_("- An internet video phone using the standard SIP (rfc3261) protocol."));
+	context = g_option_context_new (_("- An internet video phone using the standard SIP (rfc3261) protocol."));
 	g_option_context_add_main_entries (context, linphone_options, GETTEXT_PACKAGE);
 	if (!g_option_context_parse (context, &argc, &argv, &error))  
     {  
@@ -380,6 +382,39 @@ int main(int argc, char *argv[])
 			g_error("Could not change directory to %s : %s",workingdir,strerror(errno));
 		}
 	}
+
+#ifdef WIN32
+	/*workaround for windows: sometimes LANG is defined to an integer value, not understood by gtk */
+	if ((lang=getenv("LANG"))!=NULL){
+		if (atoi(lang)!=0){
+			char tmp[128];
+			snprintf(tmp,sizeof(tmp),"LANG=",lang);
+			_putenv(tmp);
+		}
+	}
+#else
+	/*for pulseaudio:*/
+	g_setenv("PULSE_PROP_media.role", "phone", TRUE);
+#endif
+
+	if ((lang=linphone_qt_get_lang(config_file))!=NULL && lang[0]!='\0'){
+#ifdef WIN32
+		char tmp[128];
+		snprintf(tmp,sizeof(tmp),"LANG=%s",lang);
+		_putenv(tmp);
+#else
+		setenv("LANG",lang,1);
+#endif
+	}
+
+#ifdef ENABLE_NLS
+	char *p=bindtextdomain (GETTEXT_PACKAGE, PACKAGE_LOCALE_DIR);
+	if (p==NULL) perror("bindtextdomain failed");
+	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
+	textdomain (GETTEXT_PACKAGE);
+#else
+	g_message("NLS disabled.\n");
+#endif
 	a = new QApplication(argc, argv);
 	QDir::addSearchPath("icons", QString(":icons/icons/"));
     QDir::addSearchPath("images", QString(":images/icons/"));
@@ -397,6 +432,12 @@ int main(int argc, char *argv[])
 	QTextCodec *tl=QTextCodec::codecForName("utf8");
 	QTextCodec::setCodecForLocale(tl);
 	
+	QTranslator *translator=new QTranslator(0);
+	translator->load("linphone-qt_zh.qm",".");
+	a->installTranslator(translator);
+	QTranslator *translatorqt=new QTranslator(0);
+	translatorqt->load("qt_zh_CN.qm",".");
+	a->installTranslator(translatorqt);
 
 	w = new MainWindow();
 	QFont font("simsun",12,QFont::Normal,FALSE);

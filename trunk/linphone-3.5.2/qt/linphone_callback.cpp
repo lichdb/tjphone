@@ -21,7 +21,8 @@ LinphoneCoreVTable callback_vtable={
 	linphone_qt_display_message,
 	linphone_qt_display_warning,
 	linphone_qt_display_url,
-	linphone_qt_show
+	linphone_qt_show,
+	linphone_qt_text_status
 };
 #else
 LinphoneCoreVTable callback_vtable={
@@ -44,7 +45,8 @@ LinphoneCoreVTable callback_vtable={
 	.notify_recv = linphone_qt_notify_recv,
 	.call_encryption_changed = linphone_qt_call_encryption_changed,
 	.transfer_state_changed = linphone_qt_call_transfer_state_changed,
-	.call_stats_updated = linphone_qt_call_stats_updated
+	.call_stats_updated = linphone_qt_call_stats_updated,
+	.text_failure = linphone_qt_text_status
 };
 #endif
 
@@ -208,4 +210,12 @@ static void linphone_qt_buddy_info_updated(LinphoneCore *lc, LinphoneFriend *lf)
 static void linphone_qt_text_received(LinphoneCore *lc, LinphoneChatRoom *room, const LinphoneAddress *from, const char *message)
 {
 	text_received(lc, room,from, message);
+}
+
+static void linphone_qt_text_status(LinphoneCore *lc, LinphoneChatRoom *room, const LinphoneAddress *from, const char *callid, bool_t status)
+{
+	if(status)
+		text_status(lc, room, from, callid, true);
+	else
+		text_status(lc, room, from, callid, false);
 }

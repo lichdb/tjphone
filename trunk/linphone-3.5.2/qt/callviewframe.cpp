@@ -46,16 +46,16 @@ CallViewFrame::~CallViewFrame()
 static const char *rating_to_text(float rating)
 {
 	if (rating>=4.0)
-		return N_("good");
+		return _("good");
 	if (rating>=3.0)
-		return N_("average");
+		return _("average");
 	if (rating>=2.0)
-		return N_("poor");
+		return _("poor");
 	if (rating>=1.0)
-		return N_("very poor");
+		return _("very poor");
 	if (rating>=0)
-		return N_("too bad");
-	return N_("unavailable");
+		return _("too bad");
+	return _("unavailable");
 }
 
 static const char *rating_to_color(float rating)
@@ -91,7 +91,7 @@ void CallViewFrame::view_refresh()
 		ui->progressBar_quality_indicator->setFormat(tmp);
 	}else{
 		ui->progressBar_quality_indicator->setValue(0);
-		ui->progressBar_quality_indicator->setFormat(N_("unavailable"));
+		ui->progressBar_quality_indicator->setFormat(_("unavailable"));
 	}
 	tmp.sprintf("QProgressBar::chunk {background-color: %s;} QProgressBar{text-align: center;}",rating_to_color(rating)) ;
 	ui->progressBar_quality_indicator->setStyleSheet(tmp);
@@ -102,9 +102,9 @@ void CallViewFrame::enable_hold_button(bool sensitive, bool pause)
 	ui->pushButton_pause->setEnabled(sensitive);
 	holdon = !pause;
 	if(!pause){
-		ui->pushButton_pause->setText(N_("Resume"));
+		ui->pushButton_pause->setText(_("Resume"));
 	} else {
-		ui->pushButton_pause->setText(N_("Hold"));
+		ui->pushButton_pause->setText(_("Hold"));
 	}
 }
 void CallViewFrame::enable_mute_button(bool sensitive)
@@ -177,7 +177,7 @@ void CallViewFrame::timerEvent (QTimerEvent *event)
  */
 void CallViewFrame::set_paused()
 {
-	ui->groupBox_duration->setTitle(N_("Paused call"));
+	ui->groupBox_duration->setTitle(_("Paused call"));
 }
 
 /*
@@ -185,7 +185,7 @@ void CallViewFrame::set_paused()
  */
 void CallViewFrame::set_incall()
 {
-	ui->groupBox_duration->setTitle(N_("In call"));	
+	ui->groupBox_duration->setTitle(_("In call"));	
 }
 
 void CallViewFrame::call_view_enable_audio_view(bool val)
@@ -252,7 +252,7 @@ void CallViewFrame::transfer_button_clicked()
 			int call_index = call_view->_call_index;
 			char *remote_uri=linphone_call_get_remote_address_as_string (other_call);
 			QString text;
-			text = QString(N_("Transfer to call #%1 with %2")).arg(call_index).arg(remote_uri);
+			text = QString(_("Transfer to call #%1 with %2")).arg(call_index).arg(remote_uri);
 			QAction *_action;
 			_action = new QAction(this);
 			_action->setText(text);
@@ -309,10 +309,10 @@ void CallViewFrame::on_pushButton_pause_clicked()
 	if(!holdon)
 	{
 		linphone_core_pause_call(linphone_qt_get_core(),_call);
-		ui->pushButton_pause->setText(N_("Resume"));
+		ui->pushButton_pause->setText(_("Resume"));
 	}else{
 		linphone_core_resume_call(linphone_qt_get_core(),_call);
-		ui->pushButton_pause->setText(N_("Hold"));
+		ui->pushButton_pause->setText(_("Hold"));
 	}
 	holdon = !holdon;
 }

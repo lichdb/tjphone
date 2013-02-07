@@ -237,6 +237,8 @@ int linphone_proxy_config_normalize_number(LinphoneProxyConfig *cfg, const char 
 
 void linphone_core_text_received(LinphoneCore *lc, const char *from, const char *msg);
 
+void linphone_core_text_status(SalOp *op,const char *from, const char *callid, int status);
+
 void linphone_core_play_tone(LinphoneCore *lc);
 
 void linphone_call_init_stats(LinphoneCallStats *stats, int type);
@@ -304,7 +306,7 @@ struct _LinphoneChatRoom{
 	struct _LinphoneCore *lc;
 	char  *peer;
 	LinphoneAddress *peer_url;
-	SalOp *op;
+	MSList *op;
 	void * user_data;
 };
 
