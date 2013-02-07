@@ -290,31 +290,14 @@ static void set_video_window_decorations(HWND id){
 		snprintf(video_title,sizeof(video_title),("Call with %s"),display_name);
 		linphone_address_destroy(uri);
 		ms_free(display_name);
-
-		/* During calls, bring up the video window, arrange so that
-		it is above all the other windows */
-		//gdk_window_deiconify(w);
-		//gdk_window_set_keep_above(w,TRUE);
-		///////ww->raise();
-		/* Maybe we should have the following, but then we want to
-		have a timer that turns it off after a little while. */
-		/* gdk_window_set_urgency_hint(w,TRUE); */
 	}
 
 	ShowWindow(id, SW_SHOW); 
 	SetClassLong(id, GCL_STYLE, CS_NOCLOSE);
-	//SetWindowLong(id, GWL_STYLE, WS_OVERLAPPEDWINDOW);
+	SetWindowLong(id,GWL_STYLE,GetWindowLong(id,GWL_STYLE) & ~WS_MAXIMIZEBOX);
 	QString a(video_title);
 	SetWindowText(id, (const wchar_t*)a.utf16());
 	UpdateWindow(id);
-	/*if (pbuf){
-		GList *l=NULL;
-		l=g_list_append(l,pbuf);
-		gdk_window_set_icon_list(w,l);
-		g_list_free(l);
-		g_object_unref(G_OBJECT(pbuf));
-	}
-	*/
 }
 
 static gboolean video_needs_update=FALSE;
@@ -342,8 +325,6 @@ void MainWindow::linphone_qt_iterate()
 	in_iterate=TRUE;
 	linphone_core_iterate(lc);
 	if (first_time){
-		/*after the first call to iterate, SipSetupContexts should be ready, so take actions:*/
-		//linphone_gtk_show_directory_search();
 		first_time=FALSE;
 	}
 
