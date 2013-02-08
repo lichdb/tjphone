@@ -258,9 +258,9 @@ void MainWindow::on_action_Show_debug_window_triggered()
 void MainWindow::on_action_Preferences_triggered()
 {
     if(!_Preference){
-        _Preference = new Preference(this);
-		_Preference->show();
+        _Preference = new Preference(this);	
 	}
+	_Preference->show();
 	_Preference->raise();
 }
 

@@ -98,8 +98,8 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\include;..\..\..\libosip2-3.6.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>SRV_RECORD;_CRT_SECURE_NO_DEPRECATE;EXOSIP_EXPORTS;_DEBUG;ENABLE_TRACE;OSIP_MT;WIN32;_WINDOWS;_USRDLL;_MT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\..\sdk\include;..\..\include;..\..\..\libosip2-3.6.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>SRV_RECORD;_CRT_SECURE_NO_DEPRECATE;EXOSIP_EXPORTS;_DEBUG;ENABLE_TRACE;OSIP_MT;WIN32;_WINDOWS;HAVE_OPENSSL_SSL_H;_MT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ExceptionHandling>
       </ExceptionHandling>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>

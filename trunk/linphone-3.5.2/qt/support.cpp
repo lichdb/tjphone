@@ -440,7 +440,7 @@ void in_call_timer(LinphoneCall *call)
 
 void auth_info_requested(LinphoneCore *lc, const char *realm, const char *username)
 {
-	password *passw = new password();
+	password *passw = new password(w);
 	LinphoneAuthInfo *info;
 	QString msg;
 	

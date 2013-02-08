@@ -620,12 +620,12 @@
         <translation type="unfinished">显示高级设置</translation>
     </message>
     <message>
-        <location filename="../../preference.cpp" line="564"/>
+        <location filename="../../preference.cpp" line="567"/>
         <source>Ring File</source>
         <translation type="unfinished">铃声文件</translation>
     </message>
     <message>
-        <location filename="../../preference.cpp" line="566"/>
+        <location filename="../../preference.cpp" line="569"/>
         <source>WAV (*.wav)</source>
         <translation type="unfinished"></translation>
     </message>
