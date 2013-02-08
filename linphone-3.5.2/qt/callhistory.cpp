@@ -30,6 +30,7 @@ Callhistory::Callhistory(QWidget *parent) :
 Callhistory::~Callhistory()
 {
     delete ui;
+	w->history_closed();
 }
 
 void Callhistory::on_buttonOk_clicked(QAbstractButton *button)
@@ -37,7 +38,6 @@ void Callhistory::on_buttonOk_clicked(QAbstractButton *button)
 	if(button == (QAbstractButton *)ui->buttonOk->button(QDialogButtonBox::Close))
 	{
 		this->close();
-		w->history_closed();
 	} else {
 		linphone_core_clear_call_logs(linphone_qt_get_core());
 		call_log_update();

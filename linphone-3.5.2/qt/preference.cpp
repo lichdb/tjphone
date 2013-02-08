@@ -435,6 +435,7 @@ Preference::~Preference()
 {
 	//if(_sip_Account) _sip_Account->close();
     delete ui;
+	w->preference_closed();
 }
 
 void Preference::on_pushButton_add_proxy_clicked()
@@ -445,7 +446,6 @@ void Preference::on_pushButton_add_proxy_clicked()
 void Preference::on_buttonBox_Apply_clicked(QAbstractButton *button)
 {
     this->close();
-    w->preference_closed();
 }
 
 void Preference::on_comboBox_codec_view_changed(int index)
@@ -472,14 +472,14 @@ void Preference::on_comboBox_proto_currentIndexChanged(int index)
 {	    
 	int port = ui->spinBox_sip_port->value();
 
-	if (port == 1) { // We use default port if not specified
+	if (port==0) { // We use default port if not specified
         if (/* ui->comboBox_proto->currentText() == "SIP (UCP)"*/ index == 0) {
 			ui->spinBox_sip_port->setValue(5060);
         }
-        else if (/* ui->comboBox_proto->currentText() == "SIP (TCP)" */index == 1) {
+        else if (/* ui->comboBox_proto->currentText() == "SIP (TCP)" */ index == 1) {
             ui->spinBox_sip_port->setValue(5060);
         }
-        else if (/* ui->comboBox_proto->currentText() == "SIP (TLS)" */ index == 1){
+        else if (/* ui->comboBox_proto->currentText() == "SIP (TLS)" */ index == 2){
             ui->spinBox_sip_port->setValue(5061);
         }
 	}else{
@@ -499,11 +499,14 @@ void Preference::on_spinBox_sip_port_valueChanged(int arg1)
 	} else if (ui->comboBox_proto->currentText() == "SIP (UDP)"){
 		tr.udp_port = arg1;
 		tr.tls_port = 0;
+		tr.tcp_port = 0;
 	} else {
 		tr.udp_port = 0;
+		tr.tcp_port = 0;
 		tr.tls_port = arg1;	
 	}
 	linphone_core_set_sip_transports(lc,&tr);
+	linphone_core_refresh_registers(lc);
 }
 
 void Preference::on_spinBox_audio_rtp_port_valueChanged(int arg1)

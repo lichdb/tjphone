@@ -41,6 +41,7 @@ debugwindow::~debugwindow()
 	qDeleteAll(LogList);
 	LogList.clear();
 	lock.unlock();
+	w->debug_closed();
 }
 void debugwindow::check_logs(){
 	lock.lockForWrite();
@@ -94,7 +95,6 @@ void debugwindow::on_buttonClose_clicked(QAbstractButton *button)
 {
 	if(button == (QAbstractButton *)ui->buttonClose->button(QDialogButtonBox::Close)){
 		this->close();
-		w->debug_closed();
 	} else {
 		ui->textBrowser->clear();	
 	}
