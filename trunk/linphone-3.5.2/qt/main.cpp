@@ -275,10 +275,11 @@ static const char *linphone_get_factory_config_file()
 
 static void linphone_qt_init_liblinphone(const char *config_file,
 		const char *factory_config_file) {
-	
+	g_print("linphone_core_set_user_agent\n");
 	linphone_core_set_user_agent("TJphone", LINPHONE_VERSION);
+	g_print("linphone_core_new\n");
 	the_core=linphone_core_new(&callback_vtable,config_file,factory_config_file,NULL);
-	linphone_core_set_waiting_callback(the_core,linphone_qt_wait,NULL);
+	//linphone_core_set_waiting_callback(the_core,linphone_qt_wait,NULL);
 	/*如果要支持zrtp，需要增加 */ 
 	/* linphone_core_set_zrtp_secrets_file(the_core,secrets_file);*/
 }
@@ -361,14 +362,14 @@ void * linphone_qt_wait(LinphoneCore *lc, void *ctx, LinphoneWaitingState ws, co
 
 int main(int argc, char *argv[])
 {
-    int result;
-	const char *config_file;
-	const char *factory_config_file;
-	const char *lang;
+    int result=0;
+	const char *config_file=NULL;
+	const char *factory_config_file=NULL;
+	const char *lang=NULL;
 	QString appname="TJphone";
 
 	GError *error = NULL;
-	GOptionContext *context;
+	GOptionContext *context=NULL;
 	context = g_option_context_new (_("- An internet video phone using the standard SIP (rfc3261) protocol."));
 	g_option_context_add_main_entries (context, linphone_options, GETTEXT_PACKAGE);
 	if (!g_option_context_parse (context, &argc, &argv, &error))  
@@ -397,14 +398,16 @@ int main(int argc, char *argv[])
 	g_setenv("PULSE_PROP_media.role", "phone", TRUE);
 #endif
 
-	if ((lang=linphone_qt_get_lang(config_file))!=NULL && lang[0]!='\0'){
+	if(config_file){
+		if ((lang=linphone_qt_get_lang(config_file))!=NULL && lang[0]!='\0'){
 #ifdef WIN32
-		char tmp[128];
-		snprintf(tmp,sizeof(tmp),"LANG=%s",lang);
-		_putenv(tmp);
+			char tmp[128];
+			snprintf(tmp,sizeof(tmp),"LANG=%s",lang);
+			_putenv(tmp);
 #else
-		setenv("LANG",lang,1);
+			setenv("LANG",lang,1);
 #endif
+		}
 	}
 
 #ifdef ENABLE_NLS
@@ -415,7 +418,9 @@ int main(int argc, char *argv[])
 #else
 	g_message("NLS disabled.\n");
 #endif
+
 	a = new QApplication(argc, argv);
+	g_print("new QApplication(argc, argv);\n");
 	QDir::addSearchPath("icons", QString(":icons/icons/"));
     QDir::addSearchPath("images", QString(":images/icons/"));
 	config_file=linphone_get_config_file(linphone_cfgfile);
@@ -427,8 +432,9 @@ int main(int argc, char *argv[])
 	} else {
 		linphone_core_disable_logs();
 	}
+	g_print("linphone_qt_init_liblinphone:config_file\t%s\nfactory_config_file\t%s\n", config_file, factory_config_file);
 	linphone_qt_init_liblinphone(config_file, factory_config_file);
-
+	g_print("after linphone_qt_init_liblinphone\n");
 	QTextCodec *tl=QTextCodec::codecForName("utf8");
 	QTextCodec::setCodecForLocale(tl);
 	
@@ -440,10 +446,11 @@ int main(int argc, char *argv[])
 	a->installTranslator(translatorqt);
 
 	w = new MainWindow();
-	QFont font("simsun",12,QFont::Normal,FALSE);
+	QFont font("simsun",11,QFont::Normal,FALSE);
 	a->setFont(font);
 	a->setApplicationName(appname);
 	
+	linphone_qt_init_main_window(w);
 	QTimer *timer_iterate = new QTimer(a);
 	a->connect(timer_iterate,SIGNAL(timeout()),w,SLOT(linphone_qt_iterate()));
 	timer_iterate->start(30);
@@ -453,9 +460,9 @@ int main(int argc, char *argv[])
 
 	//MyThread timerthread;
 	//timerthread.start();
-	linphone_qt_init_main_window(w);
+	
     w->show();
-    
+    g_print("w->show();\n");
 	result = a->exec();
 
 	linphone_core_destroy(the_core);

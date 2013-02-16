@@ -594,6 +594,7 @@ LinphoneChatRoom * linphone_core_create_chat_room(LinphoneCore *lc, const char *
  * @param cr #LinphoneChatRoom object
  */
 void linphone_chat_room_destroy(LinphoneChatRoom *cr);
+void linphone_chat_room_set_tobedestroy(LinphoneChatRoom *cr, bool_t tobedestroy);
 
 void linphone_chat_room_remove(LinphoneChatRoom *cr);
 /**

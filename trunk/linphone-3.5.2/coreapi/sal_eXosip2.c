@@ -1957,7 +1957,7 @@ static bool_t message_status(Sal *sal, eXosip_event_t *ev){
 	SalOp *op=find_op(sal,ev);
 	SalReason sr=SalReasonUnknown;
 	SalError se=SalErrorUnknown;
-	if (strcmp(ev->request->sip_method,"MESSAGE")!=0) return;
+	if (strcmp(ev->request->sip_method,"MESSAGE")!=0) return TRUE;
 	if (ev->response){
 		status_code=osip_message_get_status_code(ev->response);
 		reason=osip_message_get_reason_phrase(ev->response);

@@ -351,11 +351,11 @@ static void configure_video_source(VideoStream *stream){
 
 int video_stream_start (VideoStream *stream, RtpProfile *profile, const char *remip, int remport,
 	int rem_rtcp_port, int payload, int jitt_comp, MSWebCam *cam){
-	PayloadType *pt;
+	PayloadType *pt=0;
 	RtpSession *rtps=stream->session;
 	MSPixFmt format;
 	MSVideoSize disp_size;
-	int tmp;
+	int tmp=0;
 	JBParameters jbp;
 	MSTickerParams params={0};
 	const int socket_buf_size=2000000;

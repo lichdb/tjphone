@@ -38,7 +38,7 @@ ChatRoom::ChatRoom(QWidget *parent) :
 
 ChatRoom::~ChatRoom()
 {
-	//linphone_chat_room_destroy(cr_);
+	linphone_chat_room_set_tobedestroy(cr_, TRUE);
     delete ui;
 }
 

@@ -39,6 +39,7 @@ typedef struct RecState{
 	HANDLE fd;
 	int rate;
 	int size;
+	int codec;
 	State state;
 	char filename[256];
 } RecState;
@@ -49,6 +50,7 @@ static void rec_init(MSFilter *f){
 	s->rate=8000;
 	s->size=0;
 	s->state=Closed;
+	s->codec=0x01;
 	f->data=s;
 }
 
@@ -82,7 +84,7 @@ static void rec_process(MSFilter *f){
 	}
 }
 
-static void write_wav_header(int rate,int size, char *filename){
+static void write_wav_header(int rate,int size, char *filename, RecState *s){
 	wave_header_t header;
 	DWORD bytes_written=0;
 	HANDLE fd;
@@ -95,7 +97,7 @@ static void write_wav_header(int rate,int size, char *filename){
 
 	memcpy(&header.format_chunk.fmt,"fmt ",4);
 	header.format_chunk.len=le_uint32(0x10);
-	header.format_chunk.type=le_uint16(0x1);
+	header.format_chunk.type=le_uint16(s->codec);
 	header.format_chunk.channel=le_uint16(0x1);
 	header.format_chunk.rate=le_uint32(rate);
 	header.format_chunk.bps=le_uint32(rate*2);
@@ -177,7 +179,7 @@ static int rec_close(MSFilter *f, void *arg){
 	s->state=Closed;
 	if (s->fd!=INVALID_HANDLE_VALUE) {
 		CloseHandle(s->fd);
-		write_wav_header(s->rate, s->size, s->filename);
+		write_wav_header(s->rate, s->size, s->filename, s);
 		s->fd=INVALID_HANDLE_VALUE;
 		s->size=0;
 	}
@@ -189,6 +191,14 @@ static int rec_set_sr(MSFilter *f, void *arg){
 	RecState *s=(RecState*)f->data;
 	ms_mutex_lock(&f->lock);
 	s->rate=*((int*)arg);
+	ms_mutex_unlock(&f->lock);
+	return 0;
+}
+
+static int rec_set_codec(MSFilter *f, void *arg){
+	RecState *s=(RecState*)f->data;
+	ms_mutex_lock(&f->lock);
+	s->codec=*((int*)arg);
 	ms_mutex_unlock(&f->lock);
 	return 0;
 }
@@ -205,6 +215,7 @@ static MSFilterMethod rec_methods[]={
 	{	MS_FILE_REC_START	,	rec_start	},
 	{	MS_FILE_REC_STOP	,	rec_stop	},
 	{	MS_FILE_REC_CLOSE	,	rec_close	},
+	{	MS_FILE_REC_CODEC	,	rec_set_codec},
 	{	0			,	NULL		}
 };
 

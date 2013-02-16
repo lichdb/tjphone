@@ -186,6 +186,8 @@ static void winsndcard_detect(MSSndCardManager *m){
 		
         WAVEINCAPS incaps;
         WAVEOUTCAPS outcaps;
+		memset(namebuf, 0, 64);
+		memset(nameutf_8, 0, 256);
         mr = waveInGetDevCaps (item, &incaps, sizeof (WAVEINCAPS));
         if (mr == MMSYSERR_NOERROR)
 		{

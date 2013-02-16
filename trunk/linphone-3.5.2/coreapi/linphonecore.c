@@ -4075,7 +4075,7 @@ static MSFilter *get_dtmf_gen(LinphoneCore *lc){
 		return stream->dtmfgen;
 	}
 	if (lc->ringstream==NULL){
-		float amp=0.1;
+		float amp=0.1f;
 		MSSndCard *ringcard=lc->sound_conf.lsd_card ?lc->sound_conf.lsd_card : lc->sound_conf.ring_sndcard;
 		if (ringcard == NULL)
 			return NULL;
