@@ -633,47 +633,47 @@
 <context>
     <name>SIP_Account</name>
     <message>
-        <location filename="../../sip_account.ui" line="23"/>
+        <location filename="../../sip_account.ui" line="20"/>
         <source>Configure a SIP account</source>
         <translation type="unfinished">配置 SIP 帐户</translation>
     </message>
     <message>
-        <location filename="../../sip_account.ui" line="29"/>
+        <location filename="../../sip_account.ui" line="26"/>
         <source>Configure a SIP Account</source>
         <translation type="unfinished">配置 SIP 帐户</translation>
     </message>
     <message>
-        <location filename="../../sip_account.ui" line="41"/>
+        <location filename="../../sip_account.ui" line="38"/>
         <source>Your SIP identity:</source>
         <translation type="unfinished">您的 SIP 地址：</translation>
     </message>
     <message>
-        <location filename="../../sip_account.ui" line="64"/>
+        <location filename="../../sip_account.ui" line="61"/>
         <source>SIP Proxy address:</source>
         <translation type="unfinished">SIP 服务器地址：</translation>
     </message>
     <message>
-        <location filename="../../sip_account.ui" line="87"/>
+        <location filename="../../sip_account.ui" line="84"/>
         <source>Route (optional):</source>
         <translation type="unfinished">路由(可选)：</translation>
     </message>
     <message>
-        <location filename="../../sip_account.ui" line="110"/>
+        <location filename="../../sip_account.ui" line="107"/>
         <source>Password:</source>
         <translation type="unfinished">密码</translation>
     </message>
     <message>
-        <location filename="../../sip_account.ui" line="133"/>
+        <location filename="../../sip_account.ui" line="130"/>
         <source>Registration duration (sec):</source>
         <translation type="unfinished">注册间隔(秒)：</translation>
     </message>
     <message>
-        <location filename="../../sip_account.ui" line="156"/>
+        <location filename="../../sip_account.ui" line="153"/>
         <source>Register at startup</source>
         <translation type="unfinished">在启动时注册</translation>
     </message>
     <message>
-        <location filename="../../sip_account.ui" line="169"/>
+        <location filename="../../sip_account.ui" line="166"/>
         <source>Publish presence information</source>
         <translation type="unfinished">发布在线状态</translation>
     </message>

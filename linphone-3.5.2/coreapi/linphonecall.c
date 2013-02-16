@@ -1007,7 +1007,7 @@ void _post_configure_audio_stream(AudioStream *st, LinphoneCore *lc, bool_t mute
 	float mic_gain=lp_config_get_float(lc->config,"sound","mic_gain",1);
 	float thres = 0;
 	float recv_gain;
-	float ng_thres=lp_config_get_float(lc->config,"sound","ng_thres",0.05);
+	float ng_thres=lp_config_get_float(lc->config,"sound","ng_thres",0.05f);
 	float ng_floorgain=lp_config_get_float(lc->config,"sound","ng_floorgain",0);
 	int dc_removal=lp_config_get_int(lc->config,"sound","dc_removal",0);
 
@@ -1035,7 +1035,7 @@ void _post_configure_audio_stream(AudioStream *st, LinphoneCore *lc, bool_t mute
 		transmit_thres=lp_config_get_float(lc->config,"sound","el_transmit_thres",-1);
 
 		f=st->volsend;
-		if (speed==-1) speed=0.03;
+		if (speed==-1) speed=0.03f;
 		if (force==-1) force=25;
 		ms_filter_call_method(f,MS_VOLUME_SET_EA_SPEED,&speed);
 		ms_filter_call_method(f,MS_VOLUME_SET_EA_FORCE,&force);

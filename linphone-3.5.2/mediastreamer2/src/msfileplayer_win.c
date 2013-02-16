@@ -41,6 +41,7 @@ struct _PlayerData{
 
 	int stat;
 	int big_buffer; /* ouput less & bigger buffer. (default => no change) */
+	int bytes;
 };
 
 typedef struct _PlayerData PlayerData;
@@ -57,7 +58,8 @@ static void player_init(MSFilter *f){
 	d->pause_time=0;
 	d->stat=-1;
 	d->big_buffer=1;
-	f->data=d;	
+	d->bytes=0;
+	f->data=d;
 }
 
 static int read_wav_header(PlayerData *d){
@@ -92,7 +94,12 @@ static int read_wav_header(PlayerData *d){
 	}
 
   d->rate=le_uint32(format_chunk->rate);
-	d->nchannels=le_uint16(format_chunk->channel);
+  d->nchannels=le_uint16(format_chunk->channel);
+  if(format_chunk->type==0x12){
+	  d->bytes = 10;
+  }else {
+	  d->bytes = 0;
+  }
 
   if (format_chunk->len-0x10>0)
   {
@@ -179,7 +186,8 @@ static void player_uninit(MSFilter *f){
 static void player_process(MSFilter *f){
 	PlayerData *d=(PlayerData*)f->data;
 	int bytes =d->big_buffer * 2*(f->ticker->interval*d->rate*d->nchannels)/1000;
-
+	if(d->bytes>0)
+		bytes=d->bytes;//G729 wav;
 	if (d->big_buffer>1)
 	{
 		/* when starting reading a file: prepare more data

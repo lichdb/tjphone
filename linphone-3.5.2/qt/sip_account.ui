@@ -2,9 +2,6 @@
 <ui version="4.0">
  <class>SIP_Account</class>
  <widget class="QDialog" name="SIP_Account">
-  <property name="windowModality">
-   <enum>Qt::WindowModal</enum>
-  </property>
   <property name="geometry">
    <rect>
     <x>0</x>

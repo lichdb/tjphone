@@ -106,7 +106,7 @@ static void ecc_play_tones(EcCalibrator *ecc){
 
 	expected_tone.frequency=2000;
 	expected_tone.min_duration=40;
-	expected_tone.min_amplitude=0.02;
+	expected_tone.min_amplitude=0.02f;
 
 	ms_filter_call_method (ecc->det,MS_TONE_DETECTOR_ADD_SCAN,&expected_tone);
 	
@@ -130,7 +130,7 @@ static void ecc_play_tones(EcCalibrator *ecc){
 	ms_sleep(1);
 
 	if (ecc->sent_count==3 && ecc->recv_count==3){
-		int delay=ecc->acc/3;
+		int64_t delay=ecc->acc/3;
 		if (delay<0){
 			ms_error("Quite surprising calibration result, delay=%i",delay);
 			ecc->status=LinphoneEcCalibratorFailed;

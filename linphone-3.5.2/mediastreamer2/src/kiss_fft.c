@@ -95,6 +95,9 @@ static void kf_bfly4(
     const size_t m2=2*m;
     const size_t m3=3*m;
     int i, j;
+	i=j=0;
+	tw1=tw2=tw3=0;
+
 
     if (st->inverse)
     {
@@ -217,14 +220,14 @@ static void kf_bfly5(
         )
 {
     kiss_fft_cpx *Fout0,*Fout1,*Fout2,*Fout3,*Fout4;
-    int u;
-    kiss_fft_cpx scratch[13];
+    int u=0;
+	kiss_fft_cpx scratch[13]={0};
     kiss_fft_cpx * twiddles = st->twiddles;
-    kiss_fft_cpx *tw;
+    kiss_fft_cpx *tw=0;
     kiss_fft_cpx ya,yb;
     ya = twiddles[fstride*m];
     yb = twiddles[fstride*2*m];
-
+	Fout0=Fout1=Fout2=Fout3=Fout4=0;
     Fout0=Fout;
     Fout1=Fout0+m;
     Fout2=Fout0+2*m;

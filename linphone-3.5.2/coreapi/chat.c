@@ -32,6 +32,7 @@
 		LinphoneChatRoom *cr=ms_new0(LinphoneChatRoom,1);
 		cr->lc=lc;
 		cr->op=NULL;
+		cr->tobedestroy=FALSE;
 		cr->peer=linphone_address_as_string(parsed_url);
 		cr->peer_url=parsed_url;
 		lc->chatrooms=ms_list_append(lc->chatrooms,(void *)cr);
@@ -40,6 +41,10 @@
 	return NULL;
  }
  
+ void linphone_chat_room_set_tobedestroy(LinphoneChatRoom *cr, bool_t tobedestroy){
+	cr->tobedestroy = tobedestroy;
+ }
+
 void linphone_chat_room_destroy(LinphoneChatRoom *cr){
 	SalOp *op;
 	MSList *elem;
@@ -128,6 +133,9 @@ void linphone_core_text_status(SalOp *op,const char *from, const char *callid,bo
 	if(cr && cr->op){
 			ms_list_remove(cr->op, op);
 			sal_op_release(op);
+			if(cr->tobedestroy && ms_list_size(cr->op)==0){
+				linphone_chat_room_remove(cr);				
+			}
 	} else {
 		/* create a new chat room */
 		cr=linphone_core_create_chat_room(lc,cleanfrom);

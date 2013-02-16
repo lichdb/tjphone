@@ -283,7 +283,7 @@ static void draw_local_view_frame(HDC hdc, MSVideoSize wsize, MSRect localrect){
 * It is normally invoked only when a full redraw is needed (notified by Windows).
 */
 static void draw_background(HDC hdc, MSVideoSize wsize, MSRect mainrect, int color[3]){
-	HBRUSH brush;
+	HBRUSH brush=0;
 	RECT brect;
 
 	brush = CreateSolidBrush(RGB(color[0],color[1],color[2]));

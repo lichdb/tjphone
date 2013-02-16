@@ -173,10 +173,8 @@ static void enc_process(MSFilter *f){
 	EncState *s=(EncState*)f->data;
 	mblk_t *im;
 	const int n_pck = s->pck_len/_PCK_LEN_MS;
-	int pck;
-	//int i,byte,bit;
+	int pck=0;
 	short ibuf[160];
-	//short obuf[_ADSP_G729_H_LEN + _PCK_BITSTREAM_LEN];
 	int obuf_len_byte = n_pck * _PCK_BITSTREAM_LEN_BYTES;
 
 	while((im=ms_queue_get(f->inputs[0]))!=NULL){

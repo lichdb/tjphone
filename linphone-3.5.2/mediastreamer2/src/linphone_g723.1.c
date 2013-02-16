@@ -44,7 +44,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define G723_RATE_63 0
 #define G723_RATE_53 1
 
-#define DEFAULT_SEND_RATE G723_RATE_53
+#define DEFAULT_SEND_RATE G723_RATE_63
 
 static int defaultSendRate;
 struct g723_coder_pvt {

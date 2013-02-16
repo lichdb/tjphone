@@ -382,7 +382,7 @@ static char *flatten_number(const char *number){
 }
 
 static void copy_result(const char *src, char *dest, size_t destlen, bool_t escape_plus){
-	int i=0;
+	size_t i=0;
 	
 	if (escape_plus && src[0]=='+' && destlen>2){
 		dest[0]='0';
