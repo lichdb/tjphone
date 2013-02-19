@@ -179,7 +179,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <AdditionalIncludeDirectories>C:\Gtk\include\atk-1.0;C:\GTK\include\gdk-pixbuf-2.0\;C:\Gtk\include\libpng14;C:\Gtk\include\libxml;C:\Gtk\include\pango-1.0;C:\Gtk\include\cairo;C:\GTK\lib\gtk-2.0\include;C:\Gtk\lib\glib-2.0\include;c:\Gtk\include\glib-2.0;C:\GTK\include;c:\Gtk\include\gtk-2.0;..\..\..\;..\..\..\oRTP\include;..\..\..\coreapi\;..\..\..\mediastreamer2\include;..\..\..\..\libeXosip2-3.3.0\include;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_WIN32;__WIN32__;NDEBUG;_CRT_SECURE_NO_DEPRECATE;_LIB;CONF_GRAN_MAX=12;AMD_HACK;ICE_TEST;_WINDOWS;MEDIASTREAMER2_EXPORTS;WINDOW_NATIVE;HAVE_SPEEXDSP;HAVE_SPEEX_NOISE;ORTP_INET6;IN_LINPHONE;OSIP_MT;HAVE_GETTEXT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>HAVE_CONFIG_H;WIN32;_WIN32;__WIN32__;NDEBUG;_CRT_SECURE_NO_DEPRECATE;_LIB;CONF_GRAN_MAX=12;AMD_HACK;ICE_TEST;_WINDOWS;MEDIASTREAMER2_EXPORTS;WINDOW_NATIVE;HAVE_SPEEXDSP;HAVE_SPEEX_NOISE;ORTP_INET6;IN_LINPHONE;OSIP_MT;HAVE_GETTEXT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
       <PreprocessSuppressLineNumbers>false</PreprocessSuppressLineNumbers>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -200,8 +200,8 @@
       <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
     </ProjectReference>
     <Link>
-      <AdditionalDependencies>intl.lib;eXosip.lib;osipparser2.lib;osip2.lib;Ws2_32.lib;mediastreamer2.lib;ortp.lib;libspeex.lib;libspeexdsp.lib;gsm.lib;libresample.lib;Winmm.lib;libcoreapi.lib;glib-2.0.lib;gobject-2.0.lib;gthread-2.0.lib;gdk-win32-2.0.lib;gdk_pixbuf-2.0.lib;gtk-win32-2.0.lib;atk-1.0.lib;pango-1.0.lib;xml2.lib;libtheora.lib;vfw32.lib;avcodec.lib;avdevice.lib;avformat.lib;avutil.lib;swscale.lib;libvorbis.lib;libvorbisfile.lib;ogg_static_d.lib;Wininet.lib;Iphlpapi.lib;dnsapi.lib;Qwave.lib;SDL.lib;libcmtd.lib;uscg729.lib;libeay32MT.lib;ssleay32MT.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>c:\Gtk\lib;..\..\..\..\SDK\Libs\Debug;..\..\..\..\SDK\Libs\Release\ipp\;..\..\..\..\SDK\Libs\Release\g729fp\;..\..\..\..\SDK\Libs\Release\SDL;..\..\..\..\SDK\Libs\Release\ffmpeg-bin-win32\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>intl.lib;eXosip.lib;osipparser2.lib;osip2.lib;Ws2_32.lib;mediastreamer2.lib;ortp.lib;libspeex.lib;libspeexdsp.lib;gsm.lib;libresample.lib;Winmm.lib;libcoreapi.lib;glib-2.0.lib;gio-2.0.lib;gobject-2.0.lib;gthread-2.0.lib;gdk-win32-2.0.lib;gdk_pixbuf-2.0.lib;gtk-win32-2.0.lib;atk-1.0.lib;pango-1.0.lib;libxml2_a.lib;libtheora.lib;vfw32.lib;avcodec.lib;avdevice.lib;avformat.lib;avutil.lib;swscale.lib;libvorbis.lib;libvorbisfile.lib;ogg_static.lib;Wininet.lib;Iphlpapi.lib;dnsapi.lib;Qwave.lib;libcmt.lib;uscg729.lib;libeay32MT.lib;ssleay32MT.lib;crypt32.lib;vpxmt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>c:\Gtk\lib;..\..\..\..\SDK\Libs\Release;..\..\..\..\SDK\Libs\g729fp\;..\..\..\..\SDK\Libs\;..\..\..\..\SDK\Libs\ffmpeg-bin-win32\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>libcmtd.lib;msvcrt.lib;msvcrtd.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>

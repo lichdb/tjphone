@@ -192,7 +192,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <AdditionalIncludeDirectories>..\..\include;..\..\..\libosip2-3.3.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\sdk\include;..\..\include;..\..\..\libosip2-3.6.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>SRV_RECORD;_CRT_SECURE_NO_DEPRECATE;NDEBUG;HAVE_OPENSSL_SSL_H;EXOSIP_EXPORTS;ENABLE_TRACE;WIN32;_WINDOWS;_USRDLL;OSIP_MT;USE_TMP_BUFFER;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>false</StringPooling>
       <ExceptionHandling>
