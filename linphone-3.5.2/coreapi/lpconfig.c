@@ -45,6 +45,7 @@
 #ifdef _MSC_VER
 #define S_IRUSR S_IREAD
 #define S_IWUSR S_IWRITE
+#define strdup _strdup
 #endif /*_MSC_VER*/
 
 typedef struct _LpItem{

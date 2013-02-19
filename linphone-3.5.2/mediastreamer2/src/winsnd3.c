@@ -200,13 +200,11 @@ static void winsndcard_detect(MSSndCardManager *m){
 #if defined(_MSC_VER)
 			//WideCharToMultiByte(CP_ACP, 0, incaps.szPname, -1, namebuf, 64, NULL, NULL);
 			//GBKToUTF8(namebuf, nameutf_8, 256);
-			if(code_page != 65001U){
+			//if(code_page != 65001U){
 				WideCharToMultiByte(CP_UTF8,0,incaps.szPname,-1,nameutf_8,256,NULL,NULL);
 				add_or_update_card(m,nameutf_8,item,-1,MS_SND_CARD_CAP_CAPTURE);
 				//ms_warning("add_or_update_card: %s\n", nameutf_8);
-			}else{
-				add_or_update_card(m,incaps.szPname,item,-1,MS_SND_CARD_CAP_CAPTURE);
-			}
+			//}
 #else
 			add_or_update_card(m,incaps.szPname,item,-1,MS_SND_CARD_CAP_CAPTURE);
 			ms_warning("add_or_update_card: %s\n", incaps.szPname);
@@ -225,12 +223,10 @@ static void winsndcard_detect(MSSndCardManager *m){
 #if defined(_MSC_VER)
 			//WideCharToMultiByte(CP_ACP, 0, outcaps.szPname, -1, namebuf, 64, NULL, NULL);
 			//GBKToUTF8(namebuf, nameutf_8, 256);
-			if(code_page != 65001U){
+			//if(code_page != 65001U){
 				WideCharToMultiByte(CP_UTF8,0,outcaps.szPname,-1,nameutf_8,256,NULL,NULL);
 				add_or_update_card(m,nameutf_8,-1,item,MS_SND_CARD_CAP_PLAYBACK);
-			} else {
-				add_or_update_card(m,outcaps.szPname,-1,item,MS_SND_CARD_CAP_PLAYBACK);
-			}	
+			//} 
 			//ms_warning("add_or_update_card: %s\n", nameutf_8);
 #else
 			add_or_update_card(m,outcaps.szPname,-1,item,MS_SND_CARD_CAP_PLAYBACK);
