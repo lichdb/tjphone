@@ -397,8 +397,8 @@ static void conf_sum(MSFilter *f, ConfState *s){
 
 			en=chan->energy;
 			for(j=0;j<s->conf_nsamples;++j){
-				float s=chan->input[j];
-				en=(s*s*coef) + ((float)1.0-coef)*en;
+				float ss=chan->input[j];
+				en=(ss*ss*coef) + ((float)1.0-coef)*en;
 			}
 			chan->energy=en;
 			vol.energy = chan->energy; //10*log10f(chan->energy/max_e);

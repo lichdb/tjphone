@@ -235,7 +235,8 @@ MS2_PUBLIC unsigned int ms_get_cpu_count();
 #ifdef WIN32
 #include <malloc.h> //for alloca
 #ifdef _MSC_VER
-#define alloca _alloca
+#undef alloca
+#define alloca _malloca
 #endif
 #endif
 

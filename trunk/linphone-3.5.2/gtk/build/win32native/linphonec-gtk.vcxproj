@@ -115,9 +115,9 @@
       <BrowseInformationFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</BrowseInformationFile>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>glib-2.0.lib;intl.lib;eXosip.lib;osipparser2.lib;osip2.lib;Ws2_32.lib;mediastreamer2.lib;ortp.lib;srtp.lib;gsm.lib;Winmm.lib;libcoreapi.lib;libspeex.lib;libspeexdsp.lib;libresample.lib;gobject-2.0.lib;gthread-2.0.lib;gdk-win32-2.0.lib;gdk_pixbuf-2.0.lib;gtk-win32-2.0.lib;gio-2.0.lib;atk-1.0.lib;pango-1.0.lib;libxml2_a.lib;libtheora.lib;vfw32.lib;SDL.lib;avcodec.lib;avdevice.lib;avformat.lib;avutil.lib;swscale.lib;libvorbis.lib;libvorbisfile.lib;ogg_static.lib;Wininet.lib;Iphlpapi.lib;dnsapi.lib;Qwave.lib;libcmtd.lib;vpxmtd.lib;uscg729.lib;libeay32MTd.lib;ssleay32MTd.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glib-2.0.lib;intl.lib;eXosip.lib;osipparser2.lib;osip2.lib;Ws2_32.lib;mediastreamer2.lib;ortp.lib;srtp.lib;gsm.lib;Winmm.lib;libcoreapi.lib;libspeex.lib;libspeexdsp.lib;libresample.lib;gobject-2.0.lib;gthread-2.0.lib;gdk-win32-2.0.lib;gdk_pixbuf-2.0.lib;gtk-win32-2.0.lib;gio-2.0.lib;atk-1.0.lib;pango-1.0.lib;libxml2_a.lib;libtheora.lib;vfw32.lib;avcodec.lib;avdevice.lib;avformat.lib;avutil.lib;swscale.lib;libvorbis.lib;libvorbisfile.lib;ogg_static.lib;Wininet.lib;Iphlpapi.lib;dnsapi.lib;Qwave.lib;libcmtd.lib;vpxmtd.lib;uscg729.lib;libeay32MTd.lib;ssleay32MTd.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>C:\gtk\bin\linphone.exe</OutputFile>
-      <AdditionalLibraryDirectories>C:\gtk\lib;..\..\..\..\SDK\Libs\Debug;..\..\..\..\SDK\Libs\Release\ipp\;..\..\..\..\SDK\Libs\Release\g729fp\;..\..\..\..\SDK\Libs\Release\SDL;..\..\..\..\SDK\Libs\Release\ffmpeg-bin-win32\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\gtk\lib;..\..\..\..\SDK\Libs\Debug;..\..\..\..\SDK\Libs\;..\..\..\..\SDK\Libs\g729fp\;..\..\..\..\SDK\Libs\ffmpeg-bin-win32\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <IgnoreSpecificDefaultLibraries>msvcrt.lib;msvcrtd.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <DelayLoadDLLs>qwave.dll;%(DelayLoadDLLs)</DelayLoadDLLs>

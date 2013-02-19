@@ -25,8 +25,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #endif
 
 #ifdef _MSC_VER
-#include <malloc.h>
-#define alloca _alloca
+#include <malloc.h> //for alloca
+#ifdef _MSC_VER
+#undef alloca
+#define alloca _malloca
+#endif
 #endif
 
 typedef struct EncState{
