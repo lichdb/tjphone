@@ -119,9 +119,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	//QString a; 
 	
 	QTreeWidgetItem* it = _tree->headerItem();
-	//a = codec->toUnicode(_("name"));
 	it->setText(0, tr("name"));
-	//a = codec->toUnicode(_("status"));
 	it->setText(1, tr("status"));
 
 	QHeaderView* hdr = _tree->header();
