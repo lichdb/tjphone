@@ -38,7 +38,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #endif
 #endif
 
-#ifdef HAVE_CONFIG_H
+#ifdef HAVE_LINPHONECONFIG_H
 #include "linphonecore_config.h"
 #endif
 

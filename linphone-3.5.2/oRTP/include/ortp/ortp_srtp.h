@@ -23,7 +23,7 @@
 #ifdef HAVE_SRTP
 
 #ifndef ANDROID
-#include <srtp/include/srtp.h>
+#include <srtp.h>
 #else
 // Android doesn't use make install
 #include <srtp.h>

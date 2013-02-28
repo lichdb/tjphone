@@ -429,6 +429,8 @@ Preference::Preference(QWidget *parent) :
 	_sip_Account = new SIP_Account(this);
 	_sip_Account->preferencewindow = this;
 	setAttribute(Qt::WA_DeleteOnClose);
+	setWindowFlags(Qt::Window | Qt::CustomizeWindowHint | Qt::WindowTitleHint 
+		| Qt::WindowSystemMenuHint | Qt::WindowMinMaxButtonsHint);
 }
 
 Preference::~Preference()

@@ -280,8 +280,8 @@ static void __ortp_logv_out(OrtpLogLevel lev, const char *fmt, va_list args){
 	}
 	msg=ortp_strdup_vprintf(fmt,args);
 #if defined(_MSC_VER) && !defined(_WIN32_WCE)
- 	OutputDebugString(msg);
-  	OutputDebugString("\r\n");
+ 	OutputDebugStringA(msg);
+  	OutputDebugStringA("\r\n");
 #endif
 	fprintf(__log_file,"ortp-%s-%s" ENDLINE,lname,msg);
 	fflush(__log_file);
