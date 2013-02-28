@@ -14,7 +14,7 @@
 #define ENABLE_DEBUGGING 1
 
 /* Report errors to this file. */
-/* #undef ERR_REPORTING_FILE */
+#define ERR_REPORTING_FILE
 
 /* Define to use logging to stdout. */
 #define ERR_REPORTING_STDOUT 1

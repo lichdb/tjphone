@@ -32,7 +32,7 @@ extern "C" {
 #include "linphonecore_utils.h"
 #include "sal_linphone.h"
 
-#ifdef HAVE_CONFIG_H
+#ifdef HAVE_LINPHONECONFIG_H
 #include "linphonecore_config.h"
 #endif
 #include "mediastreamer2/mediastream.h"
