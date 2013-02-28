@@ -1,0 +1,308 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build"  xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug DLL|Win32">
+      <Configuration>Debug DLL</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release DLL|Win32">
+      <Configuration>Release DLL</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>linphone-gtk</ProjectName>
+    <ProjectGuid>{DA69DF40-4A89-4DEC-A953-6182375AA13B}</ProjectGuid>
+    <RootNamespace>linphonec</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">false</LinkIncremental>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'" />
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">linphone</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">linphone</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">linphone</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">linphone</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>C:\Gtk\include\atk-1.0;C:\GTK\include\gdk-pixbuf-2.0\;C:\Gtk\include\libpng14;C:\Gtk\include\libxml;C:\Gtk\include\pango-1.0;C:\Gtk\include\cairo;C:\GTK\lib\gtk-2.0\include;C:\Gtk\lib\glib-2.0\include;c:\Gtk\include\glib-2.0;C:\GTK\include;c:\Gtk\include\gtk-2.0;..\..\..\;..\..\..\oRTP\include;..\..\..\coreapi\;..\..\..\mediastreamer2\include;..\..\..\..\libeXosip2-3.6.0\include;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;WIN32;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_LIB;HAVE_SPEEXDSP;HAVE_SPEEX_NOISE;ORTP_INET6;IN_LINPHONE;WINDOW_NATIVE;ENABLE_TRACE;OSIP_MT;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <StructMemberAlignment>8Bytes</StructMemberAlignment>
+      <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <CompileAs>CompileAsC</CompileAs>
+      <ShowIncludes>false</ShowIncludes>
+      <EnablePREfast>false</EnablePREfast>
+      <PrecompiledHeaderOutputFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</AssemblerListingLocation>
+      <ObjectFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</ObjectFileName>
+      <ProgramDataBaseFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+      <XMLDocumentationFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</XMLDocumentationFileName>
+      <BrowseInformationFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</BrowseInformationFile>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>glib-2.0.lib;intl.lib;eXosip.lib;osipparser2.lib;osip2.lib;Ws2_32.lib;mediastreamer2.lib;ortp.lib;srtp.lib;gsm.lib;Winmm.lib;libcoreapi.lib;libspeex.lib;libspeexdsp.lib;libresample.lib;gobject-2.0.lib;gthread-2.0.lib;gdk-win32-2.0.lib;gdk_pixbuf-2.0.lib;gtk-win32-2.0.lib;gio-2.0.lib;atk-1.0.lib;pango-1.0.lib;libxml2_a.lib;libtheora.lib;vfw32.lib;avcodec.lib;avdevice.lib;avformat.lib;avutil.lib;swscale.lib;libvorbis.lib;libvorbisfile.lib;ogg_static.lib;Wininet.lib;Iphlpapi.lib;dnsapi.lib;Qwave.lib;libcmtd.lib;vpxmtd.lib;uscg729.lib;libeay32MTd.lib;ssleay32MTd.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>C:\gtk\bin\linphone.exe</OutputFile>
+      <AdditionalLibraryDirectories>C:\gtk\lib;..\..\..\..\SDK\Libs\Debug;..\..\..\..\SDK\Libs\;..\..\..\..\SDK\Libs\g729fp\;..\..\..\..\SDK\Libs\ffmpeg-bin-win32\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>msvcrt.lib;msvcrtd.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <DelayLoadDLLs>qwave.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <DataExecutionPrevention>true</DataExecutionPrevention>
+      <TargetMachine>MachineX86</TargetMachine>
+      <TurnOffAssemblyGeneration>false</TurnOffAssemblyGeneration>
+      <ManifestFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(TargetName)$(TargetExt).intermediate.manifest</ManifestFile>
+    </Link>
+    <BuildLog>
+      <Path>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(MSBuildProjectName).log</Path>
+    </BuildLog>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug DLL|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>C:\Gtk\include\atk-1.0;C:\GTK\include\gdk-pixbuf-2.0\;C:\Gtk\include\libpng14;C:\Gtk\include\libxml;C:\Gtk\include\pango-1.0;C:\Gtk\include\cairo;C:\GTK\lib\gtk-2.0\include;C:\Gtk\lib\glib-2.0\include;c:\Gtk\include\glib-2.0;C:\GTK\include;c:\Gtk\include\gtk-2.0;..\..\..\..\libosip2-3.3.0\include;..\..\..\;..\..\..\coreapi\;..\..\..\mediastreamer2\include;..\..\..\oRTP\src;..\..\..\oRTP\include;..\..\..\..\libeXosip2-3.3.0\include;..\..\..\..\speex-1.2rc1\include;..\..\..\..\codecs\libresample-0.1.3\include;..\..\..\..\codecs\gsm\inc;..\..\..\..\videos\libtheora-1.0\include;..\..\..\..\videos\libogg-1.1.3\include;..\..\..\..\codecs\ffmpeg-bin-win32\include;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;WIN32;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_LIB;HAVE_SPEEXDSP;HAVE_SPEEX_NOISE;ORTP_INET6;IN_LINPHONE;WINDOW_NATIVE;ENABLE_TRACE;OSIP_MT;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <StructMemberAlignment>8Bytes</StructMemberAlignment>
+      <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <CompileAs>CompileAsC</CompileAs>
+      <ShowIncludes>false</ShowIncludes>
+      <EnablePREfast>false</EnablePREfast>
+      <PrecompiledHeaderOutputFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</AssemblerListingLocation>
+      <ObjectFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</ObjectFileName>
+      <ProgramDataBaseFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+      <XMLDocumentationFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</XMLDocumentationFileName>
+      <BrowseInformationFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</BrowseInformationFile>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>intl.lib;eXosip.lib;osipparser2.lib;osip2.lib;Ws2_32.lib;mediastreamer2.lib;ortp.lib;gsm.lib;Winmm.lib;libcoreapi.lib;libspeex.lib;libspeexdsp.lib;libresample.lib;glib-2.0.lib;gobject-2.0.lib;gthread-2.0.lib;gdk-win32-2.0.lib;gdk_pixbuf-2.0.lib;gtk-win32-2.0.lib;gio-2.0.lib;atk-1.0.lib;pango-1.0.lib;libxml2.lib;libtheora.lib;vfw32.lib;avcodec-52.lib;avdevice-52.lib;avformat-52.lib;avutil-49.lib;swscale-0.lib;libvorbis.lib;libvorbisfile.lib;ogg_static_d.lib;Wininet.lib;Iphlpapi.lib;dnsapi.lib;Qwave.lib;SDL.lib;libcmtd.lib;uscg729.lib;libeay32MTd.lib;ssleay32MTd.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>C:\Gtk\bin\linphone-3.exe</OutputFile>
+      <AdditionalLibraryDirectories>d:\3rdparty\SDL-1.2.14\lib;D:\Program Files\Intel\IPP\5.1\ia32\lib;D:\tijia\历史资料\intel-ipp\windows-ipp\ipp_sample-5.1.005_static\speech-coding\win_speech-coding\bin\lib;.\Debug;..\..\..\oRTP\build\win32native\Debug;..\..\..\mediastreamer2\build\win32native\Debug;..\..\..\..\libosip2-3.3.0\platform\vsnet\Debug;..\..\..\..\libeXosip2-3.3.0\platform\vsnet\Debug;..\..\..\coreapi\build\win32native\Debug;..\..\..\..\speex-1.2rc1\lib;..\..\..\..\codecs\g729;..\..\..\..\codecs\lib\debug;c:\Gtk\lib;..\..\..\oRTP\build\win32native\debug;..\..\..\..\codecs\SDL-1.2.14\lib;..\..\..\..\codecs\ffmpeg-bin-win32\lib;..\..\..\..\videos\libtheora-1.0\win32\VS2005\debug_rtl_dll;..\..\..\..\videos\libogg-1.1.3\win32\Static_Debug;..\.\..\..\..\videos\libvorbis-1.2.0\win32\VS2005\libvorbis\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>msvcrt.lib;msvcrtd.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <DelayLoadDLLs>qwave.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX86</TargetMachine>
+      <ManifestFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(TargetName)$(TargetExt).intermediate.manifest</ManifestFile>
+    </Link>
+    <BuildLog>
+      <Path>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(MSBuildProjectName).log</Path>
+    </BuildLog>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Gtk\include\atk-1.0;C:\GTK\include\gdk-pixbuf-2.0\;C:\Gtk\include\libpng14;C:\Gtk\include\libxml;C:\Gtk\include\pango-1.0;C:\Gtk\include\cairo;C:\GTK\lib\gtk-2.0\include;C:\Gtk\lib\glib-2.0\include;c:\Gtk\include\glib-2.0;C:\GTK\include;c:\Gtk\include\gtk-2.0;..\..\..\;..\..\..\oRTP\include;..\..\..\coreapi\;..\..\..\mediastreamer2\include;..\..\..\..\libeXosip2-3.3.0\include;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>HAVE_CONFIG_H;WIN32;_WIN32;__WIN32__;NDEBUG;_CRT_SECURE_NO_DEPRECATE;_LIB;CONF_GRAN_MAX=12;AMD_HACK;ICE_TEST;_WINDOWS;MEDIASTREAMER2_EXPORTS;WINDOW_NATIVE;HAVE_SPEEXDSP;HAVE_SPEEX_NOISE;ORTP_INET6;IN_LINPHONE;OSIP_MT;HAVE_GETTEXT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessToFile>false</PreprocessToFile>
+      <PreprocessSuppressLineNumbers>false</PreprocessSuppressLineNumbers>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>CompileAsC</CompileAs>
+      <EnablePREfast>true</EnablePREfast>
+      <PrecompiledHeaderOutputFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</AssemblerListingLocation>
+      <ObjectFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</ObjectFileName>
+      <ProgramDataBaseFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+      <XMLDocumentationFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</XMLDocumentationFileName>
+      <BrowseInformationFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</BrowseInformationFile>
+    </ClCompile>
+    <ProjectReference>
+      <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
+    </ProjectReference>
+    <Link>
+      <AdditionalDependencies>intl.lib;eXosip.lib;osipparser2.lib;osip2.lib;Ws2_32.lib;mediastreamer2.lib;ortp.lib;libspeex.lib;libspeexdsp.lib;gsm.lib;libresample.lib;Winmm.lib;libcoreapi.lib;glib-2.0.lib;gio-2.0.lib;gobject-2.0.lib;gthread-2.0.lib;gdk-win32-2.0.lib;gdk_pixbuf-2.0.lib;gtk-win32-2.0.lib;atk-1.0.lib;pango-1.0.lib;libxml2_a.lib;libtheora.lib;vfw32.lib;avcodec.lib;avdevice.lib;avformat.lib;avutil.lib;swscale.lib;libvorbis.lib;libvorbisfile.lib;ogg_static.lib;Wininet.lib;Iphlpapi.lib;dnsapi.lib;Qwave.lib;libcmt.lib;uscg729.lib;libeay32MT.lib;ssleay32MT.lib;crypt32.lib;vpxmt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>c:\Gtk\lib;..\..\..\..\SDK\Libs\Release;..\..\..\..\SDK\Libs\g729fp\;..\..\..\..\SDK\Libs\;..\..\..\..\SDK\Libs\ffmpeg-bin-win32\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>libcmtd.lib;msvcrt.lib;msvcrtd.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX86</TargetMachine>
+      <DelayLoadDLLs>qwave.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <ManifestFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(TargetName)$(TargetExt).intermediate.manifest</ManifestFile>
+    </Link>
+    <BuildLog>
+      <Path>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(MSBuildProjectName).log</Path>
+    </BuildLog>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release DLL|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Gtk\include\atk-1.0;C:\Gtk\include\gtkglext-1.0;C:\Gtk\include\li.ui-2.0;C:\Gtk\include\li.uiui-1.0;C:\Gtk\include\libpng12;C:\Gtk\include\libxml;C:\Gtk\include\pango-1.0;C:\Gtk\include\cairo;C:\GTK\lib\gtk-2.0\include;C:\Gtk\lib\glib-2.0\include;c:\Gtk\include\glib-2.0;C:\GTK\include;c:\Gtk\include\gtk-2.0;..\..\..\..\libosip2-3.3.0\include;..\..\..\coreapi\;..\..\..\mediastreamer2\include;..\..\..\oRTP\src;..\..\..\oRTP\include;..\..\..\..\libeXosip2-3.3.0\include;..\..\..\..\speex-1.2rc1\include;..\..\..\..\codecs\libresample-0.1.3\include;..\..\..\..\codecs\gsm\inc;..\..\..\..\videos\libtheora-1.0\include;..\..\..\..\videos\libogg-1.1.3\include;..\..\..\..\codecs\ffmpeg-bin-win32\include;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WIN32;__WIN32__;NDEBUG;_CRT_SECURE_NO_DEPRECATE;_LIB;CONF_GRAN_MAX=12;AMD_HACK;ICE_TEST;_WINDOWS;MEDIASTREAMER2_EXPORTS;WINDOW_NATIVE;HAVE_SPEEXDSP;HAVE_SPEEX_NOISE;ORTP_INET6;IN_LINPHONE;OSIP_MT;ANDROID;HAVE_GETTEXT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessToFile>false</PreprocessToFile>
+      <PreprocessSuppressLineNumbers>false</PreprocessSuppressLineNumbers>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>CompileAsC</CompileAs>
+      <EnablePREfast>true</EnablePREfast>
+      <PrecompiledHeaderOutputFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</AssemblerListingLocation>
+      <ObjectFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</ObjectFileName>
+      <ProgramDataBaseFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+      <XMLDocumentationFileName>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</XMLDocumentationFileName>
+      <BrowseInformationFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\</BrowseInformationFile>
+    </ClCompile>
+    <ProjectReference>
+      <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
+    </ProjectReference>
+    <Link>
+      <AdditionalDependencies>intl.lib;eXosip.lib;osipparser2.lib;osip2.lib;Ws2_32.lib;mediastreamer2.lib;ortp.lib;libspeex.lib;libspeexdsp.lib;gsm.lib;libresample.lib;Winmm.lib;libcoreapi.lib;glib-2.0.lib.ui-2.0.lib;gobject-2.0.lib;gthread-2.0.lib;gdk-win32-2.0.lib;gdk_pixbuf-2.0.lib;gtk-win32-2.0.lib;atk-1.0.lib;pango-1.0.lib;xml2.lib;libtheora.lib;vfw32.lib;avcodec-52.lib;avdevice-52.lib;avformat-52.lib;avutil-49.lib;swscale-0.lib;libvorbis.lib;libvorbisfile.lib;ogg_static_d.lib;Wininet.lib;Iphlpapi.lib;dnsapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\..\oRTP\build\win32native\Debug;..\..\..\mediastreamer2\build\win32native\Debug;..\..\..\..\libosip2-3.3.0\platform\vsnet\Debug;..\..\..\..\libeXosip2-3.3.0\platform\vsnet\Debug;..\..\..\coreapi\build\win32native\Debug;..\..\..\..\speex-1.2rc1\lib;..\..\..\..\codecs\lib\debug;c:\Gtk\lib;..\..\..\oRTP\build\win32native\debug;..\..\..\..\codecs\ffmpeg-bin-win32\lib;..\..\..\..\videos\libtheora-1.0\win32\VS2005\debug_rtl_dll;..\..\..\..\videos\libogg-1.1.3\win32\Static_Debug;..\.\..\..\..\videos\libvorbis-1.2.0\win32\VS2005\libvorbis\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>MSVCRTD.lib;MSVCRT.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX86</TargetMachine>
+      <ManifestFile>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(TargetName)$(TargetExt).intermediate.manifest</ManifestFile>
+    </Link>
+    <BuildLog>
+      <Path>$(SolutionDir)\building\$(Configuration)\$(ProjectName)\$(MSBuildProjectName).log</Path>
+    </BuildLog>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\buddylookup.c" />
+    <ClCompile Include="..\..\calllogs.c" />
+    <ClCompile Include="..\..\chat.c" />
+    <ClCompile Include="..\..\conference.c" />
+    <ClCompile Include="..\..\friendlist.c" />
+    <ClCompile Include="..\..\incall_view.c" />
+    <ClCompile Include="..\..\logging.c" />
+    <ClCompile Include="..\..\loginframe.c" />
+    <ClCompile Include="..\..\main.c" />
+    <ClCompile Include="..\..\propertybox.c" />
+    <ClCompile Include="..\..\singleinstance.c" />
+    <ClCompile Include="..\..\support.c" />
+    <ClCompile Include="..\..\update.c" />
+    <ClCompile Include="..\..\utils.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\linphone.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\about.ui" />
+    <None Include="..\..\buddylookup.ui" />
+    <None Include="..\..\call_logs.ui" />
+    <None Include="..\..\chatroom.ui" />
+    <None Include="..\..\contact.ui" />
+    <None Include="..\..\linphone.ico" />
+    <None Include="..\..\linphone.iss" />
+    <None Include="..\..\log.ui" />
+    <None Include="..\..\main.ui">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="..\..\parameters.ui" />
+    <None Include="..\..\password.ui">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="..\..\sip_account.ui" />
+    <None Include="..\..\stock_people.png" />
+    <None Include="..\..\tunnel_config.ui" />
+    <None Include="..\..\waiting.ui" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\linphone.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
